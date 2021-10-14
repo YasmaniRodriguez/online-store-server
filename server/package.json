@@ -1,0 +1,46 @@
+{
+	"name": "online-store-web-ap-server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"serve": "npx babel-node server.js",
+		"start": "nodemon --exec npm run serve",
+		"ServerES6toJS5": ".\\node_modules\\.bin\\babel ./server.es6.js -o ./server.js -w",
+		"ServerTStoJS5": ".\\node_modules\\.bin\\tsc ./server.ts -w"
+	},
+	"keywords": [],
+	"author": "rodriguez yasmani",
+	"license": "ISC",
+	"dependencies": {
+		"cookie-parser": "^1.4.5",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"express-session": "^1.17.2",
+		"jsonwebtoken": "^8.5.1",
+		"knex": "^0.95.11",
+		"moment": "^2.29.1",
+		"mongoose": "^6.0.10",
+		"mysql": "^2.18.1",
+		"normalizr": "^3.6.1",
+		"socket.io": "^4.2.0",
+		"sqlite3": "^5.0.2",
+		"typescript": "^4.4.4"
+	},
+	"devDependencies": {
+		"@babel/cli": "^7.15.7",
+		"@babel/core": "^7.15.8",
+		"@babel/node": "^7.15.8",
+		"@babel/preset-env": "^7.15.8",
+		"@types/express": "^4.17.13"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/YasmaniRodriguez/online-store-web-app.git"
+	},
+	"bugs": {
+		"url": "https://github.com/YasmaniRodriguez/online-store-web-app/issues"
+	},
+	"homepage": "https://github.com/YasmaniRodriguez/online-store-web-app#readme"
+}
