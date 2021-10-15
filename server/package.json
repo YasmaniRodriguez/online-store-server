@@ -1,5 +1,5 @@
 {
-	"name": "online-store-web-app",
+	"name": "online-store-web-app-server",
 	"version": "1.0.0",
 	"description": "a full web app for online stores",
 	"main": "server.js",
