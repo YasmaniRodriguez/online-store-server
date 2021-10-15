@@ -1,4 +1,4 @@
-import express from "express";
+const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const settings = require("../env.js");

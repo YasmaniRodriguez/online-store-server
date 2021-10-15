@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const products = require("./models/products");
 const orders = require("./models/orders");
 const messages = require("./models/messages");
@@ -48,8 +48,8 @@ class mongo {
 
 	async updateProducts(product = null, fields) {
 		return !product
-			? await products.update({}, { $set: fields }, { multi: true })
-			: await products.update(
+			? await products.updateMany({}, { $set: fields }, { multi: true })
+			: await products.updateOne(
 					{ code: { $eq: product } },
 					{ $set: fields },
 					{ multi: true }
@@ -68,9 +68,8 @@ class mongo {
 	}
 
 	async getMessages() {
-		const normalize =
-			require("../../normalization/handler.js").getNormalizedData;
-		const schema = require("../../normalization/schemas/messages.js");
+		const normalize = require("../normalization/handler.js").getNormalizedData;
+		const schema = require("../normalization/schemas/messages.js");
 		const data = await messages.find({}, { __v: 0 }).lean();
 
 		return env.DATA_NORMALIZATION ? normalize(data, schema) : data;

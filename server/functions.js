@@ -3,16 +3,16 @@ const env = require("./env.js");
 function getDataHandlerFile() {
 	switch (process.env.DATA_PERSISTENCE_MODE || env.DATA_PERSISTENCE_MODE) {
 		case 1:
-			return "./dao/MongoDB/MongoDB.js";
+			return "./database/MongoDB/MongoDB.js";
 			break;
 		case 2:
-			return "./dao/MySQL/MySQL.js";
+			return "./database/MySQL/MySQL.js";
 			break;
 		case 3:
-			return "./dao/SQLite/SQLite3.js";
+			return "./database/SQLite/SQLite3.js";
 			break;
 		case 4:
-			return "./dao/FileSystem/FileSystem.js";
+			return "./database/FileSystem/FileSystem.js";
 			break;
 		default:
 			console.log("persistence mode was not selected");

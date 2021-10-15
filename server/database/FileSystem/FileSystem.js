@@ -1,5 +1,5 @@
-import fs from "fs";
-import moment from "moment";
+const fs = require("fs");
+const moment = require("moment");
 const env = require("../../env.js");
 
 class json {
