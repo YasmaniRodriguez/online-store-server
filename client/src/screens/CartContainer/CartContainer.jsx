@@ -7,8 +7,8 @@ import {
 	CircularProgress,
 } from "@material-ui/core";
 import { db } from "../../firebase/firebase";
-import firebase from "firebase/app";
-import "@firebase/firestore";
+// import { initializeApp } from "firebase/app";
+// import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { CartContext } from "../../contexts/CartContext";
 import { Cart } from "../../components/Cart/Cart";
 import { CartContainerStyles } from "./CartContainerStyles";
@@ -48,7 +48,7 @@ export const CartContainer = (props) => {
 
 	async function updateStock() {
 		const itemsToUpdate = db.collection("products").where(
-			firebase.firestore.FieldPath.documentId(),
+			db.FieldPath.documentId(),
 			"in",
 			cart.map((i) => i.product.id)
 		);

@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core";
 import { CartContext } from "../../contexts/CartContext";
 import { ItemDetail } from "../../components/ItemDetail/ItemDetail";
 import { db } from "../../firebase/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { ItemDetailContainerStyles } from "./ItemDetailContainerStyles";
 
 const useStyles = makeStyles((theme) => ItemDetailContainerStyles(theme));
@@ -17,11 +18,13 @@ export const ItemDetailContainer = (props) => {
 	const { addItemToCart, calcRowAmount } = useContext(CartContext);
 
 	useEffect(() => {
-		const query = db.collection("products").doc(onlyShowProduct);
+		const data = getDocs(
+			query(collection(db, "products"), where("id", "==", onlyShowProduct))
+		);
 
-		query
-			.get()
+		data
 			.then((doc) => {
+				console.log(doc);
 				setSelectedProduct({ id: doc.id, ...doc.data() });
 			})
 			.catch((error) => console.log(error));
