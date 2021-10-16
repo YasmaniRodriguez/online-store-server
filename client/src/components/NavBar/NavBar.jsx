@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Typography, makeStyles, useMediaQuery } from "@material-ui/core";
 import { DeliveryWidget } from "../DeliveryWidget/DeliveryWidget";
 import { CartWidget } from "../CartWidget/CartWidget";
+import { AccountWidget } from "../AccountWidget/AccountWidget";
 import { NavBarStyles } from "./NavBarStyles";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -66,6 +67,7 @@ export const NavBar = () => {
 					<div className={classes.actions}>
 						<DeliveryWidget />
 						<CartWidget />
+						<AccountWidget />
 					</div>
 				</ul>
 			</div>

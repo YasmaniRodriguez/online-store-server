@@ -7,6 +7,7 @@ import { Footer } from "./components/Footer/Footer";
 import { ItemListContainer } from "./screens/ItemListContainer/ItemListContainer";
 import { ItemDetailContainer } from "./screens/ItemDetailContainer/ItemDetailContainer";
 import { CartContainer } from "./screens/CartContainer/CartContainer";
+import { LoginContainer } from "./screens/LoginContainer/LoginContainer";
 import { TrackingContainer } from "./screens/TrackingContainer/TrackingContainer";
 
 const App = (props) => {
@@ -18,6 +19,9 @@ const App = (props) => {
 					<Switch>
 						<Route exact path='/'>
 							<ItemListContainer />
+						</Route>
+						<Route path='/login'>
+							<LoginContainer />
 						</Route>
 						<Route path='/category/:id'>
 							<ItemListContainer />
