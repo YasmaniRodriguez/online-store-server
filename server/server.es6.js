@@ -21,14 +21,7 @@ const messages = require("./routes/messages.js");
 const dataHandler = new DAO();
 dataHandler.buildSchema();
 
-app.use(
-	session({
-		secret: "keyboard",
-		resave: false,
-		saveUninitialized: false,
-		cookie: {},
-	})
-);
+app.use(session(env.SESSION_OPTIONS));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));

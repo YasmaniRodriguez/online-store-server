@@ -97,7 +97,6 @@ router.delete("/products/:id", checkAuthority, (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const myPromise = new Promise((resolve, reject) => {
 		const record = req.params.id;
-		console.log(record);
 		resolve(dataHandler.deleteProducts(record));
 	});
 	myPromise

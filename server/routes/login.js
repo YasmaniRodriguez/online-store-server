@@ -30,6 +30,7 @@ router.post("/login", (req, res) => {
 		);
 		req.session.user = user.username;
 		req.session.role = user.role;
+		req.session.token = accessToken;
 		res.json({ accessToken });
 	} else {
 		res.send("wrong username or password");

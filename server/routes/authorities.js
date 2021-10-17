@@ -1,7 +1,7 @@
 const checkAuthority = (req, res, next) => {
 	const method = req.method;
 	const url = req.route.path;
-	const { role } = req.user;
+	const role = req.session.role;
 
 	switch (true) {
 		//////////////////////////
@@ -9,6 +9,7 @@ const checkAuthority = (req, res, next) => {
 			next();
 			break;
 		case method === "POST" && url === "/products":
+			console.log(role);
 			return role !== "owner"
 				? res
 						.status(403)

@@ -2,13 +2,12 @@ const jwt = require("jsonwebtoken");
 const env = require("../env.js");
 
 const verifyToken = (req, res, next) => {
-	console.log(req.session.user);
-	const auth = req.headers.authorization;
+	const auth = req.session.token;
 	if (!auth) {
 		return res.status(401).json({ error: "access denied" });
 	} else {
 		try {
-			const token = auth.split(" ")[1];
+			const token = auth;
 			const verified = jwt.verify(
 				token,
 				process.env.PRIVATE_KEY || env.PRIVATE_KEY

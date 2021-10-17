@@ -1,4 +1,10 @@
 const PRIVATE_KEY = "miclaveultrasecreta123*";
+const SESSION_OPTIONS = {
+	secret: "miClaveUltraSecreta456*",
+	resave: false,
+	saveUninitialized: false,
+	cookie: {},
+};
 const PORT = 8080;
 const DATA_PERSISTENCE_MODE = 1;
 const MONGO_LOCAL_OPTIONS = {
@@ -23,6 +29,7 @@ const DATA_NORMALIZATION = true;
 
 module.exports = {
 	PRIVATE_KEY,
+	SESSION_OPTIONS,
 	PORT,
 	DATA_PERSISTENCE_MODE,
 	MONGO_CLOUD_URI,
