@@ -1,4 +1,4 @@
-export const LoginContainerStyles = (theme) => {
+export const GatewayContainerStyles = (theme) => {
 	return {
 		container: {
 			padding: "10px 20px",

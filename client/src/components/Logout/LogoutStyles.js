@@ -1,5 +1,10 @@
 export const LogoutStyles = (theme) => {
 	return {
-		container: {},
+		container: {
+			padding: "20px",
+			width: "50vw",
+			height: "10vh",
+			margin: "20px auto",
+		},
 	};
 };

@@ -7,7 +7,7 @@ import { Footer } from "./components/Footer/Footer";
 import { ItemListContainer } from "./screens/ItemListContainer/ItemListContainer";
 import { ItemDetailContainer } from "./screens/ItemDetailContainer/ItemDetailContainer";
 import { CartContainer } from "./screens/CartContainer/CartContainer";
-import { LoginContainer } from "./screens/LoginContainer/LoginContainer";
+import { GatewayContainer } from "./screens/GatewayContainer/GatewayContainer";
 import { TrackingContainer } from "./screens/TrackingContainer/TrackingContainer";
 
 const App = (props) => {
@@ -15,24 +15,28 @@ const App = (props) => {
 		<BusinessContextProvider>
 			<CartContextProvider>
 				<BrowserRouter>
-					<NavBar />
 					<Switch>
 						<Route exact path='/'>
+							<NavBar />
 							<ItemListContainer />
 						</Route>
-						<Route path='/login'>
-							<LoginContainer />
+						<Route exact path='/:gateway'>
+							<GatewayContainer />
 						</Route>
 						<Route path='/category/:id'>
+							<NavBar />
 							<ItemListContainer />
 						</Route>
 						<Route path='/product/:id'>
+							<NavBar />
 							<ItemDetailContainer />
 						</Route>
 						<Route path='/tracking'>
+							<NavBar />
 							<TrackingContainer />
 						</Route>
 						<Route path='/cart'>
+							<NavBar />
 							<CartContainer />
 						</Route>
 					</Switch>
