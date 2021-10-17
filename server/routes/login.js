@@ -28,7 +28,6 @@ router.get("/login", (req, res) => {
 			process.env.PRIVATE_KEY || settings.PRIVATE_KEY,
 			{ expiresIn: "120m" }
 		);
-		req.session.user = user.username;
 		req.session.role = user.role;
 		req.session.token = accessToken;
 		res.status(200).json({ message: "login success!" });
