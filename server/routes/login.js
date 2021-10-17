@@ -6,17 +6,17 @@ const settings = require("../env.js");
 const users = [
 	{
 		username: "root",
-		password: "password123root",
+		password: "root",
 		role: "owner",
 	},
 	{
 		username: "guest",
-		password: "password123guest",
+		password: "guest",
 		role: "customer",
 	},
 ];
 
-router.post("/login", (req, res) => {
+router.get("/login", (req, res) => {
 	const { username, password } = req.body;
 	const user = users.find((u) => {
 		return u.username === username && u.password === password;
@@ -31,9 +31,9 @@ router.post("/login", (req, res) => {
 		req.session.user = user.username;
 		req.session.role = user.role;
 		req.session.token = accessToken;
-		res.json({ accessToken });
+		res.status(200).json({ message: "login success!" });
 	} else {
-		res.send("wrong username or password");
+		res.status(401).json({ message: "wrong username or password" });
 	}
 });
 

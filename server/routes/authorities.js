@@ -9,7 +9,6 @@ const checkAuthority = (req, res, next) => {
 			next();
 			break;
 		case method === "POST" && url === "/products":
-			console.log(role);
 			return role !== "owner"
 				? res
 						.status(403)

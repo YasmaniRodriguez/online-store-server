@@ -12,6 +12,7 @@ const session = require("express-session");
 const path = require("path");
 
 const login = require("./routes/login.js");
+const logout = require("./routes/logout.js");
 const verifyToken = require("./routes/validate-token.js");
 const products = require("./routes/products.js");
 const carts = require("./routes/carts.js");
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("socketio", io);
 app.set("dataHandler", dataHandler);
 app.use(login);
+app.use(logout);
 app.use(verifyToken, products);
 app.use(verifyToken, carts);
 app.use(verifyToken, orders);
