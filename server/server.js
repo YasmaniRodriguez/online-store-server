@@ -22,6 +22,8 @@ const session = require("express-session");
 
 const path = require("path");
 
+const cors = require("cors");
+
 const login = require("./routes/login.js");
 
 const logout = require("./routes/logout.js");
@@ -40,6 +42,7 @@ const dataHandler = new DAO();
 dataHandler.buildSchema();
 app.use(session(env.SESSION_OPTIONS));
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({
   extended: true
 }));

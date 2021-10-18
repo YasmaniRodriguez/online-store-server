@@ -16,7 +16,7 @@ const users = [
 	},
 ];
 
-router.get("/login", (req, res) => {
+router.post("/login", (req, res) => {
 	const { username, password } = req.body;
 	const user = users.find((u) => {
 		return u.username === username && u.password === password;

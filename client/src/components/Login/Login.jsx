@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import {
 	makeStyles,
 	Typography,
@@ -16,9 +17,14 @@ import { LoginStyles } from "./LoginStyles";
 
 const useStyles = makeStyles((theme) => LoginStyles(theme));
 
-export const Login = () => {
+export const Login = ({
+	credentials,
+	changeUserName,
+	changeUserPassword,
+	getLogin,
+}) => {
 	const classes = useStyles();
-
+	const history = useHistory();
 	return (
 		<Grid className={classes.container}>
 			<Paper elevation={10} className={classes.paper}>
@@ -35,6 +41,8 @@ export const Login = () => {
 					placeholder='Enter username'
 					fullWidth
 					required
+					value={credentials.username}
+					onChange={changeUserName}
 				/>
 				<TextField
 					label='Pasword'
@@ -42,12 +50,22 @@ export const Login = () => {
 					type='password'
 					fullWidth
 					required
+					value={credentials.password}
+					onChange={changeUserPassword}
 				/>
 				<FormControlLabel
 					control={<Checkbox name='' color='primary' />}
 					label='Remember me'
 				/>
-				<Button type='submit' color='primary' variant='contained' fullWidth>
+				<Button
+					type='submit'
+					color='primary'
+					variant='contained'
+					fullWidth
+					onClick={(e) => {
+						getLogin();
+						history.push(`/`);
+					}}>
 					Sign In
 				</Button>
 				<Typography>
