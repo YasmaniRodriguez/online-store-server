@@ -5,14 +5,12 @@ import { BusinessContext } from "../../contexts/BusinessContext";
 
 export const AccountWidget = () => {
 	const history = useHistory();
-	const { loggedUser, setLoggedUser, getLogout } = useContext(BusinessContext);
+	const { loggedUser } = useContext(BusinessContext);
 
 	return loggedUser ? (
 		<IconButton
 			aria-label='account'
 			onClick={(e) => {
-				getLogout();
-				setLoggedUser(false);
 				history.push(`/logout`);
 			}}>
 			<img

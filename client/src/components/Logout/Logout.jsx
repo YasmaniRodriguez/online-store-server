@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { makeStyles, Typography, Paper } from "@material-ui/core";
 import { LogoutStyles } from "./LogoutStyles";
 
@@ -7,12 +6,10 @@ const useStyles = makeStyles((theme) => LogoutStyles(theme));
 
 export const Logout = ({ getLogout }) => {
 	const classes = useStyles();
-	const history = useHistory();
 
 	useEffect(() => {
-		getLogout();
 		setTimeout(() => {
-			history.push(`/`);
+			getLogout();
 		}, 3000);
 	}, []);
 

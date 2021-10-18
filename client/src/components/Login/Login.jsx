@@ -63,7 +63,7 @@ export const Login = ({
 					variant='contained'
 					fullWidth
 					onClick={(e) => {
-						getLogin();
+						getLogin(e);
 						history.push(`/`);
 					}}>
 					Sign In
