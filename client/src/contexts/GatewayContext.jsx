@@ -59,7 +59,7 @@ class IdleTimer {
 }
 
 export const GatewayContextProvider = ({ children }) => {
-	const [loggedUser, setLoggedUser] = useState(true);
+	const [loggedUser, setLoggedUser] = useState(false);
 	const [isTimeout, setIsTimeout] = useState(false);
 	const [credentials, setCredentials] = useState({
 		username: "",
@@ -104,7 +104,7 @@ export const GatewayContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		const timer = new IdleTimer({
-			timeout: 10,
+			timeout: 10 * 60,
 			onTimeout: () => {
 				setIsTimeout(true);
 			},
@@ -118,6 +118,10 @@ export const GatewayContextProvider = ({ children }) => {
 			timer.cleanUp();
 		};
 	}, []);
+
+	useEffect(() => {
+		console.log(loggedUser);
+	}, [loggedUser]);
 
 	return (
 		<GatewayContext.Provider
