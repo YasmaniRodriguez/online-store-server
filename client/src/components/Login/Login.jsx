@@ -21,7 +21,7 @@ export const Login = ({
 	credentials,
 	changeUserName,
 	changeUserPassword,
-	getLogin,
+	userLogin,
 }) => {
 	const classes = useStyles();
 	const history = useHistory();
@@ -63,7 +63,7 @@ export const Login = ({
 					variant='contained'
 					fullWidth
 					onClick={(e) => {
-						getLogin(e);
+						userLogin(e);
 						history.push(`/`);
 					}}>
 					Sign In

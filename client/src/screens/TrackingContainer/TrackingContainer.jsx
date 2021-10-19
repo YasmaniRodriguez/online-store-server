@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { Typography, makeStyles, CircularProgress } from "@material-ui/core";
 import { DialogComponent } from "../../components/Dialog/Dialog";
 import { SnackBarComponent } from "../../components/SnackBar/SnackBar";
 import { Tracking } from "../../components/Tracking/Tracking";
 import { db } from "../../firebase/firebase";
 import { TrackingContainerStyles } from "./TrackingContainerStyles";
+import { GatewayContext } from "../../contexts/GatewayContext";
 
 const useStyles = makeStyles((theme) => TrackingContainerStyles(theme));
 
 export const TrackingContainer = (props) => {
+	const { loggedUser, setLoggedUser, isTimeout } = useContext(GatewayContext);
+	const history = useHistory();
 	const classes = useStyles();
 
 	const [checkedOrder, setCheckedOrder] = useState({});

@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
-import { BusinessContext } from "../../contexts/BusinessContext";
+import { GatewayContext } from "../../contexts/GatewayContext";
 
 export const AccountWidget = () => {
 	const history = useHistory();
-	const { loggedUser } = useContext(BusinessContext);
+	const { loggedUser } = useContext(GatewayContext);
 
 	return loggedUser ? (
 		<IconButton

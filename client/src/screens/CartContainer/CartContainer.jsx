@@ -12,10 +12,12 @@ import { db } from "../../firebase/firebase";
 import { CartContext } from "../../contexts/CartContext";
 import { Cart } from "../../components/Cart/Cart";
 import { CartContainerStyles } from "./CartContainerStyles";
+import { GatewayContext } from "../../contexts/GatewayContext";
 
 const useStyles = makeStyles((theme) => CartContainerStyles(theme));
 
 export const CartContainer = (props) => {
+	const { loggedUser, setLoggedUser, isTimeout } = useContext(GatewayContext);
 	const classes = useStyles();
 	const history = useHistory();
 

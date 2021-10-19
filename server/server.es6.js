@@ -12,7 +12,6 @@ const classes = require("./classes.js");
 const cookieParse = require("cookie-parser");
 const session = require("express-session");
 const MongoSessionStore = require("connect-mongo");
-
 const login = require("./routes/login.js");
 const logout = require("./routes/logout.js");
 const verifyToken = require("./routes/validate-token.js");
@@ -20,8 +19,8 @@ const products = require("./routes/products.js");
 const carts = require("./routes/carts.js");
 const orders = require("./routes/orders.js");
 const messages = require("./routes/messages.js");
-
 const dataHandler = new DAO();
+
 dataHandler.buildSchema();
 
 app.use(
@@ -34,6 +33,7 @@ app.use(
 		}),
 	})
 );
+
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));

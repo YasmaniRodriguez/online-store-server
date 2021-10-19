@@ -4,12 +4,12 @@ import { LogoutStyles } from "./LogoutStyles";
 
 const useStyles = makeStyles((theme) => LogoutStyles(theme));
 
-export const Logout = ({ getLogout }) => {
+export const Logout = ({ userLogout }) => {
 	const classes = useStyles();
 
 	useEffect(() => {
 		setTimeout(() => {
-			getLogout();
+			userLogout();
 		}, 3000);
 	}, []);
 
