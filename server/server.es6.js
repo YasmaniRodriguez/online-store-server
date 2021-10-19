@@ -1,7 +1,9 @@
 const express = require("express");
 const app = express();
-const server = require("http").Server(app);
-const io = require("socket.io")(server);
+const http = require("http");
+const server = http.createServer(app);
+const socketio = require("socket.io");
+const io = socketio(server, { cors: { origin: "*" } });
 const path = require("path");
 const cors = require("cors");
 const env = require("./env.js");
@@ -34,8 +36,10 @@ app.use(
 	})
 );
 
+app.set("port", process.env.PORT || env.PORT);
 app.use(express.json());
 app.use(cors());
+io.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("socketio", io);
@@ -53,43 +57,51 @@ app.use(cookieParse());
 // });
 
 /////////////////////////////////////////////////////////
-io.on("connect", (socket) => {
-	const undefinedUser = new classes.Profile(
-		"Albert",
-		"Einstein",
-		"1879-03-14",
-		null,
-		"usuario_1@gmail.com",
-		"https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/scientist_einstein_avatar_professor-256.png"
-	);
 
-	console.log(`connection_identifier: ${socket.id}`);
-	socket.emit("profile", undefinedUser);
-	dataHandler
-		.getMessages()
-		.then((rows) => {
-			io.emit("messages", rows);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
-	socket.on("new-message", (message) => {
-		dataHandler.addMessages({ ...message });
-		dataHandler
-			.getMessages()
-			.then((rows) => {
-				io.emit("messages", rows);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	});
+io.on("connection", (socket) => {
+	console.log("socket connected:", socket.id);
 });
+
+/////////////////////////////////////////////////////////
+// io.on("connect", (socket) => {
+// 	const undefinedUser = new classes.Profile(
+// 		"Albert",
+// 		"Einstein",
+// 		"1879-03-14",
+// 		null,
+// 		"usuario_1@gmail.com",
+// 		"https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/scientist_einstein_avatar_professor-256.png"
+// 	);
+
+// 	console.log(`connection_identifier: ${socket.id}`);
+// 	socket.emit("profile", undefinedUser);
+// 	dataHandler
+// 		.getMessages()
+// 		.then((rows) => {
+// 			io.emit("messages", rows);
+// 		})
+// 		.catch((err) => {
+// 			console.log(err);
+// 		});
+// 	socket.on("new-message", (message) => {
+// 		dataHandler.addMessages({ ...message });
+// 		dataHandler
+// 			.getMessages()
+// 			.then((rows) => {
+// 				io.emit("messages", rows);
+// 			})
+// 			.catch((err) => {
+// 				console.log(err);
+// 			});
+// 	});
+// });
 /////////////////////////////////////////////////////////
 server
-	.listen(port, () => {
+	.listen(app.get("port"), () => {
 		console.log(
-			`magic is happening in http://localhost:${port} and the data persistance mode is ${
+			`magic is happening in http://localhost:${app.get(
+				"port"
+			)} and the data persistance mode is ${
 				process.env.DATA_PERSISTENCE_MODE || env.DATA_PERSISTENCE_MODE
 			}. to change persistance mode, you can start server with command: DATA_PERSISTANCE_MODE=MyPersistanceMode npm start. MyPersistanceMode can be: 1 [MongoDB], 2 [MySQL], 3 [SQLite3] or 4 [FileSystem]`
 		);

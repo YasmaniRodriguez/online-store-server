@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { createContext, useEffect, useState } from "react";
+import io from "socket.io-client";
 import axios from "axios";
 
 export const GatewayContext = createContext();
@@ -59,6 +60,7 @@ class IdleTimer {
 }
 
 export const GatewayContextProvider = ({ children }) => {
+	const [response, setResponse] = useState();
 	const [loggedUser, setLoggedUser] = useState(false);
 	const [isTimeout, setIsTimeout] = useState(false);
 	const [credentials, setCredentials] = useState({
@@ -120,8 +122,11 @@ export const GatewayContextProvider = ({ children }) => {
 	}, []);
 
 	useEffect(() => {
-		console.log(loggedUser);
-	}, [loggedUser]);
+		const socket = io("http://localhost:8080", {
+			transports: ["websocket"],
+		});
+		socket.on("connection");
+	}, []);
 
 	return (
 		<GatewayContext.Provider

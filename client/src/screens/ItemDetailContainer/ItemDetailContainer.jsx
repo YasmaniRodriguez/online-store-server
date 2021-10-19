@@ -27,7 +27,6 @@ export const ItemDetailContainer = (props) => {
 
 		data
 			.then((doc) => {
-				console.log(doc);
 				setSelectedProduct({ id: doc.id, ...doc.data() });
 			})
 			.catch((error) => console.log(error));
