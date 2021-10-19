@@ -7,14 +7,16 @@ const SESSION_OPTIONS = {
 };
 const PORT = 8080;
 const DATA_PERSISTENCE_MODE = 1;
-const MONGO_LOCAL_OPTIONS = {
+const MONGO_DATA_LOCAL_OPTIONS = {
 	authSource: "admin",
 	user: "root",
 	pass: "qwerty456",
 };
-const MONGO_CLOUD_URI =
+const MONGO_DATA_CLOUD_URI =
 	"mongodb+srv://root:masterinc@online-store-server.ocmyz.mongodb.net/ecommerce";
-const MONGO_LOCAL_URI = "mongodb://localhost:27017/ecommerce";
+const MONGO_SESSION_CLOUD_URI =
+	"mongodb+srv://root:masterinc@online-store-server.ocmyz.mongodb.net/sessions";
+const MONGO_DATA_LOCAL_URI = "mongodb://localhost:27017/ecommerce";
 const MYSQL_LOCAL_OPTIONS = {
 	host: "127.0.0.1",
 	port: 3306,
@@ -32,10 +34,11 @@ module.exports = {
 	SESSION_OPTIONS,
 	PORT,
 	DATA_PERSISTENCE_MODE,
-	MONGO_CLOUD_URI,
-	MONGO_LOCAL_URI,
-	MONGO_LOCAL_OPTIONS,
+	MONGO_DATA_CLOUD_URI,
+	MONGO_DATA_LOCAL_URI,
+	MONGO_DATA_LOCAL_OPTIONS,
 	MYSQL_LOCAL_OPTIONS,
 	SQLITE_LOCAL_OPTIONS,
 	DATA_NORMALIZATION,
+	MONGO_SESSION_CLOUD_URI,
 };

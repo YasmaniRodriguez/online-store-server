@@ -6,6 +6,10 @@ const server = require("http").Server(app);
 
 const io = require("socket.io")(server);
 
+const path = require("path");
+
+const cors = require("cors");
+
 const env = require("./env.js");
 
 const port = process.env.PORT || env.PORT;
@@ -20,9 +24,7 @@ const cookieParse = require("cookie-parser");
 
 const session = require("express-session");
 
-const path = require("path");
-
-const cors = require("cors");
+const MongoSessionStore = require("connect-mongo");
 
 const login = require("./routes/login.js");
 
@@ -40,7 +42,16 @@ const messages = require("./routes/messages.js");
 
 const dataHandler = new DAO();
 dataHandler.buildSchema();
-app.use(session(env.SESSION_OPTIONS));
+app.use(session({ ...env.SESSION_OPTIONS,
+  store: MongoSessionStore.create({
+    mongoUrl: env.MONGO_SESSION_CLOUD_URI,
+    mongoOptions: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    },
+    ttl: 60
+  })
+}));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({

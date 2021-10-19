@@ -5,7 +5,10 @@ const messages = require("./models/messages");
 const env = require("../../env.js");
 
 mongoose
-	.connect(env.MONGO_LOCAL_URI, env.MONGO_LOCAL_OPTIONS || env.MONGO_CLOUD_URI)
+	.connect(
+		env.MONGO_DATA_LOCAL_URI,
+		env.MONGO_DATA_LOCAL_OPTIONS || env.MONGO_DATA_CLOUD_URI
+	)
 	.then((connection) => {
 		console.log("congrats, we are connected to mongo");
 	})
