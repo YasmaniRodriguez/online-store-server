@@ -31,7 +31,7 @@ app.use(
 		store: MongoSessionStore.create({
 			mongoUrl: env.MONGO_SESSION_CLOUD_URI,
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-			ttl: 60,
+			//ttl: 60,
 		}),
 	})
 );
@@ -59,7 +59,6 @@ app.use(cookieParse());
 
 io.on("connection", (socket) => {
 	let connection_identifier = socket.id;
-	console.log(connection_identifier);
 	socket.emit("connection", connection_identifier);
 });
 

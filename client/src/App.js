@@ -13,10 +13,10 @@ import { TrackingContainer } from "./screens/TrackingContainer/TrackingContainer
 
 const App = (props) => {
 	return (
-		<GatewayContextProvider>
-			<BusinessContextProvider>
-				<CartContextProvider>
-					<BrowserRouter>
+		<BusinessContextProvider>
+			<CartContextProvider>
+				<BrowserRouter>
+					<GatewayContextProvider>
 						<Switch>
 							<Route exact path='/'>
 								<NavBar />
@@ -43,10 +43,10 @@ const App = (props) => {
 							</Route>
 						</Switch>
 						<Footer />
-					</BrowserRouter>
-				</CartContextProvider>
-			</BusinessContextProvider>
-		</GatewayContextProvider>
+					</GatewayContextProvider>
+				</BrowserRouter>
+			</CartContextProvider>
+		</BusinessContextProvider>
 	);
 };
 

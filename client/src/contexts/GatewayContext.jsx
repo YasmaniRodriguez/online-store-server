@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { createContext, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { io } from "socket.io-client";
 import axios from "axios";
 export const GatewayContext = createContext();
@@ -68,8 +69,8 @@ class IdleTimer {
 }
 
 export const GatewayContextProvider = ({ children }) => {
-	const [response, setResponse] = useState();
 	const [loggedUser, setLoggedUser] = useState(false);
+	const history = useHistory();
 	const [isTimeout, setIsTimeout] = useState(false);
 	const [credentials, setCredentials] = useState({
 		username: "",
@@ -106,6 +107,7 @@ export const GatewayContextProvider = ({ children }) => {
 			.get("http://localhost:8080/logout")
 			.then((response) => {
 				setLoggedUser(false);
+				history.push("/");
 			})
 			.catch((error) => {
 				console.log(error);

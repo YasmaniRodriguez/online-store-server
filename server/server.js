@@ -56,8 +56,8 @@ app.use(session({ ...env.SESSION_OPTIONS,
     mongoOptions: {
       useNewUrlParser: true,
       useUnifiedTopology: true
-    },
-    ttl: 60
+    } //ttl: 60,
+
   })
 }));
 app.set("port", process.env.PORT || env.PORT);
@@ -82,7 +82,6 @@ app.use(cookieParse()); // app.get("/", (req, res) => {
 
 io.on("connection", socket => {
   let connection_identifier = socket.id;
-  console.log(connection_identifier);
   socket.emit("connection", connection_identifier);
 }); /////////////////////////////////////////////////////////
 // io.on("connect", (socket) => {
