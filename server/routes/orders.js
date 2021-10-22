@@ -1,8 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const checkAuthority = require("./authorities.js");
 
-router.get("/orders", checkAuthority, (req, res) => {
+router.get("/orders", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const myPromise = new Promise((resolve, reject) => {
 		resolve(dataHandler.getOrders());
@@ -16,7 +15,7 @@ router.get("/orders", checkAuthority, (req, res) => {
 		.catch((error) => res.json(error));
 });
 
-router.get("/orders/:id", checkAuthority, (req, res) => {
+router.get("/orders/:id", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const myPromise = new Promise((resolve, reject) => {
 		resolve(dataHandler.getOrders(req.params.id));
@@ -30,7 +29,7 @@ router.get("/orders/:id", checkAuthority, (req, res) => {
 		.catch((error) => res.json(error));
 });
 
-router.post("/orders", checkAuthority, (req, res) => {
+router.post("/orders", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const order = req.body;
 	const myPromise = new Promise((resolve, reject) => {
@@ -43,11 +42,11 @@ router.post("/orders", checkAuthority, (req, res) => {
 		.catch((error) => res.json(error));
 });
 
-router.put("/orders/:id", checkAuthority, (req, res) => {
+router.put("/orders/:id", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 });
 
-router.delete("/orders/:id", checkAuthority, (req, res) => {
+router.delete("/orders/:id", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 });
 

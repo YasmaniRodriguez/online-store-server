@@ -1,23 +1,37 @@
-const env = require("./env.js");
+const env = require("./env.JS");
 
 function getDataHandlerFile() {
 	switch (process.env.DATA_PERSISTENCE_MODE || env.DATA_PERSISTENCE_MODE) {
 		case 1:
-			return "./database/MongoDB/MongoDB.js";
+			return "./db/MongoDB/MongoDB.js";
 			break;
 		case 2:
-			return "./database/MySQL/MySQL.js";
+			return "./db/MySQL/MySQL.js";
 			break;
 		case 3:
-			return "./database/SQLite/SQLite3.js";
+			return "./db/SQLite/SQLite3.js";
 			break;
 		case 4:
-			return "./database/FileSystem/FileSystem.js";
+			return "./db/FileSystem/FileSystem.js";
 			break;
 		default:
-			console.log("persistence mode was not selected");
+			console.log("persistence mode was not defined");
 			break;
 	}
 }
 
-module.exports = { getDataHandlerFile };
+function getAuthMethodFile() {
+	switch (process.env.AUTH_MODE || env.AUTH_MODE) {
+		case 1:
+			return "./auth/JWT/JSONWebToken.js";
+			break;
+		case 2:
+			return "./auth/Passport/Passport.js";
+			break;
+		default:
+			console.log("authentication mode was not defined");
+			break;
+	}
+}
+
+module.exports = { getDataHandlerFile, getAuthMethodFile };

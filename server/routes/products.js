@@ -3,11 +3,10 @@ const router = express.Router();
 const faker = require("faker/locale/en");
 
 const classes = require("../classes.js");
-const checkAuthority = require("./authorities.js");
 
 //get all available products
 
-router.get("/products", checkAuthority, (req, res) => {
+router.get("/products", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const filters = req.query;
 	const myPromise = new Promise((resolve, reject) => {
@@ -22,7 +21,7 @@ router.get("/products", checkAuthority, (req, res) => {
 		.catch((error) => res.json(error));
 });
 
-router.get("/fake-products", checkAuthority, (req, res) => {
+router.get("/fake-products", (req, res) => {
 	const p_qty = Object.values(req.query)[0];
 
 	function generateFakeProducts(qty = 10) {
@@ -53,7 +52,7 @@ router.get("/fake-products", checkAuthority, (req, res) => {
 
 //add product
 
-router.post("/products", checkAuthority, (req, res) => {
+router.post("/products", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const { code, name, category, description, image, price, stock } = req.body;
 	const product = new classes.Product(
@@ -77,7 +76,7 @@ router.post("/products", checkAuthority, (req, res) => {
 
 //update product by id: refactorizar para poder actualizar todos
 
-router.put("/products/:id", checkAuthority, (req, res) => {
+router.put("/products/:id", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const myPromise = new Promise((resolve, reject) => {
 		const record = req.params.id;
@@ -93,7 +92,7 @@ router.put("/products/:id", checkAuthority, (req, res) => {
 
 //delete product: refactorizar para poder borrar todos
 
-router.delete("/products/:id", checkAuthority, (req, res) => {
+router.delete("/products/:id", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const myPromise = new Promise((resolve, reject) => {
 		const record = req.params.id;

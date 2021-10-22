@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const products = require("./models/products");
 const orders = require("./models/orders");
 const messages = require("./models/messages");
+const users = require("./models/users");
 const env = require("../../env.js");
 
 mongoose
@@ -87,6 +88,19 @@ class mongo {
 		return !order
 			? await orders.find({}, { __v: 0 }).lean()
 			: orders.find({ code: { $eq: order } }).lean();
+	}
+
+	async addUsers(user) {
+		const newUser = new users(user);
+		await newUser.save();
+	}
+
+	async getUsers(user = null, password = null) {
+		return !user
+			? await users.find({}, { __v: 0 }).lean()
+			: users
+					.find({ username: { $eq: user }, password: { $eq: password } })
+					.lean();
 	}
 }
 

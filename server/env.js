@@ -3,10 +3,12 @@ const SESSION_OPTIONS = {
 	secret: "miClaveUltraSecreta456*",
 	resave: false,
 	saveUninitialized: false,
-	cookie: {},
+	rolling: true,
+	cookie: { maxAge: 600000 },
 };
 const PORT = 8080;
 const DATA_PERSISTENCE_MODE = 1;
+const AUTH_MODE = 1;
 const MONGO_DATA_LOCAL_OPTIONS = {
 	authSource: "admin",
 	user: "root",
@@ -34,6 +36,7 @@ module.exports = {
 	SESSION_OPTIONS,
 	PORT,
 	DATA_PERSISTENCE_MODE,
+	AUTH_MODE,
 	MONGO_DATA_CLOUD_URI,
 	MONGO_DATA_LOCAL_URI,
 	MONGO_DATA_LOCAL_OPTIONS,

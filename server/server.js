@@ -18,27 +18,17 @@ const path = require("path");
 
 const cors = require("cors");
 
-const env = require("./env.js");
-
-const port = process.env.PORT || env.PORT;
-
-const dataHandlerFile = require("./functions.js").getDataHandlerFile();
-
-const DAO = require(dataHandlerFile);
-
-const classes = require("./classes.js");
-
 const cookieParse = require("cookie-parser");
 
 const session = require("express-session");
 
 const MongoSessionStore = require("connect-mongo");
 
+const users = require("./routes/users.js");
+
 const login = require("./routes/login.js");
 
 const logout = require("./routes/logout.js");
-
-const verifyToken = require("./routes/validate-token.js");
 
 const products = require("./routes/products.js");
 
@@ -48,6 +38,20 @@ const orders = require("./routes/orders.js");
 
 const messages = require("./routes/messages.js");
 
+const env = require("./env.js");
+
+const dataHandlerFile = require("./functions.js").getDataHandlerFile();
+
+const authMethodFile = require("./functions.js").getAuthMethodFile();
+
+const AUTH = require(authMethodFile);
+
+const authMethod = new AUTH();
+const checkAuthentication = authMethod.checkAuthentication;
+const checkAuthorities = authMethod.checkAuthorities;
+
+const DAO = require(dataHandlerFile);
+
 const dataHandler = new DAO();
 dataHandler.buildSchema();
 app.use(session({ ...env.SESSION_OPTIONS,
@@ -56,8 +60,8 @@ app.use(session({ ...env.SESSION_OPTIONS,
     mongoOptions: {
       useNewUrlParser: true,
       useUnifiedTopology: true
-    } //ttl: 60,
-
+    },
+    ttl: 600
   })
 }));
 app.set("port", process.env.PORT || env.PORT);
@@ -67,15 +71,16 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParse());
 app.set("socketio", io);
 app.set("dataHandler", dataHandler);
 app.use(login);
 app.use(logout);
-app.use(verifyToken, products);
-app.use(verifyToken, carts);
-app.use(verifyToken, orders);
-app.use(verifyToken, messages);
-app.use(cookieParse()); // app.get("/", (req, res) => {
+app.use(users);
+app.use(checkAuthentication, checkAuthorities, products);
+app.use(checkAuthentication, checkAuthorities, carts);
+app.use(checkAuthentication, checkAuthorities, orders);
+app.use(checkAuthentication, checkAuthorities, messages); // app.get("/", (req, res) => {
 // 	//res.status(200).sendFile("index.html", { root: __dirname + "/public" });
 // });
 /////////////////////////////////////////////////////////

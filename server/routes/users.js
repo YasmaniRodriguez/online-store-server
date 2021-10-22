@@ -1,29 +1,29 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/messages", (req, res) => {
+router.get("/users", (req, res) => {
 	const DAO = req.app.get("dataHandler");
 	const myPromise = new Promise((resolve, reject) => {
-		resolve(DAO.getMessages());
+		resolve(DAO.getUsers());
 	});
 	myPromise
 		.then((result) => {
 			result.length === 0
-				? res.json({ error: "there is not messages" })
-				: res.json({ messages: result });
+				? res.json({ error: "there is not users" })
+				: res.json({ users: result });
 		})
 		.catch((error) => res.json(error));
 });
 
-router.post("/messages", (req, res) => {
+router.post("/users", (req, res) => {
 	const DAO = req.app.get("dataHandler");
-	const message = req.body;
+	const user = req.body;
 	const myPromise = new Promise((resolve, reject) => {
-		resolve(DAO.addMessages(message));
+		resolve(DAO.addUsers(user));
 	});
 	myPromise
 		.then(() => {
-			res.json({ message: "message uploaded" });
+			res.json({ message: "user uploaded" });
 		})
 		.catch((error) => res.json(error));
 });
