@@ -77,23 +77,56 @@ export const GatewayContextProvider = ({ children }) => {
 		password: "",
 	});
 
-	const changeUserName = (e) => {
-		setCredentials({
-			username: e.target.value,
-			password: credentials.password,
-		});
+	const [registration, setRegistration] = useState({
+		name: "",
+		email: "",
+		gender: "",
+		phone: "",
+		password: "",
+		confirm: "",
+		tyc: "",
+	});
+
+	const changeSigninUserName = (e) => {
+		setCredentials({ ...credentials, username: e.target.value });
 	};
 
-	const changeUserPassword = (e) => {
-		setCredentials({
-			username: credentials.username,
-			password: e.target.value,
-		});
+	const changeSigninUserPassword = (e) => {
+		setCredentials({ ...credentials, password: e.target.value });
 	};
 
-	const userLogin = (e) => {
+	const changeSignupUserName = (e) => {
+		setRegistration({ ...registration, name: e.target.value });
+	};
+
+	const changeSignupUserEmail = (e) => {
+		setRegistration({ ...registration, email: e.target.value });
+	};
+
+	const changeSignupUserGender = (e) => {
+		setRegistration({ ...registration, gender: e.target.value });
+	};
+
+	const changeSignupUserPhone = (e) => {
+		setRegistration({ ...registration, phone: e.target.value });
+	};
+
+	const changeSignupUserPassword = (e) => {
+		setRegistration({ ...registration, password: e.target.value });
+	};
+
+	const changeSignupUserConfirm = (e) => {
+		setRegistration({ ...registration, confirm: e.target.value });
+	};
+
+	const changeSignupUserTyC = (e) => {
+		console.log(registration);
+		setRegistration({ ...registration, tyc: e.target.checked });
+	};
+
+	const userSignin = (e) => {
 		axios
-			.post("http://localhost:8080/login", credentials)
+			.post("http://localhost:8080/signin", credentials)
 			.then((respose) => {
 				setLoggedUser(true);
 			})
@@ -102,9 +135,20 @@ export const GatewayContextProvider = ({ children }) => {
 			});
 	};
 
-	const userLogout = (e) => {
+	const userSignup = (e) => {
 		axios
-			.get("http://localhost:8080/logout")
+			.post("http://localhost:8080/signup", registration)
+			.then((respose) => {
+				//setLoggedUser(true);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const userSignout = (e) => {
+		axios
+			.get("http://localhost:8080/signout")
 			.then((response) => {
 				setLoggedUser(false);
 				history.push("/");
@@ -116,7 +160,7 @@ export const GatewayContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		const timer = new IdleTimer({
-			timeout: 10 * 60,
+			timeout: 10,
 			onTimeout: () => {
 				setIsTimeout(true);
 			},
@@ -137,16 +181,37 @@ export const GatewayContextProvider = ({ children }) => {
 		});
 	}, []);
 
+	useEffect(() => {
+		if (!loggedUser) {
+			history.push("/signin");
+		}
+	}, [loggedUser]);
+
+	useEffect(() => {
+		if (loggedUser && isTimeout) {
+			userSignout();
+		}
+	}, [isTimeout]);
+
 	return (
 		<GatewayContext.Provider
 			value={{
+				registration,
+				changeSignupUserName,
+				changeSignupUserEmail,
+				changeSignupUserGender,
+				changeSignupUserPhone,
+				changeSignupUserPassword,
+				changeSignupUserConfirm,
+				changeSignupUserTyC,
 				credentials,
-				changeUserName,
-				changeUserPassword,
+				changeSigninUserName,
+				changeSigninUserPassword,
 				loggedUser,
 				isTimeout,
-				userLogin,
-				userLogout,
+				userSignin,
+				userSignup,
+				userSignout,
 			}}>
 			{children}
 		</GatewayContext.Provider>

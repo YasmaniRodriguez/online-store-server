@@ -10,8 +10,7 @@ import { GatewayContext } from "../../contexts/GatewayContext";
 const useStyles = makeStyles((theme) => ItemListContainerStyles(theme));
 
 export const ItemListContainer = () => {
-	const { loggedUser, userLogin, userLogout, isTimeout } =
-		useContext(GatewayContext);
+	const { loggedUser } = useContext(GatewayContext);
 	const history = useHistory();
 	const classes = useStyles();
 	const { id: showCategory } = useParams();
@@ -40,12 +39,6 @@ export const ItemListContainer = () => {
 			.catch((error) => console.log(error));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [showCategory]);
-
-	useEffect(() => {
-		if (loggedUser && isTimeout) {
-			userLogout();
-		}
-	}, [isTimeout]);
 
 	return (
 		<section className={classes.container}>

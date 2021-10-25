@@ -11,7 +11,7 @@ import { GatewayContext } from "../../contexts/GatewayContext";
 const useStyles = makeStyles((theme) => ItemDetailContainerStyles(theme));
 
 export const ItemDetailContainer = (props) => {
-	const { loggedUser, setLoggedUser, isTimeout } = useContext(GatewayContext);
+	const { loggedUser } = useContext(GatewayContext);
 	const history = useHistory();
 	const classes = useStyles();
 	const { id: onlyShowProduct } = useParams();

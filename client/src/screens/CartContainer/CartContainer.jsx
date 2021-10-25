@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import {
 	Button,
@@ -17,7 +17,7 @@ import { GatewayContext } from "../../contexts/GatewayContext";
 const useStyles = makeStyles((theme) => CartContainerStyles(theme));
 
 export const CartContainer = (props) => {
-	const { loggedUser, setLoggedUser, isTimeout } = useContext(GatewayContext);
+	const { loggedUser } = useContext(GatewayContext);
 	const classes = useStyles();
 	const history = useHistory();
 

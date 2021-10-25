@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import { makeStyles, Typography, Paper } from "@material-ui/core";
-import { LogoutStyles } from "./LogoutStyles";
+import { SignoutStyles } from "./SignoutStyles";
 
-const useStyles = makeStyles((theme) => LogoutStyles(theme));
+const useStyles = makeStyles((theme) => SignoutStyles(theme));
 
-export const Logout = ({ userLogout }) => {
+export const Signout = ({ userSignout }) => {
 	const classes = useStyles();
 
 	useEffect(() => {
 		setTimeout(() => {
-			userLogout();
+			userSignout();
 		}, 3000);
 	}, []);
 

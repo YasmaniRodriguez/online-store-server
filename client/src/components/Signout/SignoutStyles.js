@@ -1,4 +1,4 @@
-export const LogoutStyles = (theme) => {
+export const SignoutStyles = (theme) => {
 	return {
 		container: {
 			padding: "20px",

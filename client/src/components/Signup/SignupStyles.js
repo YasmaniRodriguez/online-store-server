@@ -1,4 +1,4 @@
-export const LoginStyles = (theme) => {
+export const SignupStyles = (theme) => {
 	return {
 		container: {},
 		paper: {
@@ -12,6 +12,15 @@ export const LoginStyles = (theme) => {
 			"& .MuiButton-root": {
 				margin: "8px 0px",
 			},
+		},
+		// avatarStyle: {
+		// 	backgroundColor: "#1bbd7e",
+		// },
+		headerStyle: {
+			margin: 0,
+		},
+		marginTop: {
+			marginTop: 5,
 		},
 	};
 };

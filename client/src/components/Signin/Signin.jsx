@@ -13,15 +13,15 @@ import {
 	Link,
 } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
-import { LoginStyles } from "./LoginStyles";
+import { SigninStyles } from "./SigninStyles";
 
-const useStyles = makeStyles((theme) => LoginStyles(theme));
+const useStyles = makeStyles((theme) => SigninStyles(theme));
 
-export const Login = ({
+export const Signin = ({
 	credentials,
-	changeUserName,
-	changeUserPassword,
-	userLogin,
+	changeSigninUserName,
+	changeSigninUserPassword,
+	userSignin,
 }) => {
 	const classes = useStyles();
 	const history = useHistory();
@@ -29,7 +29,7 @@ export const Login = ({
 		<Grid className={classes.container}>
 			<Paper elevation={10} className={classes.paper}>
 				<Grid align='center'>
-					<Avatar className={classes.container}>
+					<Avatar>
 						<LockOutlined />
 					</Avatar>
 					<Typography variant='h2' component='p'>
@@ -42,16 +42,16 @@ export const Login = ({
 					fullWidth
 					required
 					value={credentials.username}
-					onChange={changeUserName}
+					onChange={changeSigninUserName}
 				/>
 				<TextField
+					fullWidth
 					label='Pasword'
 					placeholder='Enter pasword'
 					type='password'
-					fullWidth
 					required
 					value={credentials.password}
-					onChange={changeUserPassword}
+					onChange={changeSigninUserPassword}
 				/>
 				<FormControlLabel
 					control={<Checkbox name='' color='primary' />}
@@ -63,7 +63,7 @@ export const Login = ({
 					variant='contained'
 					fullWidth
 					onClick={(e) => {
-						userLogin(e);
+						userSignin(e);
 						history.push(`/`);
 					}}>
 					Sign In
@@ -72,7 +72,13 @@ export const Login = ({
 					<Link href='#'>Forgot password ?</Link>
 				</Typography>
 				<Typography>
-					Do you have not an account ?<Link href='#'>Sign Up</Link>
+					Do you have not an account ?
+					<Link
+						onClick={(e) => {
+							history.push(`/signup`);
+						}}>
+						Sign Up
+					</Link>
 				</Typography>
 			</Paper>
 		</Grid>

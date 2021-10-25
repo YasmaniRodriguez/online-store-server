@@ -11,7 +11,7 @@ export const AccountWidget = () => {
 		<IconButton
 			aria-label='account'
 			onClick={(e) => {
-				history.push(`/logout`);
+				history.push(`/signout`);
 			}}>
 			<img
 				alt=''
@@ -22,7 +22,7 @@ export const AccountWidget = () => {
 		<IconButton
 			aria-label='account'
 			onClick={(e) => {
-				history.push(`/login`);
+				history.push(`/signin`);
 			}}>
 			<img
 				alt=''

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Typography, makeStyles, CircularProgress } from "@material-ui/core";
 import { DialogComponent } from "../../components/Dialog/Dialog";
@@ -11,7 +11,7 @@ import { GatewayContext } from "../../contexts/GatewayContext";
 const useStyles = makeStyles((theme) => TrackingContainerStyles(theme));
 
 export const TrackingContainer = (props) => {
-	const { loggedUser, setLoggedUser, isTimeout } = useContext(GatewayContext);
+	const { loggedUser, userSignout, isTimeout } = useContext(GatewayContext);
 	const history = useHistory();
 	const classes = useStyles();
 
@@ -42,6 +42,13 @@ export const TrackingContainer = (props) => {
 			setOpenSnackBar(true);
 		}
 	};
+
+	useEffect(() => {
+		if (loggedUser && isTimeout) {
+			userSignout();
+			history.push("/signin");
+		}
+	}, [isTimeout]);
 
 	return (
 		<section className={classes.container}>
