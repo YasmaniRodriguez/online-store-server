@@ -1,21 +1,19 @@
 const jwt = require("jsonwebtoken");
-const env = require("../env.js.js");
+const conf = require("../../config.js");
 
-class Authentication {
+class Authorities {
 	constructor() {}
 
-	async checkAuthentication(req, res, next) {
-		const user = req.session.user;
-		const password = req.session.password;
+	checkAuthentication(req, res, next) {
+		const token = req.session.token;
 
-		if (!auth) {
+		if (!token) {
 			return res.status(401).json({ error: "access denied" });
 		} else {
 			try {
-				const token = auth;
 				const verified = jwt.verify(
 					token,
-					process.env.PRIVATE_KEY || env.PRIVATE_KEY
+					process.env.PRIVATE_KEY || conf.PRIVATE_KEY
 				);
 				req.user = verified;
 				next();
@@ -25,9 +23,9 @@ class Authentication {
 		}
 	}
 
-	async checkAuthorities(req, res, next) {
+	checkAuthorities(req, res, next) {
 		const method = req.method;
-		const url = req.route.path;
+		const url = req._parsedOriginalUrl.pathname;
 		const role = req.session.role;
 
 		switch (true) {
@@ -105,4 +103,4 @@ class Authentication {
 	}
 }
 
-module.exports = Authentication;
+module.exports = Authorities;

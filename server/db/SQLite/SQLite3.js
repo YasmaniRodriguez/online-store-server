@@ -1,8 +1,8 @@
-const env = require("../../env.js");
+const conf = require("../../config.js");
 
 const knex = require("knex")({
 	client: "sqlite3",
-	connection: process.env.SQLITE_LOCAL_OPTIONS || env.SQLITE_LOCAL_OPTIONS,
+	connection: process.env.SQLITE_LOCAL_OPTIONS || conf.SQLITE_LOCAL_OPTIONS,
 	useNullAsDefault: true,
 });
 

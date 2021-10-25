@@ -1,7 +1,8 @@
-const env = require("./env.JS");
+const conf = require("./config.js");
+const bcrypt = require("bcrypt");
 
 function getDataHandlerFile() {
-	switch (process.env.DATA_PERSISTENCE_MODE || env.DATA_PERSISTENCE_MODE) {
+	switch (process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE) {
 		case 1:
 			return "./db/MongoDB/MongoDB.js";
 			break;
@@ -21,7 +22,7 @@ function getDataHandlerFile() {
 }
 
 function getAuthMethodFile() {
-	switch (process.env.AUTH_MODE || env.AUTH_MODE) {
+	switch (process.env.AUTH_MODE || conf.AUTH_MODE) {
 		case 1:
 			return "./auth/JWT/JSONWebToken.js";
 			break;
@@ -34,4 +35,17 @@ function getAuthMethodFile() {
 	}
 }
 
-module.exports = { getDataHandlerFile, getAuthMethodFile };
+function generateHash(value) {
+	return bcrypt.hashSync(value, bcrypt.genSaltSync(10));
+}
+
+function compareHash(value1, value2) {
+	return bcrypt.compareSync(value1, value2);
+}
+
+module.exports = {
+	getDataHandlerFile,
+	getAuthMethodFile,
+	generateHash,
+	compareHash,
+};

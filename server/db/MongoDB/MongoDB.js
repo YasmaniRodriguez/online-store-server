@@ -3,12 +3,12 @@ const products = require("./models/products");
 const orders = require("./models/orders");
 const messages = require("./models/messages");
 const users = require("./models/users");
-const env = require("../../env.js");
+const conf = require("../../config.js");
 
 mongoose
 	.connect(
-		env.MONGO_DATA_LOCAL_URI,
-		env.MONGO_DATA_LOCAL_OPTIONS || env.MONGO_DATA_CLOUD_URI
+		conf.MONGO_DATA_LOCAL_URI,
+		conf.MONGO_DATA_LOCAL_OPTIONS || conf.MONGO_DATA_CLOUD_URI
 	)
 	.then((connection) => {
 		console.log("congrats, we are connected to mongo");
@@ -76,7 +76,7 @@ class mongo {
 		const schema = require("../normalization/schemas/messages.js");
 		const data = await messages.find({}, { __v: 0 }).lean();
 
-		return env.DATA_NORMALIZATION ? normalize(data, schema) : data;
+		return conf.DATA_NORMALIZATION ? normalize(data, schema) : data;
 	}
 
 	async addOrders(order) {
@@ -87,7 +87,7 @@ class mongo {
 	async getOrders(order = null) {
 		return !order
 			? await orders.find({}, { __v: 0 }).lean()
-			: orders.find({ code: { $eq: order } }).lean();
+			: orders.findOne({ code: { $eq: order } }).lean();
 	}
 
 	async addUsers(user) {
@@ -95,12 +95,26 @@ class mongo {
 		await newUser.save();
 	}
 
-	async getUsers(user = null, password = null) {
+	async getUsers(user = null) {
 		return !user
 			? await users.find({}, { __v: 0 }).lean()
-			: users
-					.find({ username: { $eq: user }, password: { $eq: password } })
-					.lean();
+			: users.findOne({ email: { $eq: user } }).lean();
+	}
+
+	async updateUsers(user = null, fields) {
+		return !user
+			? await users.updateMany({}, { $set: fields }, { multi: true })
+			: await users.updateOne(
+					{ email: { $eq: user } },
+					{ $set: fields },
+					{ multi: true }
+			  );
+	}
+
+	async deleteUsers(user = null) {
+		return !user
+			? await users.deleteMany({})
+			: users.deleteOne({ email: { $eq: user } });
 	}
 }
 

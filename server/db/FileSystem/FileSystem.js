@@ -1,6 +1,6 @@
 const fs = require("fs");
 const moment = require("moment");
-const env = require("../../env.js");
+const conf = require("../../config.js");
 
 class json {
 	constructor() {}
@@ -49,7 +49,7 @@ class json {
 		});
 
 		try {
-			if (env.DATA_NORMALIZATION) {
+			if (conf.DATA_NORMALIZATION) {
 				return normalize(data, schema);
 			} else {
 				return data;

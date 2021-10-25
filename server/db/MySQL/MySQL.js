@@ -1,8 +1,8 @@
-const env = require("../../env.js");
+const conf = require("../../config.js");
 
 const knex = require("knex")({
 	client: "mysql",
-	connection: process.env.MYSQL_LOCAL_OPTIONS || env.MYSQL_LOCAL_OPTIONS,
+	connection: process.env.MYSQL_LOCAL_OPTIONS || conf.MYSQL_LOCAL_OPTIONS,
 });
 
 class mysql {
