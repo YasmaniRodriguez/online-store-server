@@ -139,7 +139,7 @@ export const GatewayContextProvider = ({ children }) => {
 		axios
 			.post("http://localhost:8080/signup", registration)
 			.then((respose) => {
-				//setLoggedUser(true);
+				history.push("/signin");
 			})
 			.catch((error) => {
 				console.log(error);

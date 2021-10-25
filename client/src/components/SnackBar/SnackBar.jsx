@@ -6,7 +6,7 @@ import { SnackBarStyles } from "./SnackBarStyles";
 const useStyles = makeStyles((theme) => SnackBarStyles(theme));
 
 export const SnackBarComponent = (props) => {
-	const { open, message, openSnackBar } = props;
+	const { state, setState } = props;
 
 	const classes = useStyles();
 
@@ -14,18 +14,18 @@ export const SnackBarComponent = (props) => {
 		if (reason === "clickaway") {
 			return;
 		}
-		openSnackBar(false);
+		setState({ ...state, open: false });
 	};
 
 	return (
 		<Snackbar
 			className={classes.container}
 			autoHideDuration={5000}
-			open={open}
-			message={message}
+			open={state.open}
+			message={state.message}
 			onClose={handleClose}>
 			<Alert onClose={handleClose} severity='error'>
-				{message}
+				{state.message}
 			</Alert>
 		</Snackbar>
 	);
