@@ -48,6 +48,7 @@ export const TrackingContainer = (props) => {
 			userSignout();
 			history.push("/signin");
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isTimeout]);
 
 	return (

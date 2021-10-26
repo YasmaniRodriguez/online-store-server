@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import {
 	Button,
@@ -12,12 +12,10 @@ import { db } from "../../firebase/firebase";
 import { CartContext } from "../../contexts/CartContext";
 import { Cart } from "../../components/Cart/Cart";
 import { CartContainerStyles } from "./CartContainerStyles";
-import { GatewayContext } from "../../contexts/GatewayContext";
 
 const useStyles = makeStyles((theme) => CartContainerStyles(theme));
 
 export const CartContainer = (props) => {
-	const { loggedUser } = useContext(GatewayContext);
 	const classes = useStyles();
 	const history = useHistory();
 

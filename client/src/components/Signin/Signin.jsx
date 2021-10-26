@@ -23,8 +23,8 @@ export const Signin = ({
 	changeSigninUserName,
 	changeSigninUserPassword,
 	userSignin,
-	error,
-	setError,
+	catchedError,
+	setCatchedError,
 }) => {
 	const classes = useStyles();
 	const history = useHistory();
@@ -79,7 +79,10 @@ export const Signin = ({
 						startIcon={<Facebook />}
 						fullWidth
 						onClick={(e) => {
-							setError({ open: true, message: "wrong user or password" });
+							setCatchedError({
+								open: true,
+								message: "wrong user or password",
+							});
 						}}>
 						Continue with Facebook
 					</Button>
@@ -97,7 +100,10 @@ export const Signin = ({
 					</Typography>
 				</Paper>
 			</Grid>
-			<SnackBarComponent error={error} setError={setError} />
+			<SnackBarComponent
+				catchedError={catchedError}
+				setCatchedError={setCatchedError}
+			/>
 		</section>
 	);
 };

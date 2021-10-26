@@ -16,16 +16,5 @@ export const ItemListContainerStyles = (theme) => {
 				fontFamily: "Ranchers",
 			},
 		},
-		loading: {
-			width: "100vw",
-			height: "100vh",
-			display: "flex",
-			flexDirection: "column",
-			justifyContent: "center",
-			alignItems: "center",
-			"& h3": {
-				fontFamily: "Ranchers",
-			},
-		},
 	};
 };

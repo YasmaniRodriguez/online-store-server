@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import {
 	makeStyles,
 	Typography,
@@ -31,11 +30,10 @@ export const Signup = ({
 	changeSignupUserConfirm,
 	changeSignupUserTyC,
 	userSignup,
-	error,
-	setError,
+	catchedError,
+	setCatchedError,
 }) => {
 	const classes = useStyles();
-	const history = useHistory();
 
 	return (
 		<section>
@@ -141,7 +139,10 @@ export const Signup = ({
 					</form>
 				</Paper>
 			</Grid>
-			<SnackBarComponent error={error} setError={setError} />
+			<SnackBarComponent
+				catchedError={catchedError}
+				setCatchedError={setCatchedError}
+			/>
 		</section>
 	);
 };

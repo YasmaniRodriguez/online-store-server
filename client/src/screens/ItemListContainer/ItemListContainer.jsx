@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
-import { Typography, makeStyles, CircularProgress } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { makeStyles } from "@material-ui/core";
 import { ItemList } from "../../components/ItemList/ItemList";
 import { db } from "../../firebase/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { ItemListContainerStyles } from "./ItemListContainerStyles";
-import { GatewayContext } from "../../contexts/GatewayContext";
 
 const useStyles = makeStyles((theme) => ItemListContainerStyles(theme));
 
 export const ItemListContainer = () => {
-	const { loggedUser } = useContext(GatewayContext);
-	const history = useHistory();
 	const classes = useStyles();
 	const { id: showCategory } = useParams();
 	const [availableProducts, setAvailableProducts] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
+		setLoading(true);
 		const data = getDocs(
 			showCategory
 				? query(
@@ -35,6 +34,7 @@ export const ItemListContainer = () => {
 					return obj;
 				});
 				setAvailableProducts(products);
+				setLoading(false);
 			})
 			.catch((error) => console.log(error));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,22 +42,13 @@ export const ItemListContainer = () => {
 
 	return (
 		<section className={classes.container}>
-			{showCategory ? (
-				<ItemList availableProducts={availableProducts} />
-			) : (
-				<>
-					{availableProducts.length === 0 ? (
-						<div className={classes.loading}>
-							<CircularProgress />
-							<Typography variant='h3'>Cargando...</Typography>
-						</div>
-					) : (
-						<div>
-							<ItemList availableProducts={availableProducts} />
-						</div>
-					)}
-				</>
-			)}
+			<div>
+				<ItemList
+					loading={loading}
+					showCategory={showCategory}
+					availableProducts={availableProducts}
+				/>
+			</div>
 		</section>
 	);
 };

@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
 import { CartContext } from "../../contexts/CartContext";
 import { ItemDetail } from "../../components/ItemDetail/ItemDetail";
 import { db } from "../../firebase/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { ItemDetailContainerStyles } from "./ItemDetailContainerStyles";
-import { GatewayContext } from "../../contexts/GatewayContext";
 
 const useStyles = makeStyles((theme) => ItemDetailContainerStyles(theme));
 
 export const ItemDetailContainer = (props) => {
-	const { loggedUser } = useContext(GatewayContext);
-	const history = useHistory();
 	const classes = useStyles();
 	const { id: onlyShowProduct } = useParams();
 	const [quantity, setQuantity] = useState(1);

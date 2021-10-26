@@ -6,16 +6,16 @@ import { SnackBarStyles } from "./SnackBarStyles";
 const useStyles = makeStyles((theme) => SnackBarStyles(theme));
 
 export const SnackBarComponent = (props) => {
-	const { error, setError } = props;
+	const { catchedError, setCatchedError } = props;
 	const classes = useStyles();
 
-	const { open, message } = error;
+	const { open, message } = catchedError;
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {
 			return;
 		}
-		setError({ open: false, message: "" });
+		setCatchedError({ open: false, message: "" });
 	};
 
 	return (

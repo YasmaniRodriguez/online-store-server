@@ -11,5 +11,16 @@ export const ItemListStyles = (theme) => {
 				transform: "scale(1.02)",
 			},
 		},
+		loading: {
+			width: "100vw",
+			height: "100vh",
+			display: "flex",
+			flexDirection: "column",
+			justifyContent: "center",
+			alignItems: "center",
+			"& h3": {
+				fontFamily: "Ranchers",
+			},
+		},
 	};
 };

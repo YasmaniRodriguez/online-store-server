@@ -34,7 +34,7 @@ export const GatewayContextProvider = ({ children }) => {
 		tyc: "",
 	});
 
-	const [error, setError] = useState({
+	const [catchedError, setCatchedError] = useState({
 		open: false,
 		message: "",
 	});
@@ -84,7 +84,7 @@ export const GatewayContextProvider = ({ children }) => {
 				history.push("/");
 			})
 			.catch((error) => {
-				setError({ open: true, message: error.response.data.error });
+				setCatchedError({ open: true, message: error.response.data.error });
 			});
 	};
 
@@ -96,7 +96,7 @@ export const GatewayContextProvider = ({ children }) => {
 				history.push("/signin");
 			})
 			.catch((error) => {
-				setError({ open: true, message: error.response.data.error });
+				setCatchedError({ open: true, message: error.response.data.error });
 			});
 	};
 
@@ -163,8 +163,8 @@ export const GatewayContextProvider = ({ children }) => {
 				userSignin,
 				userSignup,
 				userSignout,
-				error,
-				setError,
+				catchedError,
+				setCatchedError,
 			}}>
 			{children}
 		</GatewayContext.Provider>
