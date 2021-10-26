@@ -105,6 +105,7 @@ export const Signup = ({
 							fullWidth
 							label='Password'
 							placeholder='Enter your password'
+							type='password'
 							value={registration.password}
 							onChange={changeSignupUserPassword}
 						/>
@@ -112,6 +113,7 @@ export const Signup = ({
 							fullWidth
 							label='Confirm Password'
 							placeholder='Confirm your password'
+							type='password'
 							value={registration.confirm}
 							onChange={changeSignupUserConfirm}
 						/>
@@ -132,12 +134,7 @@ export const Signup = ({
 							color='primary'
 							fullWidth
 							onClick={(e) => {
-								setError({
-									open: true,
-									message: "that email address is already in use",
-								});
-								// userSignup(e);
-								// history.push(`/`);
+								userSignup(e);
 							}}>
 							Sign up
 						</Button>

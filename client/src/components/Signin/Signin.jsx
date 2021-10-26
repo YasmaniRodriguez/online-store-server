@@ -69,7 +69,6 @@ export const Signin = ({
 						fullWidth
 						onClick={(e) => {
 							userSignin(e);
-							history.push(`/`);
 						}}>
 						Sign In
 					</Button>
