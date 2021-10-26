@@ -25,6 +25,8 @@ export const GatewayContainer = () => {
 		userSignin,
 		userSignup,
 		userSignout,
+		error,
+		setError,
 	} = useContext(GatewayContext);
 	const classes = useStyles();
 	const { gateway } = useParams();
@@ -40,6 +42,8 @@ export const GatewayContainer = () => {
 								changeSigninUserName={changeSigninUserName}
 								changeSigninUserPassword={changeSigninUserPassword}
 								userSignin={userSignin}
+								error={error}
+								setError={setError}
 							/>
 						);
 					case "signup":
@@ -54,6 +58,8 @@ export const GatewayContainer = () => {
 								changeSignupUserConfirm={changeSignupUserConfirm}
 								changeSignupUserTyC={changeSignupUserTyC}
 								userSignup={userSignup}
+								error={error}
+								setError={setError}
 							/>
 						);
 					case "signout":

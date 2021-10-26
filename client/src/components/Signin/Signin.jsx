@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import {
 	makeStyles,
@@ -23,18 +23,12 @@ export const Signin = ({
 	changeSigninUserName,
 	changeSigninUserPassword,
 	userSignin,
+	error,
+	setError,
 }) => {
 	const classes = useStyles();
 	const history = useHistory();
 
-	const [state, setState] = useState({
-		open: false,
-		vertical: "top",
-		horizontal: "center",
-		message: "wrong user or password",
-	});
-
-	const { vertical, horizontal } = state;
 	return (
 		<section>
 			<Grid className={classes.container}>
@@ -86,7 +80,7 @@ export const Signin = ({
 						startIcon={<Facebook />}
 						fullWidth
 						onClick={(e) => {
-							setState({ ...state, open: true });
+							setError({ open: true, message: "wrong user or password" });
 						}}>
 						Continue with Facebook
 					</Button>
@@ -104,11 +98,7 @@ export const Signin = ({
 					</Typography>
 				</Paper>
 			</Grid>
-			<SnackBarComponent
-				anchorOrigin={{ vertical, horizontal }}
-				state={state}
-				setState={setState}
-			/>
+			<SnackBarComponent error={error} setError={setError} />
 		</section>
 	);
 };

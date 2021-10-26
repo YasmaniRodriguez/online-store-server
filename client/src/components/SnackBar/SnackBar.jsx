@@ -6,26 +6,28 @@ import { SnackBarStyles } from "./SnackBarStyles";
 const useStyles = makeStyles((theme) => SnackBarStyles(theme));
 
 export const SnackBarComponent = (props) => {
-	const { state, setState } = props;
-
+	const { error, setError } = props;
 	const classes = useStyles();
+
+	const { open, message } = error;
 
 	const handleClose = (event, reason) => {
 		if (reason === "clickaway") {
 			return;
 		}
-		setState({ ...state, open: false });
+		setError({ open: false, message: "" });
 	};
 
 	return (
 		<Snackbar
 			className={classes.container}
 			autoHideDuration={5000}
-			open={state.open}
-			message={state.message}
-			onClose={handleClose}>
+			open={open}
+			message={message}
+			onClose={handleClose}
+			anchorOrigin={{ vertical: "top", horizontal: "center" }}>
 			<Alert onClose={handleClose} severity='error'>
-				{state.message}
+				{message}
 			</Alert>
 		</Snackbar>
 	);

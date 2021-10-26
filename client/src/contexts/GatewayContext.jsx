@@ -87,6 +87,11 @@ export const GatewayContextProvider = ({ children }) => {
 		tyc: "",
 	});
 
+	const [error, setError] = useState({
+		open: false,
+		message: "",
+	});
+
 	const changeSigninUserName = (e) => {
 		setCredentials({ ...credentials, username: e.target.value });
 	};
@@ -212,6 +217,8 @@ export const GatewayContextProvider = ({ children }) => {
 				userSignin,
 				userSignup,
 				userSignout,
+				error,
+				setError,
 			}}>
 			{children}
 		</GatewayContext.Provider>

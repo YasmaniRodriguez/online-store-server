@@ -12,6 +12,9 @@ export const SigninStyles = (theme) => {
 			"& .MuiButton-root": {
 				margin: "8px 0px",
 			},
+			"& .MuiLink-underlineHover": {
+				cursor: "pointer",
+			},
 		},
 	};
 };
