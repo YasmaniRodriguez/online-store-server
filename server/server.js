@@ -26,8 +26,6 @@ const session = require("express-session");
 
 const mongoStore = require("connect-mongo");
 
-const passport = require("passport");
-
 const signup = require("./routes/signup.js");
 
 const signin = require("./routes/signin");
@@ -69,12 +67,10 @@ app.use(session({ ...conf.SESSION_OPTIONS,
   })
 }));
 
-require("./middlewares/auth/passport-local-strategy.js");
+require("./auth/passport/handler.js")(app);
 
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: "*",
   credentials: true
 }));
 app.use(express.static(path.join(__dirname, "public")));

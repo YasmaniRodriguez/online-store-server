@@ -15,6 +15,7 @@ import {
 import { LockOutlined, Facebook } from "@material-ui/icons";
 import { SnackBarComponent } from "../SnackBar/SnackBar";
 import { SigninStyles } from "./SigninStyles";
+import FacebookLogin from "react-facebook-login";
 
 const useStyles = makeStyles((theme) => SigninStyles(theme));
 
@@ -23,11 +24,16 @@ export const Signin = ({
 	changeSigninUserName,
 	changeSigninUserPassword,
 	userSignin,
+	userSigninWithFacebook,
 	catchedError,
 	setCatchedError,
 }) => {
 	const classes = useStyles();
 	const history = useHistory();
+
+	// const responseFacebook = (response) => {
+	// 	console.log(response);
+	// };
 
 	return (
 		<section>
@@ -73,19 +79,33 @@ export const Signin = ({
 						Sign In
 					</Button>
 					<Typography>- Or -</Typography>
-					<Button
+					{/* <div
+						class='fb-login-button'
+						data-width=''
+						data-size='large'
+						data-button-type='continue_with'
+						data-layout='default'
+						data-auto-logout-link='false'
+						data-use-continue-as='false'></div> */}
+					{/* <Button
 						color='primary'
 						variant='outlined'
 						startIcon={<Facebook />}
 						fullWidth
 						onClick={(e) => {
-							setCatchedError({
-								open: true,
-								message: "wrong user or password",
-							});
+							userSigninWithFacebook(e);
 						}}>
 						Continue with Facebook
-					</Button>
+					</Button> */}
+					<FacebookLogin
+						appId='672538957001557'
+						autoLoad={true}
+						textButton='Login With Facebook'
+						fields='name,email,picture'
+						callback={userSigninWithFacebook}
+						cssClass='my-facebook-button-class'
+						icon={<Facebook />}
+					/>
 					<Typography>
 						<Link href='#'>Forgot password ?</Link>
 					</Typography>

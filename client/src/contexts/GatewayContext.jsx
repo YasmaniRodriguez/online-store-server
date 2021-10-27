@@ -16,7 +16,10 @@ const socket = io("http://localhost:8080", {
 socket.connect();
 
 export const GatewayContextProvider = ({ children }) => {
-	const [loggedUser, setLoggedUser] = useState(false);
+	const [loggedUser, setLoggedUser] = useState({
+		logged: false,
+		photo: "",
+	});
 	const history = useHistory();
 	const [isTimeout, setIsTimeout] = useState(false);
 	const [credentials, setCredentials] = useState({
@@ -80,12 +83,27 @@ export const GatewayContextProvider = ({ children }) => {
 		axios
 			.post("http://localhost:8080/signin", credentials)
 			.then((response) => {
-				setLoggedUser(true);
+				setLoggedUser({ ...loggedUser, logged: true });
 				history.push("/");
 			})
 			.catch((error) => {
 				setCatchedError({ open: true, message: error.response.data.error });
 			});
+	};
+
+	const userSigninWithFacebook = (response) => {
+		console.log(response.picture.data.url);
+		setLoggedUser({ logged: true, photo: response.picture.data.url });
+		history.push("/");
+		//e.preventDefault();
+		// axios
+		// 	.get("http://localhost:8080/signin/facebook")
+		// 	.then((response) => {
+		// 		setLoggedUser(true);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log(error);
+		// 	});
 	};
 
 	const userSignup = (e) => {
@@ -133,13 +151,13 @@ export const GatewayContextProvider = ({ children }) => {
 	}, []);
 
 	useEffect(() => {
-		if (!loggedUser) {
+		if (!loggedUser.logged) {
 			history.push("/signin");
 		}
-	}, [loggedUser]);
+	}, [loggedUser.logged]);
 
 	useEffect(() => {
-		if (loggedUser && isTimeout) {
+		if (loggedUser.logged && isTimeout) {
 			userSignout();
 		}
 	}, [isTimeout]);
@@ -161,6 +179,7 @@ export const GatewayContextProvider = ({ children }) => {
 				loggedUser,
 				isTimeout,
 				userSignin,
+				userSigninWithFacebook,
 				userSignup,
 				userSignout,
 				catchedError,

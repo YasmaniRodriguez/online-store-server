@@ -10,7 +10,6 @@ const cors = require("cors");
 const cookieParse = require("cookie-parser");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const passport = require("passport");
 const signup = require("./routes/signup.js");
 const signin = require("./routes/signin");
 const signout = require("./routes/signout");
@@ -42,13 +41,10 @@ app.use(
 		}),
 	})
 );
-require("./middlewares/auth/passport-local-strategy.js");
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+require("./auth/passport/handler.js")(app);
+app.use(cors({ origin: "*", credentials: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
-
 app.use(signup);
 app.use(signin);
 app.use(signout);

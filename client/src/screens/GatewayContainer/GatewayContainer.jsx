@@ -23,6 +23,7 @@ export const GatewayContainer = () => {
 		changeSigninUserName,
 		changeSigninUserPassword,
 		userSignin,
+		userSigninWithFacebook,
 		userSignup,
 		userSignout,
 		catchedError,
@@ -42,6 +43,7 @@ export const GatewayContainer = () => {
 								changeSigninUserName={changeSigninUserName}
 								changeSigninUserPassword={changeSigninUserPassword}
 								userSignin={userSignin}
+								userSigninWithFacebook={userSigninWithFacebook}
 								catchedError={catchedError}
 								setCatchedError={setCatchedError}
 							/>

@@ -15,6 +15,7 @@ export const SigninStyles = (theme) => {
 			"& .MuiLink-underlineHover": {
 				cursor: "pointer",
 			},
+			"& .my-facebook-button-class": {},
 		},
 	};
 };
