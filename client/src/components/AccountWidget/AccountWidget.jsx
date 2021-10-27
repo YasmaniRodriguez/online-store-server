@@ -6,14 +6,14 @@ import { GatewayContext } from "../../contexts/GatewayContext";
 export const AccountWidget = () => {
 	const history = useHistory();
 	const { loggedUser } = useContext(GatewayContext);
-	const { logged, photo } = loggedUser;
+	const { logged, photo, name } = loggedUser;
 	return logged ? (
 		<IconButton
 			aria-label='account'
 			onClick={(e) => {
 				history.push(`/signout`);
 			}}>
-			<img alt='' src={photo} />
+			<img alt={name} src={photo} />
 		</IconButton>
 	) : (
 		<IconButton

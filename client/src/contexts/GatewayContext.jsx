@@ -18,6 +18,7 @@ socket.connect();
 export const GatewayContextProvider = ({ children }) => {
 	const [loggedUser, setLoggedUser] = useState({
 		logged: false,
+		name: "",
 		photo: "",
 	});
 	const history = useHistory();
@@ -122,7 +123,11 @@ export const GatewayContextProvider = ({ children }) => {
 		axios
 			.get("http://localhost:8080/signout")
 			.then((response) => {
-				setLoggedUser(false);
+				setLoggedUser({
+					logged: false,
+					name: "",
+					photo: "",
+				});
 				history.push("/");
 			})
 			.catch((error) => {
@@ -134,7 +139,11 @@ export const GatewayContextProvider = ({ children }) => {
 		const manager = new IdleTimeoutManager({
 			timeout: 10,
 			onExpired: () => {
-				setLoggedUser(false);
+				setLoggedUser({
+					logged: false,
+					name: "",
+					photo: "",
+				});
 				setIsTimeout(true);
 			},
 		});
