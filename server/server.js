@@ -40,6 +40,10 @@ const orders = require("./routes/orders.js");
 
 const messages = require("./routes/messages.js");
 
+const info = require("./routes/info.js");
+
+const randoms = require("./routes/randoms.js");
+
 const conf = require("./config.js");
 
 const dataHandlerFile = require("./functions.js").getDataHandlerFile();
@@ -82,6 +86,9 @@ app.use(products);
 app.use(carts);
 app.use(orders);
 app.use(messages);
+app.use(info);
+app.use(randoms);
 server.listen(app.get("port"), () => {
+  console.log(process.pid);
   console.log(`magic is happening in http://localhost:${app.get("port")} and the data persistance mode is ${process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE}. to change persistance mode, you can start server with command: DATA_PERSISTANCE_MODE=MyPersistanceMode npm start. MyPersistanceMode can be: 1 [MongoDB], 2 [MySQL], 3 [SQLite3] or 4 [FileSystem]`);
 }).on("err", err => console.log(`something is preventing us grow , more detail in: ${err}`));

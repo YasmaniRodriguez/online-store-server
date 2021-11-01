@@ -1,13 +1,15 @@
 const passport = require("passport");
 const facebookStrategy = require("passport-facebook").Strategy;
 const User = require("../../db/MongoDB/models/users");
+const conf = require("../../config.js");
 
 const facebook = (app) => {
 	passport.use(
 		new facebookStrategy(
 			{
-				clientID: "672538957001557",
-				clientSecret: "6e3c8aca68729c7d1bef57eaaa375d81",
+				clientID: process.env.FACEBOOK_CLIENT_ID || conf.FACEBOOK_CLIENT_ID,
+				clientSecret:
+					process.env.FACEBOOK_CLIENT_SECRET || conf.FACEBOOK_CLIENT_SECRET,
 				callbackURL: "/signin/facebook/callback",
 				profileFields: ["email", "name"],
 			},
