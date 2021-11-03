@@ -1,73 +1,179 @@
 const express = require("express");
-const app = express();
-const http = require("http");
-const server = http.createServer(app);
-const socketio = require("socket.io");
-const io = socketio(server, { cors: { origin: "*" } });
+const cluster = require("cluster");
 const path = require("path");
-const logger = require("morgan");
-const cors = require("cors");
-const cookieParse = require("cookie-parser");
-const session = require("express-session");
-const mongoStore = require("connect-mongo");
-const signup = require("./routes/signup.js");
-const signin = require("./routes/signin");
-const signout = require("./routes/signout");
-const products = require("./routes/products.js");
-const carts = require("./routes/carts.js");
-const orders = require("./routes/orders.js");
-const messages = require("./routes/messages.js");
-const info = require("./routes/info.js");
-const randoms = require("./routes/randoms.js");
-const conf = require("./config.js");
-const dataHandlerFile = require("./functions.js").getDataHandlerFile();
-const DAO = require(dataHandlerFile);
-const dataHandler = new DAO();
 
-dataHandler.buildSchema();
+switch (
+	process.argv[2] ? process.argv[2].toLowerCase() : process.argv[2] || "cluster"
+) {
+	case "fork":
+		const app = express();
+		const http = require("http");
+		const server = http.createServer(app);
+		const socketio = require("socket.io");
+		const io = socketio(server, { cors: { origin: "*" } });
+		const logger = require("morgan");
+		const cors = require("cors");
+		const cookieParse = require("cookie-parser");
+		const session = require("express-session");
+		const mongoStore = require("connect-mongo");
 
-app.set("port", process.env.PORT || conf.PORT);
-app.set("socketio", io);
-app.set("dataHandler", dataHandler);
+		const signup = require("./routes/signup.js");
+		const signin = require("./routes/signin");
+		const signout = require("./routes/signout");
+		const products = require("./routes/products.js");
+		const carts = require("./routes/carts.js");
+		const orders = require("./routes/orders.js");
+		const messages = require("./routes/messages.js");
+		const info = require("./routes/info.js");
+		const randoms = require("./routes/randoms.js");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParse());
-app.use(
-	session({
-		...conf.SESSION_OPTIONS,
-		store: mongoStore.create({
-			mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
-			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-			ttl: 600,
-		}),
-	})
-);
-require("./auth/passport/handler.js")(app);
-app.use(cors({ origin: "*", credentials: true }));
-app.use(express.static(path.join(__dirname, "public")));
-app.use(logger("dev"));
-app.use(signup);
-app.use(signin);
-app.use(signout);
-app.use(products);
-app.use(carts);
-app.use(orders);
-app.use(messages);
-app.use(info);
-app.use(randoms);
+		const conf = require("./config.js");
+		const dataHandlerFile = require("./functions.js").getDataHandlerFile();
+		const DAO = require(dataHandlerFile);
+		const dataHandler = new DAO();
 
-server
-	.listen(app.get("port"), () => {
-		console.log(process.pid);
-		console.log(
-			`magic is happening in http://localhost:${app.get(
-				"port"
-			)} and the data persistance mode is ${
-				process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE
-			}. to change persistance mode, you can start server with command: DATA_PERSISTANCE_MODE=MyPersistanceMode npm start. MyPersistanceMode can be: 1 [MongoDB], 2 [MySQL], 3 [SQLite3] or 4 [FileSystem]`
+		dataHandler.buildSchema();
+
+		app.set("port", process.env.PORT || conf.PORT);
+		app.set("socketio", io);
+		app.set("dataHandler", dataHandler);
+
+		app.use(express.json());
+		app.use(express.urlencoded({ extended: true }));
+		app.use(cookieParse());
+		app.use(
+			session({
+				...conf.SESSION_OPTIONS,
+				store: mongoStore.create({
+					mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
+					mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+					ttl: 600,
+				}),
+			})
 		);
-	})
-	.on("err", (err) =>
-		console.log(`something is preventing us grow , more detail in: ${err}`)
-	);
+		require("./auth/passport/handler.js")(app);
+		app.use(cors({ origin: "*", credentials: true }));
+		app.use(express.static(path.join(__dirname, "public")));
+		app.use(logger("dev"));
+		app.use(signup);
+		app.use(signin);
+		app.use(signout);
+		app.use(products);
+		app.use(carts);
+		app.use(orders);
+		app.use(messages);
+		app.use(info);
+		app.use(randoms);
+
+		server
+			.listen(app.get("port"), () => {
+				console.log(process.pid);
+				console.log(
+					`magic is happening in http://localhost:${app.get(
+						"port"
+					)} and the data persistance mode is ${
+						process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE
+					}. to change persistance mode, you can start server with command: DATA_PERSISTANCE_MODE=MyPersistanceMode npm start. MyPersistanceMode can be: 1 [MongoDB], 2 [MySQL], 3 [SQLite3] or 4 [FileSystem]`
+				);
+			})
+			.on("err", (err) =>
+				console.log(`something is preventing us grow , more detail in: ${err}`)
+			);
+
+		break;
+	case "cluster":
+		if (cluster.isMaster) {
+			require("os")
+				.cpus()
+				.forEach(() => {
+					cluster.fork();
+				});
+			cluster.on("exit", function (worker, code, signal) {
+				console.log(
+					"Worker server died (ID: %d, PID: %d)",
+					worker.id,
+					worker.process.pid
+				);
+				cluster.fork();
+			});
+		} else {
+			const app = express();
+			const http = require("http");
+			const server = http.createServer(app);
+			const socketio = require("socket.io");
+			const io = socketio(server, { cors: { origin: "*" } });
+			const logger = require("morgan");
+			const cors = require("cors");
+			const cookieParse = require("cookie-parser");
+			const session = require("express-session");
+			const mongoStore = require("connect-mongo");
+
+			const signup = require("./routes/signup.js");
+			const signin = require("./routes/signin");
+			const signout = require("./routes/signout");
+			const products = require("./routes/products.js");
+			const carts = require("./routes/carts.js");
+			const orders = require("./routes/orders.js");
+			const messages = require("./routes/messages.js");
+			const info = require("./routes/info.js");
+			const randoms = require("./routes/randoms.js");
+
+			const conf = require("./config.js");
+			const dataHandlerFile = require("./functions.js").getDataHandlerFile();
+			const DAO = require(dataHandlerFile);
+			const dataHandler = new DAO();
+
+			dataHandler.buildSchema();
+
+			app.set("port", process.env.PORT || conf.PORT);
+			app.set("socketio", io);
+			app.set("dataHandler", dataHandler);
+
+			app.use(express.json());
+			app.use(express.urlencoded({ extended: true }));
+			app.use(cookieParse());
+			app.use(
+				session({
+					...conf.SESSION_OPTIONS,
+					store: mongoStore.create({
+						mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
+						mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+						ttl: 600,
+					}),
+				})
+			);
+			require("./auth/passport/handler.js")(app);
+			app.use(cors({ origin: "*", credentials: true }));
+			app.use(express.static(path.join(__dirname, "public")));
+			app.use(logger("dev"));
+			app.use(signup);
+			app.use(signin);
+			app.use(signout);
+			app.use(products);
+			app.use(carts);
+			app.use(orders);
+			app.use(messages);
+			app.use(info);
+			app.use(randoms);
+
+			server
+				.listen(app.get("port"), () => {
+					console.log(process.pid);
+					console.log(
+						`magic is happening in http://localhost:${app.get(
+							"port"
+						)} and the data persistance mode is ${
+							process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE
+						}. to change persistance mode, you can start server with command: DATA_PERSISTANCE_MODE=MyPersistanceMode npm start. MyPersistanceMode can be: 1 [MongoDB], 2 [MySQL], 3 [SQLite3] or 4 [FileSystem]`
+					);
+				})
+				.on("err", (err) =>
+					console.log(
+						`something is preventing us grow , more detail in: ${err}`
+					)
+				);
+		}
+		break;
+	default:
+		break;
+}

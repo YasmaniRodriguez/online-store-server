@@ -10,6 +10,7 @@ router.get("/info", (req, res) => {
 		path_execution: process.execPath,
 		process_i: process.pid,
 		carpeta: process.cwd(),
+		processors: require("os").cpus().length,
 	});
 });
 

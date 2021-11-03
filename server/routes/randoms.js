@@ -1,6 +1,7 @@
 const express = require("express");
-const { fork } = require("child_process");
 const router = express.Router();
+const { fork } = require("child_process");
+const numCPUs = require("os").cpus().length;
 
 router.get("/randoms", (req, res) => {
 	let qty = req.query.qty;
