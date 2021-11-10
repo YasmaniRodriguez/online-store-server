@@ -1,6 +1,6 @@
 const express = require("express");
 
-const cluster = require("cluster");
+const compression = require("compression");
 
 const path = require("path");
 
@@ -19,6 +19,8 @@ const io = socketio(server, {
 });
 
 const logger = require("morgan");
+
+const log4js = require("log4js");
 
 const cors = require("cors");
 
@@ -53,10 +55,10 @@ const dataHandlerFile = require("./functions.js").getDataHandlerFile();
 const DAO = require(dataHandlerFile);
 
 const dataHandler = new DAO();
-dataHandler.buildSchema();
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
 app.set("dataHandler", dataHandler);
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -90,7 +92,56 @@ app.use(orders);
 app.use(messages);
 app.use(info);
 app.use(randoms);
-server.listen(app.get("port"), () => {
-  console.log(process.pid);
-  console.log(`magic is happening in http://localhost:${app.get("port")} and the data persistance mode is ${process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE}. to change persistance mode, you can start server with command: DATA_PERSISTANCE_MODE=MyPersistanceMode npm start. MyPersistanceMode can be: 1 [MongoDB], 2 [MySQL], 3 [SQLite3] or 4 [FileSystem]`);
-}).on("err", err => console.log(`something is preventing us grow , more detail in: ${err}`));
+log4js.configure({
+  appenders: {
+    miLoggerConsole: {
+      type: "console"
+    },
+    miLoggerFileWarn: {
+      type: "file",
+      filename: "warn.log"
+    },
+    miLoggerFileError: {
+      type: "file",
+      filename: "error.log"
+    }
+  },
+  categories: {
+    default: {
+      appenders: ["miLoggerConsole"],
+      level: "trace"
+    },
+    info: {
+      appenders: ["miLoggerConsole"],
+      level: "info"
+    },
+    warn: {
+      appenders: ["miLoggerFileWarn"],
+      level: "warn"
+    },
+    error: {
+      appenders: ["miLoggerFileError"],
+      level: "error"
+    }
+  }
+});
+const loggerInfo = log4js.getLogger("info");
+const loggerWarn = log4js.getLogger("warn");
+const loggerError = log4js.getLogger("error");
+app.set("loggerInfo", loggerInfo);
+app.set("loggerWarn", loggerWarn);
+app.set("loggerError", loggerError);
+server.listen(app.get("port"), async () => {
+  loggerInfo.info(`magic is happening in http://localhost:${app.get("port")} - PID WORKER ${process.pid}`);
+
+  try {
+    await dataHandler.buildSchema();
+    loggerInfo.info("DB is ready");
+  } catch (error) {
+    loggerInfo.info(`sorry, we can't connect to DB, more detail in: ${error}`);
+    loggerError.error(`sorry, we can't connect to DB, more detail in: ${error}`);
+  }
+}).on("err", err => {
+  loggerInfo.info(`something is preventing us grow , more detail in: ${err}`);
+  loggerError.error(`something is preventing us grow , more detail in: ${err}`);
+});
