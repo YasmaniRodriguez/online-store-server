@@ -8,10 +8,11 @@ const server = http.createServer(app);
 const socketio = require("socket.io");
 const io = socketio(server, { cors: { origin: "*" } });
 const logger = require("morgan");
+const log4js = require("log4js");
 const cors = require("cors");
 const cookieParse = require("cookie-parser");
 const session = require("express-session");
-const mongoSessionStore = require("connect-mongo");
+const mongoStore = require("connect-mongo");
 
 const signup = require("./routes/signup.js");
 const signin = require("./routes/signin");
@@ -20,14 +21,11 @@ const products = require("./routes/products.js");
 const carts = require("./routes/carts.js");
 const orders = require("./routes/orders.js");
 const messages = require("./routes/messages.js");
+const info = require("./routes/info.js");
+const randoms = require("./routes/randoms.js");
 
 const conf = require("./config.js");
 const dataHandlerFile = require("./functions.js").getDataHandlerFile();
-const authMethodFile = require("./functions.js").getAuthMethodFile();
-const AUTH = require(authMethodFile);
-const authMethod = new AUTH();
-const checkAuthentication = authMethod.checkAuthentication;
-const checkAuthorities = authMethod.checkAuthorities;
 const DAO = require(dataHandlerFile);
 const dataHandler = new DAO();
 
@@ -42,8 +40,8 @@ app.use(cookieParse());
 app.use(
 	session({
 		...conf.SESSION_OPTIONS,
-		store: mongoSessionStore.create({
-			mongoUrl: env.MONGO_SESSION_CLOUD_URI,
+		store: mongoStore.create({
+			mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
 			ttl: 600,
 		}),
@@ -56,10 +54,12 @@ app.use(logger("dev"));
 app.use(signup);
 app.use(signin);
 app.use(signout);
-app.use(checkAuthentication, checkAuthorities, products);
-app.use(checkAuthentication, checkAuthorities, carts);
-app.use(checkAuthentication, checkAuthorities, orders);
-app.use(checkAuthentication, checkAuthorities, messages);
+app.use(products);
+app.use(carts);
+app.use(orders);
+app.use(messages);
+app.use(info);
+app.use(randoms);
 
 log4js.configure({
 	appenders: {
@@ -78,56 +78,10 @@ log4js.configure({
 const loggerInfo = log4js.getLogger("info");
 const loggerWarn = log4js.getLogger("warn");
 const loggerError = log4js.getLogger("error");
-
 app.set("loggerInfo", loggerInfo);
 app.set("loggerWarn", loggerWarn);
 app.set("loggerError", loggerError);
 
-// app.get("/", (req, res) => {
-// 	//res.status(200).sendFile("index.html", { root: __dirname + "/public" });
-// });
-
-/////////////////////////////////////////////////////////
-
-io.on("connection", (socket) => {
-	let connection_identifier = socket.id;
-	socket.emit("connection", connection_identifier);
-});
-
-/////////////////////////////////////////////////////////
-// io.on("connect", (socket) => {
-// 	const undefinedUser = new classes.Profile(
-// 		"Albert",
-// 		"Einstein",
-// 		"1879-03-14",
-// 		null,
-// 		"usuario_1@gmail.com",
-// 		"https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/scientist_einstein_avatar_professor-256.png"
-// 	);
-
-// 	console.log(`connection_identifier: ${socket.id}`);
-// 	socket.emit("profile", undefinedUser);
-// 	dataHandler
-// 		.getMessages()
-// 		.then((rows) => {
-// 			io.emit("messages", rows);
-// 		})
-// 		.catch((err) => {
-// 			console.log(err);
-// 		});
-// 	socket.on("new-message", (message) => {
-// 		dataHandler.addMessages({ ...message });
-// 		dataHandler
-// 			.getMessages()
-// 			.then((rows) => {
-// 				io.emit("messages", rows);
-// 			})
-// 			.catch((err) => {
-// 				console.log(err);
-// 			});
-// 	});
-// });
-/////////////////////////////////////////////////////////
 server
 	.listen(app.get("port"), async () => {
 		loggerInfo.info(

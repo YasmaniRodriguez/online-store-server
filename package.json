@@ -4,9 +4,9 @@
 	"description": "a full web app for online stores",
 	"main": "server/server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"serve": "npx babel-node ./server/server.js",
-		"start": "nodemon --exec npm run serve",
+		"test": "node ./server/benchmark.js",
+		"serve": "0x ./server/server.js",
+		"start": "npm run serve",
 		"ServerES6toJS5": ".\\node_modules\\.bin\\babel ./server/server.es6.js -o ./server/server.js -w",
 		"ServerTStoJS5": ".\\node_modules\\.bin\\tsc ./server/server.ts -w"
 	},
@@ -24,6 +24,7 @@
 	"dependencies": {
 		"bcrypt": "^5.0.1",
 		"body-parser": "^1.19.0",
+		"compression": "^1.7.4",
 		"connect-mongo": "^4.6.0",
 		"cookie-parser": "^1.4.5",
 		"cors": "^2.8.5",
@@ -32,6 +33,7 @@
 		"faker": "^5.5.3",
 		"jsonwebtoken": "^8.5.1",
 		"knex": "^0.95.11",
+		"log4js": "^6.3.0",
 		"moment": "^2.29.1",
 		"mongoose": "^6.0.11",
 		"morgan": "^1.10.0",

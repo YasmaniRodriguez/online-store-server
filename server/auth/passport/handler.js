@@ -9,6 +9,7 @@ const settings = (app) => {
 
 	require("./local.js")(app);
 	require("./facebook.js")(app);
+	require("./jwt.js")(app);
 };
 
 module.exports = settings;
