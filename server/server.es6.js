@@ -11,7 +11,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const cookieParse = require("cookie-parser");
 const session = require("express-session");
-const mongoSessionStore = require("connect-mongo");
+const sessionStore = require("connect-mongo");
 
 const signup = require("./routes/signup.js");
 const signin = require("./routes/signin");
@@ -42,7 +42,7 @@ app.use(cookieParse());
 app.use(
 	session({
 		...conf.SESSION_OPTIONS,
-		store: mongoSessionStore.create({
+		store: sessionStore.create({
 			mongoUrl: env.MONGO_SESSION_CLOUD_URI,
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
 			ttl: 600,
