@@ -24,10 +24,10 @@ function getDataHandlerFile() {
 function getAuthMethodFile() {
 	switch (process.env.AUTH_MODE || conf.AUTH_MODE) {
 		case 1:
-			return "./auth/JWT/JSONWebToken.js";
+			return "./auth/jwt/jwt.js";
 			break;
 		case 2:
-			return "./auth/Passport/Passport.js";
+			return "./auth/passport/handler.js";
 			break;
 		default:
 			console.log("authentication mode was not defined");

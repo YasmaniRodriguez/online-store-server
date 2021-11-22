@@ -8,10 +8,11 @@ const server = http.createServer(app);
 const socketio = require("socket.io");
 const io = socketio(server, { cors: { origin: "*" } });
 const logger = require("morgan");
+const log4js = require("log4js");
 const cors = require("cors");
 const cookieParse = require("cookie-parser");
 const session = require("express-session");
-const sessionStore = require("connect-mongo");
+const mongoStore = require("connect-mongo");
 
 const signup = require("./routes/signup.js");
 const signin = require("./routes/signin");
@@ -42,8 +43,8 @@ app.use(cookieParse());
 app.use(
 	session({
 		...conf.SESSION_OPTIONS,
-		store: sessionStore.create({
-			mongoUrl: env.MONGO_SESSION_CLOUD_URI,
+		store: mongoStore.create({
+			mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
 			ttl: 600,
 		}),

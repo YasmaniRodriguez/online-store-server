@@ -4,9 +4,9 @@
 	"description": "a full web app for online stores",
 	"main": "server/server.js",
 	"scripts": {
-		"test": "node ./server/benchmark.js",
-		"serve": "0x ./server/server.js",
-		"start": "npm run serve",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"serve": "npx babel-node ./server/server.js",
+		"start": "nodemon --exec npm run serve",
 		"ServerES6toJS5": ".\\node_modules\\.bin\\babel ./server/server.es6.js -o ./server/server.js -w",
 		"ServerTStoJS5": ".\\node_modules\\.bin\\tsc ./server/server.ts -w"
 	},
@@ -41,6 +41,7 @@
 		"normalizr": "^3.6.1",
 		"passport": "^0.5.0",
 		"passport-facebook": "^3.0.0",
+		"passport-jwt": "^4.0.0",
 		"passport-local": "^1.0.0",
 		"socket.io": "^4.3.0",
 		"sqlite3": "^5.0.2",
