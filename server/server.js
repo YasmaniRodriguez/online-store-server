@@ -46,15 +46,22 @@ const messages = require("./routes/messages.js");
 
 const conf = require("./config.js");
 
-const dataHandlerFile = require("./functions.js").getDataHandlerFile();
+const dataHandlerFile = require("./functions.js").getDataHandlerFile(); // const authMethodFile = require("./functions.js").getAuthMethodFile();
+// const AUTH = require(authMethodFile);
+// const authMethod = new AUTH();
+// const checkAuthentication = authMethod.checkAuthentication;
 
-const authMethodFile = require("./functions.js").getAuthMethodFile();
 
-const AUTH = require(authMethodFile);
+const checkAuthentication = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.status(401).json({
+      error: "access denied"
+    });
+  }
+}; // const checkAuthorities = authMethod.checkAuthorities;
 
-const authMethod = new AUTH();
-const checkAuthentication = authMethod.checkAuthentication;
-const checkAuthorities = authMethod.checkAuthorities;
 
 const DAO = require(dataHandlerFile);
 
@@ -90,10 +97,10 @@ app.use(logger("dev"));
 app.use(signup);
 app.use(signin);
 app.use(signout);
-app.use(checkAuthentication, checkAuthorities, products);
-app.use(checkAuthentication, checkAuthorities, carts);
-app.use(checkAuthentication, checkAuthorities, orders);
-app.use(checkAuthentication, checkAuthorities, messages);
+app.use(checkAuthentication, products);
+app.use(checkAuthentication, carts);
+app.use(checkAuthentication, orders);
+app.use(checkAuthentication, messages);
 log4js.configure({
   appenders: {
     miLoggerConsole: {
@@ -178,8 +185,7 @@ server.listen(app.get("port"), async () => {
   loggerInfo.info(`magic is happening in http://localhost:${app.get("port")} - PID WORKER ${process.pid}`);
 
   try {
-    await dataHandler.buildSchema();
-    loggerInfo.info("DB is ready");
+    await dataHandler.buildSchema(); //loggerInfo.info("DB is ready");
   } catch (error) {
     loggerInfo.info(`sorry, we can't connect to DB, more detail in: ${error}`);
     loggerError.error(`sorry, we can't connect to DB, more detail in: ${error}`);

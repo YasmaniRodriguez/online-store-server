@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 
-router.post("/signin:id", (req, res, next) => {
+router.post("/signin/:id", (req, res, next) => {
 	const strategy = req.params.id;
 	switch (strategy) {
-		case local:
+		case "local":
 			passport.authenticate("local", (err, user, info) => {
 				if (err) throw err;
 				if (!user) {
@@ -20,16 +20,14 @@ router.post("/signin:id", (req, res, next) => {
 				}
 			})(req, res, next);
 			break;
-		case jwt:
+		case "jwt":
 			passport.authenticate("jwt", (err, user, info) => {})(req, res, next);
 			break;
-		case google:
+		case "google":
 			passport.authenticate("jwt", (err, user, info) => {})(req, res, next);
 			break;
 		default:
-			console.log("authentication method was not defined");
-			loggerInfo.info(`authentication method was not defined`);
-			loggerError.error(`authentication method was not defined`);
+			req.app.get("loggerInfo").info(`authentication method was not defined`);
 			break;
 	}
 });
