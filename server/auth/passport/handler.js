@@ -8,8 +8,8 @@ const settings = (app) => {
 	passport.deserializeUser((user, done) => done(null, user));
 
 	require("./local.js")(app);
-	require("./facebook.js")(app);
 	require("./jwt.js")(app);
+	require("./google.js")(app);
 };
 
 module.exports = settings;
