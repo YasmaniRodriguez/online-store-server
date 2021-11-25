@@ -44,6 +44,8 @@ const orders = require("./routes/orders.js");
 
 const messages = require("./routes/messages.js");
 
+const randoms = require("./routes/randoms.js");
+
 const conf = require("./config.js");
 
 const dataHandlerFile = require("./functions.js").getDataHandlerFile(); // const authMethodFile = require("./functions.js").getAuthMethodFile();
@@ -97,6 +99,7 @@ app.use(logger("dev"));
 app.use(signup);
 app.use(signin);
 app.use(signout);
+app.use(randoms);
 app.use(checkAuthentication, products);
 app.use(checkAuthentication, carts);
 app.use(checkAuthentication, orders);
