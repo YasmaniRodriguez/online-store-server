@@ -6,7 +6,7 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"serve": "npx babel-node ./server/server.js",
-		"start": "nodemon --exec npm run serve",
+		"start": "node ./server/server.js",
 		"ServerES6toJS5": ".\\node_modules\\.bin\\babel ./server/server.es6.js -o ./server/server.js -w",
 		"ServerTStoJS5": ".\\node_modules\\.bin\\tsc ./server/server.ts -w"
 	},
