@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", async (req, res, next) => {
 	const DAO = req.app.get("dataHandler");
 	const { name, gender, phone, email, password, confirm, role, tyc } = req.body;
 
@@ -18,7 +18,7 @@ router.post("/signup", (req, res, next) => {
 		return res.status(422).json({ error: "passwords are not the same" });
 	}
 
-	const existingUser = DAO.getUsers(email);
+	const existingUser = await DAO.getUsers(email);
 
 	if (existingUser) {
 		return res

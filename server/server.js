@@ -34,7 +34,8 @@ const signup = require("./routes/signup.js");
 
 const signin = require("./routes/signin");
 
-const signout = require("./routes/signout");
+const signout = require("./routes/signout"); //const users = require("./routes/users.js");
+
 
 const products = require("./routes/products.js");
 
@@ -96,7 +97,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
 app.use(signup);
 app.use(signin);
-app.use(signout);
+app.use(signout); //app.use(users);
+
 app.use(checkAuthentication, products);
 app.use(checkAuthentication, carts);
 app.use(checkAuthentication, orders);
