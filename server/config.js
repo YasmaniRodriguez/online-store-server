@@ -37,6 +37,31 @@ const GOOGLE_CLIENT_ID = "XyLuTLIKFiy28WRHX6Ov_93IP";
 const GOOGLE_CLIENT_SECRET =
 	"3184723834901-tn6figvte2381.apps.googleusercontent.com";
 
+const MAIL_SERVICE_ETHEREAL_OPTIONS = {
+	host: "smtp.ethereal.email",
+	port: 587,
+	auth: {
+		user: "joan.block56@ethereal.email",
+		pass: "XCkab1jHFg8xN1GpNn",
+	},
+};
+
+const MAIL_SERVICE_GMAIL_OPTIONS = {
+	service: "gmail",
+	auth: {
+		user: "ys.dev.mode@gmail.com",
+		pass: "M%D3vM0d3",
+	},
+};
+
+const SMS_SERVICE_TWILIO_SID = "AC17ac2aac57a660f4504873ac56b5fdbc";
+
+const SMS_SERVICE_TWILIO_TOKEN = "e60470551d53ff3248ed0136023e8c65";
+
+const SMS_SERVICE_TWILIO_NUMBER = "+12058838709";
+
+const ADMIN_PHONE_NUMBER = "+5491134601544";
+
 module.exports = {
 	PRIVATE_KEY,
 	SESSION_OPTIONS,
@@ -53,4 +78,10 @@ module.exports = {
 	FACEBOOK_CLIENT_SECRET,
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
+	MAIL_SERVICE_ETHEREAL_OPTIONS,
+	MAIL_SERVICE_GMAIL_OPTIONS,
+	SMS_SERVICE_TWILIO_SID,
+	SMS_SERVICE_TWILIO_TOKEN,
+	SMS_SERVICE_TWILIO_NUMBER,
+	ADMIN_PHONE_NUMBER,
 };
