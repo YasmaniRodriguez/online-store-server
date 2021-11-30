@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const moment = require("moment");
+const service = require("../services/messaging.js").Email;
 
 router.post("/signup", async (req, res, next) => {
 	const DAO = req.app.get("dataHandler");
@@ -17,6 +19,8 @@ router.post("/signup", async (req, res, next) => {
 		role,
 		tyc,
 	} = req.body;
+
+	const emailService = new service();
 
 	if (!email) {
 		return res.status(422).json({ error: "you must enter an email address" });
@@ -59,6 +63,14 @@ router.post("/signup", async (req, res, next) => {
 	myPromise
 		.then((result) => {
 			res.status(200).json({ message: "user uploaded" });
+			//ethereal notification:
+			emailService.SendMessage(
+				"ethereal",
+				conf.ETHEREAL_OPTIONS.auth.user,
+				conf.ETHEREAL_OPTIONS.auth.user,
+				"login",
+				`login ${req.sessionID} ${moment().format()}`
+			);
 		})
 		.catch((error) => res.json(error));
 });

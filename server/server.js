@@ -44,8 +44,7 @@ const signup = require("./routes/signup.js");
 
 const signin = require("./routes/signin");
 
-const signout = require("./routes/signout"); //const users = require("./routes/users.js");
-
+const signout = require("./routes/signout");
 
 const products = require("./routes/products.js");
 
@@ -57,11 +56,7 @@ const messages = require("./routes/messages.js");
 
 const conf = require("./config.js");
 
-const dataHandlerFile = require("./functions.js").getDataHandlerFile(); // const authMethodFile = require("./functions.js").getAuthMethodFile();
-// const AUTH = require(authMethodFile);
-// const authMethod = new AUTH();
-// const checkAuthentication = authMethod.checkAuthentication;
-
+const dataHandlerFile = require("./functions.js").getDataHandlerFile();
 
 const checkAuthentication = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -84,6 +79,16 @@ app.use(multer({
   storage,
   limits: {
     fileSize: 10000000
+  },
+  fileFilter: (req, file, cb) => {
+    const filetypes = ["jpeg", "jpg", "png", "gif"];
+    const validFileType = filetypes.some(type => file.mimetype.includes(type));
+
+    if (validFileType) {
+      cb(null, true);
+    } else {
+      cb("ERROR: invalid image extension");
+    }
   }
 }).single("image"));
 app.use(compression());

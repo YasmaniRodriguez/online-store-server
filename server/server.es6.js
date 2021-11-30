@@ -26,7 +26,6 @@ const storage = multer.diskStorage({
 const signup = require("./routes/signup.js");
 const signin = require("./routes/signin");
 const signout = require("./routes/signout");
-//const users = require("./routes/users.js");
 const products = require("./routes/products.js");
 const carts = require("./routes/carts.js");
 const orders = require("./routes/orders.js");
@@ -34,10 +33,6 @@ const messages = require("./routes/messages.js");
 
 const conf = require("./config.js");
 const dataHandlerFile = require("./functions.js").getDataHandlerFile();
-// const authMethodFile = require("./functions.js").getAuthMethodFile();
-// const AUTH = require(authMethodFile);
-// const authMethod = new AUTH();
-// const checkAuthentication = authMethod.checkAuthentication;
 
 const checkAuthentication = (req, res, next) => {
 	if (req.isAuthenticated()) {
@@ -53,7 +48,23 @@ const dataHandler = new DAO();
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
 app.set("dataHandler", dataHandler);
-app.use(multer({ storage, limits: { fileSize: 10000000 } }).single("image"));
+app.use(
+	multer({
+		storage,
+		limits: { fileSize: 10000000 },
+		fileFilter: (req, file, cb) => {
+			const filetypes = ["jpeg", "jpg", "png", "gif"];
+			const validFileType = filetypes.some((type) =>
+				file.mimetype.includes(type)
+			);
+			if (validFileType) {
+				cb(null, true);
+			} else {
+				cb("ERROR: invalid image extension");
+			}
+		},
+	}).single("image")
+);
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -30,8 +30,8 @@ router.post("/messages", (req, res) => {
 		.then(() => {
 			if (findKeywords) {
 				res.json({ message: "message uploaded" });
-				const sms = new service();
-				sms.SendMessage(
+				const smsService = new service();
+				smsService.SendMessage(
 					conf.TWILIO_ACCOUNT_NUMBER,
 					conf.ADMIN_PHONE_NUMBER,
 					`User ${message.author.email} say: ${message.message}`

@@ -18,12 +18,12 @@ router.post("/signin/:id", (req, res, next) => {
 						if (err) {
 							throw err;
 						} else {
-							const email = new service();
+							const emailService = new service();
 							res
 								.status(200)
 								.json({ message: "successfully authenticated user" });
 							//ethereal notification:
-							email.SendMessage(
+							emailService.SendMessage(
 								"ethereal",
 								conf.ETHEREAL_OPTIONS.auth.user,
 								conf.ETHEREAL_OPTIONS.auth.user,
@@ -31,7 +31,7 @@ router.post("/signin/:id", (req, res, next) => {
 								`login ${req.sessionID} ${moment().format()}`
 							);
 							//gmail notification:
-							email.SendMessage(
+							emailService.SendMessage(
 								"gmail",
 								conf.GMAIL_OPTIONS.auth.user,
 								user.email,

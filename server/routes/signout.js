@@ -7,9 +7,9 @@ const conf = require("../config.js");
 router.get("/signout", (req, res) => {
 	req.logOut(); //req.session.destroy();
 	res.status(200).json({ message: "logout success!" });
-	const email = new service();
+	const emailService = new service();
 	//ethereal notification:
-	email.SendMessage(
+	emailService.SendMessage(
 		"ethereal",
 		conf.ETHEREAL_OPTIONS.auth.user,
 		conf.ETHEREAL_OPTIONS.auth.user,
