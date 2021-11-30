@@ -9,7 +9,6 @@ const settings = (app) => {
 
 	require("./local.js")(app);
 	require("./jwt.js")(app);
-	require("./google.js")(app);
 };
 
 module.exports = settings;

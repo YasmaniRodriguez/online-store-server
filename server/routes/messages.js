@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const smsThirdPartyService = require("../thirdPartyServices/sms.js");
+const service = require("../services/messaging.js").ShortMessageService;
 const conf = require("../config.js");
 
 const keywords = ["administrador"];
@@ -30,9 +30,9 @@ router.post("/messages", (req, res) => {
 		.then(() => {
 			if (findKeywords) {
 				res.json({ message: "message uploaded" });
-				const sms = new smsThirdPartyService();
+				const sms = new service();
 				sms.SendMessage(
-					conf.SMS_SERVICE_TWILIO_NUMBER,
+					conf.TWILIO_ACCOUNT_NUMBER,
 					conf.ADMIN_PHONE_NUMBER,
 					`User ${message.author.email} say: ${message.message}`
 				);

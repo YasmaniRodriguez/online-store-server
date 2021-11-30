@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const service = require("../services/messaging.js").Whatsapp;
+const conf = require("../config.js");
+
 const classes = require("../classes.js");
 const functions = require("../functions.js");
 
@@ -8,16 +11,22 @@ var cart = [];
 
 //get all products
 router.get("/cart", (req, res) => {
-	const myPromise = new Promise((resolve, reject) => {
-		resolve(cart);
-	});
-	myPromise
-		.then((result) => {
-			result.length === 0
-				? res.json({ error: "cart is empty" })
-				: res.json({ cart: result });
-		})
-		.catch((error) => res.json(error));
+	const whatsapp = new service();
+	whatsapp.SendMessage(
+		conf.TWILIO_WHATSAPP_NUMBER,
+		conf.ADMIN_PHONE_NUMBER,
+		"Hello there!"
+	);
+	// const myPromise = new Promise((resolve, reject) => {
+	// 	resolve(cart);
+	// });
+	// myPromise
+	// 	.then((result) => {
+	// 		result.length === 0
+	// 			? res.json({ error: "cart is empty" })
+	// 			: res.json({ cart: result });
+	// 	})
+	// 	.catch((error) => res.json(error));
 });
 
 //get product by id

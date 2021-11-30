@@ -1,21 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const moment = require("moment");
-const emailThirdPartyService = require("../thirdPartyServices/email.js");
+const service = require("../services/messaging.js").Email;
 const conf = require("../config.js");
 
 router.get("/signout", (req, res) => {
-	req.logOut();
-	//req.session.destroy();
+	req.logOut(); //req.session.destroy();
 	res.status(200).json({ message: "logout success!" });
-	console.log(res);
-	const email = new emailThirdPartyService();
-	console.log(req);
+	const email = new service();
 	//ethereal notification:
 	email.SendMessage(
 		"ethereal",
-		conf.MAIL_SERVICE_ETHEREAL_OPTIONS.auth.user,
-		conf.MAIL_SERVICE_ETHEREAL_OPTIONS.auth.user,
+		conf.ETHEREAL_OPTIONS.auth.user,
+		conf.ETHEREAL_OPTIONS.auth.user,
 		"logout",
 		`logout ${req.sessionID} ${moment().format()}`
 	);

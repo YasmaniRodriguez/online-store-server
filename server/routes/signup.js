@@ -4,7 +4,19 @@ const bcrypt = require("bcrypt");
 
 router.post("/signup", async (req, res, next) => {
 	const DAO = req.app.get("dataHandler");
-	const { name, gender, phone, email, password, confirm, role, tyc } = req.body;
+	const avatar = req.file.filename;
+	const {
+		name,
+		gender,
+		phone,
+		address,
+		birthday,
+		email,
+		password,
+		confirm,
+		role,
+		tyc,
+	} = req.body;
 
 	if (!email) {
 		return res.status(422).json({ error: "you must enter an email address" });
@@ -34,6 +46,9 @@ router.post("/signup", async (req, res, next) => {
 				name: name,
 				gender: gender,
 				phone: phone,
+				address: address,
+				birthday: birthday,
+				avatar: `/images/${avatar}`,
 				email: email,
 				password: encryptedPassword,
 				role: role,

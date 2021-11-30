@@ -13,6 +13,15 @@ const cors = require("cors");
 const cookieParse = require("cookie-parser");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
+const multer = require("multer");
+
+const storage = multer.diskStorage({
+	destination: path.join(__dirname, "public/images"),
+	filename: (req, file, cb) => {
+		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+		cb(null, `${uniqueSuffix}.${file.mimetype.split("/")[1]}`);
+	},
+});
 
 const signup = require("./routes/signup.js");
 const signin = require("./routes/signin");
@@ -44,7 +53,7 @@ const dataHandler = new DAO();
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
 app.set("dataHandler", dataHandler);
-
+app.use(multer({ storage, limits: { fileSize: 10000000 } }).single("image"));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
