@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 function getDataHandlerFile() {
 	switch (process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE) {
 		case 1:
-			return "./data/mongo/mongoose.js";
+			return "./data/mongodb/mongoose.js";
 			break;
 		default:
 			console.log("persistence mode was not defined");

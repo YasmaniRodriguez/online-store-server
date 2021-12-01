@@ -7,7 +7,7 @@ const opts = {
 	secretOrKey: process.env.PRIVATE_KEY || conf.PRIVATE_KEY,
 	passReqToCallback: true,
 };
-const User = require("../../data/mongo/models/users");
+const User = require("../../data/mongodb/models/users");
 
 const jwt = (app) => {
 	passport.use(
