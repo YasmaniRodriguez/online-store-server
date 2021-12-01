@@ -98,14 +98,14 @@ class mongo {
 	async getUsers(user = null) {
 		return !user
 			? await users.find({}, { __v: 0 }).lean()
-			: users.findOne({ email: { $eq: user } }).lean();
+			: users.findOne({ _id: { $eq: user } }).lean();
 	}
 
 	async updateUsers(user = null, fields) {
 		return !user
 			? await users.updateMany({}, { $set: fields }, { multi: true })
 			: await users.updateOne(
-					{ email: { $eq: user } },
+					{ _id: { $eq: user } },
 					{ $set: fields },
 					{ multi: true }
 			  );

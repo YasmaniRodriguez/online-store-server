@@ -10,7 +10,7 @@ const functions = require("../functions.js");
 var cart = [];
 
 //get all products
-router.get("/cart", (req, res) => {
+router.get("/carts", (req, res) => {
 	const whatsapp = new service();
 	whatsapp.SendMessage(
 		conf.TWILIO_WHATSAPP_NUMBER,
@@ -30,7 +30,7 @@ router.get("/cart", (req, res) => {
 });
 
 //get product by id
-router.get("/cart/:id", (req, res) => {
+router.get("/carts/:id", (req, res) => {
 	const myPromise = new Promise((resolve, reject) => {
 		resolve(cart.find((row) => row.product.id == req.params.id));
 	});
@@ -44,7 +44,7 @@ router.get("/cart/:id", (req, res) => {
 });
 
 //add product
-router.post("/cart", (req, res) => {
+router.post("/carts", (req, res) => {
 	const { product, quantity } = req.body;
 	const myPromise = new Promise((resolve, reject) => {
 		resolve(functions.select_one_products(product));
@@ -66,7 +66,7 @@ router.post("/cart", (req, res) => {
 });
 
 //update product by id
-router.put("/cart/:id", (req, res) => {
+router.put("/carts/:id", (req, res) => {
 	const myPromise = new Promise((resolve, reject) => {
 		resolve(cart.find((row) => row.product.id == req.params.id));
 	});
@@ -84,7 +84,7 @@ router.put("/cart/:id", (req, res) => {
 });
 
 //delete product
-router.delete("/cart/:id", (req, res) => {
+router.delete("/carts/:id", (req, res) => {
 	const myPromise = new Promise((resolve, reject) => {
 		resolve(cart.find((row) => row.product.id == req.params.id));
 	});

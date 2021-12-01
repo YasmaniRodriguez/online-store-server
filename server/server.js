@@ -32,19 +32,13 @@ const mongoStore = require("connect-mongo");
 
 const multer = require("multer");
 
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, "public/images"),
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, `${uniqueSuffix}.${file.mimetype.split("/")[1]}`);
-  }
-});
-
 const signup = require("./routes/signup.js");
 
 const signin = require("./routes/signin");
 
 const signout = require("./routes/signout");
+
+const profiles = require("./routes/profiles");
 
 const products = require("./routes/products.js");
 
@@ -75,22 +69,6 @@ const dataHandler = new DAO();
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
 app.set("dataHandler", dataHandler);
-app.use(multer({
-  storage,
-  limits: {
-    fileSize: 10000000
-  },
-  fileFilter: (req, file, cb) => {
-    const filetypes = ["jpeg", "jpg", "png", "gif"];
-    const validFileType = filetypes.some(type => file.mimetype.includes(type));
-
-    if (validFileType) {
-      cb(null, true);
-    } else {
-      cb("ERROR: invalid image extension");
-    }
-  }
-}).single("image"));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({
@@ -116,10 +94,34 @@ app.use(cors({
 }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "public/images"),
+  filename: (req, file, cb) => {
+    const myself = req.session.passport.user._id;
+    const uniqueSuffix = `${myself}-${Date.now()}`;
+    cb(null, `${uniqueSuffix}.${file.mimetype.split("/")[1]}`);
+  }
+});
+app.use(multer({
+  storage,
+  limits: {
+    fileSize: 10000000
+  },
+  fileFilter: (req, file, cb) => {
+    const filetypes = ["jpeg", "jpg", "png", "gif"];
+    const validFileType = filetypes.some(type => file.mimetype.includes(type));
+
+    if (validFileType) {
+      cb(null, true);
+    } else {
+      cb("ERROR: invalid image extension");
+    }
+  }
+}).single("image"));
 app.use(signup);
 app.use(signin);
-app.use(signout); //app.use(users);
-
+app.use(checkAuthentication, signout);
+app.use(checkAuthentication, profiles);
 app.use(checkAuthentication, products);
 app.use(checkAuthentication, carts);
 app.use(checkAuthentication, orders);
