@@ -27,17 +27,17 @@ router.post("/signin/:id", (req, res, next) => {
 								"ethereal",
 								conf.ETHEREAL_OPTIONS.auth.user,
 								conf.ETHEREAL_OPTIONS.auth.user,
-								"login",
-								`login ${req.sessionID} ${moment().format()}`
+								"signin",
+								`signin ${req.sessionID} ${moment().format()}`
 							);
 							//gmail notification:
 							emailService.SendMessage(
 								"gmail",
 								conf.GMAIL_OPTIONS.auth.user,
 								user.email,
-								"login",
+								"signin",
 								`You have logged in your account at ${moment().format()}`,
-								[{ path: "./server/bot.gif" }]
+								[{ path: "" }]
 							);
 						}
 					});

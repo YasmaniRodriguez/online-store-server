@@ -13,8 +13,8 @@ router.get("/signout", (req, res) => {
 		"ethereal",
 		conf.ETHEREAL_OPTIONS.auth.user,
 		conf.ETHEREAL_OPTIONS.auth.user,
-		"logout",
-		`logout ${req.sessionID} ${moment().format()}`
+		"signout",
+		`signout ${req.sessionID} ${moment().format()}`
 	);
 });
 

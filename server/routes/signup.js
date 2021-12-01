@@ -68,8 +68,8 @@ router.post("/signup", async (req, res, next) => {
 				"ethereal",
 				conf.ETHEREAL_OPTIONS.auth.user,
 				conf.ETHEREAL_OPTIONS.auth.user,
-				"login",
-				`login ${req.sessionID} ${moment().format()}`
+				"signup",
+				`new signup`
 			);
 		})
 		.catch((error) => res.json(error));

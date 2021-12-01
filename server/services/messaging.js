@@ -17,11 +17,14 @@ const client = twilio(
 
 function buildMailHtml(eventType) {
 	switch (eventType) {
-		case "login":
-			return "<h1>a login has occurred</h1>";
+		case "signin":
+			return "<h1>a signin has occurred</h1>";
 			break;
-		case "logout":
-			return "<h1>a logout has occurred</h1>";
+		case "signout":
+			return "<h1>a signout has occurred</h1>";
+			break;
+		case "signup":
+			return "<h1>a new signup has occurred</h1>";
 			break;
 		default:
 			throw "event type was not defined";
