@@ -1,53 +1,41 @@
 const express = require("express");
 const router = express.Router();
-
+const moment = require("moment");
 const service = require("../services/messaging.js").Whatsapp;
 const conf = require("../config.js");
-
 const classes = require("../classes.js");
-const functions = require("../functions.js");
 
 var cart = [];
 
 //get all products
 router.get("/carts", (req, res) => {
-	const whatsapp = new service();
-	whatsapp.SendMessage(
-		conf.TWILIO_WHATSAPP_NUMBER,
-		conf.ADMIN_PHONE_NUMBER,
-		"Hello there!"
-	);
-	// const myPromise = new Promise((resolve, reject) => {
-	// 	resolve(cart);
-	// });
-	// myPromise
-	// 	.then((result) => {
-	// 		result.length === 0
-	// 			? res.json({ error: "cart is empty" })
-	// 			: res.json({ cart: result });
-	// 	})
-	// 	.catch((error) => res.json(error));
-});
-
-//get product by id
-router.get("/carts/:id", (req, res) => {
+	const filters = req.query;
 	const myPromise = new Promise((resolve, reject) => {
-		resolve(cart.find((row) => row.product.id == req.params.id));
+		if (Object.keys(filters).length === 0) {
+			resolve(cart);
+		} else {
+			resolve(cart.find((row) => row.product.code == filters.product));
+		}
 	});
 	myPromise
 		.then((result) => {
-			result === undefined
-				? res.json({ error: "product is not in the cart" })
-				: res.json({ ...result });
+			if (!result) {
+				res.json({ error: "product is not in the cart" });
+			} else {
+				result.length === 0
+					? res.json({ error: "cart is empty" })
+					: res.json({ cart: result });
+			}
 		})
 		.catch((error) => res.json(error));
 });
 
 //add product
 router.post("/carts", (req, res) => {
+	const dataHandler = req.app.get("dataHandler");
 	const { product, quantity } = req.body;
 	const myPromise = new Promise((resolve, reject) => {
-		resolve(functions.select_one_products(product));
+		resolve(dataHandler.getProducts({ code: product }));
 	});
 	myPromise
 		.then((result) => {
@@ -57,7 +45,7 @@ router.post("/carts", (req, res) => {
 					result[0],
 					quantity,
 					"null",
-					functions.timestamp
+					moment().format()
 				)
 			);
 			res.json({ message: "product was added to cart" });
@@ -68,7 +56,7 @@ router.post("/carts", (req, res) => {
 //update product by id
 router.put("/carts/:id", (req, res) => {
 	const myPromise = new Promise((resolve, reject) => {
-		resolve(cart.find((row) => row.product.id == req.params.id));
+		resolve(cart.find((row) => row.product.code == req.params.id));
 	});
 	myPromise
 		.then((result) => {
@@ -86,7 +74,7 @@ router.put("/carts/:id", (req, res) => {
 //delete product
 router.delete("/carts/:id", (req, res) => {
 	const myPromise = new Promise((resolve, reject) => {
-		resolve(cart.find((row) => row.product.id == req.params.id));
+		resolve(cart.find((row) => row.product.code == req.params.id));
 	});
 	myPromise
 		.then((result) => {

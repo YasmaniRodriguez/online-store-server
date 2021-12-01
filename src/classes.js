@@ -21,7 +21,8 @@ class Product {
 }
 
 class OrderRow {
-	constructor(row, product, quantity, timestamp) {
+	constructor(row, product, quantity, amount, timestamp) {
+		console.log(timestamp);
 		this.row = row;
 		this.product = product;
 		this.quantity = quantity;
@@ -38,39 +39,4 @@ class OrderRow {
 	}
 }
 
-class Profile {
-	constructor(name, lastname, birthday, alias, email, avatar) {
-		this.name = name;
-		this.lastname = lastname;
-		this.birthday = birthday;
-		this.alias = alias;
-		this.email = email;
-		this.avatar = avatar;
-	}
-
-	// set name(newValue) {
-	// 	this.name = newValue;
-	// }
-
-	// set lastname(newValue) {
-	// 	this.lastname = newValue;
-	// }
-
-	// set birthday(newValue) {
-	// 	this.birthday = newValue;
-	// }
-
-	// set alias(newValue) {
-	// 	this.alias = newValue;
-	// }
-
-	// set email(newValue) {
-	// 	this.email = newValue;
-	// }
-
-	// set avatar(newValue) {
-	// 	this.avatar = newValue;
-	// }
-}
-
-module.exports = { Product, OrderRow, Profile };
+module.exports = { Product, OrderRow };

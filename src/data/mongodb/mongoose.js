@@ -30,6 +30,7 @@ class mongo {
 	}
 
 	async getProducts(filters = null) {
+		console.log(filters);
 		if (Object.keys(filters).length === 0) {
 			const data = await products.find({}, { __v: 0 }).lean();
 			return data;

@@ -70,6 +70,7 @@ const storage = multer.diskStorage({
 		cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
 	},
 });
+
 app.use(
 	multer({
 		storage,
