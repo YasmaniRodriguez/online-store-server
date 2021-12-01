@@ -45,6 +45,7 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParse());
+
 app.use(
 	session({
 		...conf.SESSION_OPTIONS,
@@ -56,15 +57,17 @@ app.use(
 	})
 );
 require("./auth/passport/handler.js")(app);
+
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
+
 const storage = multer.diskStorage({
 	destination: path.join(__dirname, "public/images"),
 	filename: (req, file, cb) => {
 		const myself = req.session.passport.user._id;
 		const uniqueSuffix = `${myself}-${Date.now()}`;
-		cb(null, `${uniqueSuffix}.${file.mimetype.split("/")[1]}`);
+		cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
 	},
 });
 app.use(
@@ -84,6 +87,7 @@ app.use(
 		},
 	}).single("image")
 );
+
 app.use(signup);
 app.use(signin);
 app.use(checkAuthentication, signout);

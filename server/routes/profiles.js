@@ -20,9 +20,15 @@ router.put("/profiles", (req, res) => {
 	const dataHandler = req.app.get("dataHandler");
 	const myself = req.session.passport.user._id;
 	const fields = req.body;
-	const avatar = req.file.filename;
+	const avatar = req.file ? `/images/${req.file.filename}` : req.file;
+	console.log(avatar);
 	const myPromise = new Promise((resolve, reject) => {
-		resolve(dataHandler.updateUsers(myself, { ...fields, avatar }));
+		resolve(
+			dataHandler.updateUsers(myself, {
+				...fields,
+				avatar,
+			})
+		);
 	});
 	myPromise
 		.then(() => {

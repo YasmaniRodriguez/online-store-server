@@ -99,7 +99,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const myself = req.session.passport.user._id;
     const uniqueSuffix = `${myself}-${Date.now()}`;
-    cb(null, `${uniqueSuffix}.${file.mimetype.split("/")[1]}`);
+    cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
   }
 });
 app.use(multer({
