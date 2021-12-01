@@ -1,26 +1,26 @@
 {
-	"name": "online-store-web-app-server",
+	"name": "online-store-server",
 	"version": "1.0.0",
 	"description": "a full web app for online stores",
-	"main": "server/server.js",
+	"main": "src/server.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"serve": "npx babel-node ./server/server.js",
+		"serve": "npx babel-node ./src/server.js",
 		"start": "nodemon --exec npm run serve",
-		"ServerES6toJS5": ".\\node_modules\\.bin\\babel ./server/server.es6.js -o ./server/server.js -w",
-		"ServerTStoJS5": ".\\node_modules\\.bin\\tsc ./server/server.ts -w"
+		"ServerES6toJS5": ".\\node_modules\\.bin\\babel ./src/server.es6.js -o ./src/server.js -w",
+		"ServerTStoJS5": ".\\node_modules\\.bin\\tsc ./src/server.ts -w"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/YasmaniRodriguez/online-store-web-app.git"
+		"url": "git+https://github.com/YasmaniRodriguez/online-store-server.git"
 	},
 	"keywords": [],
 	"author": "rodriguez yasmani",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/YasmaniRodriguez/online-store-web-app/issues"
+		"url": "https://github.com/YasmaniRodriguez/online-store-server/issues"
 	},
-	"homepage": "https://github.com/YasmaniRodriguez/online-store-web-app#readme",
+	"homepage": "https://github.com/YasmaniRodriguez/online-store-server#readme",
 	"dependencies": {
 		"bcrypt": "^5.0.1",
 		"body-parser": "^1.19.0",
