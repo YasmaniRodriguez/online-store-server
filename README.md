@@ -1,2 +1,2 @@
-# online-store-web-app
-a full web app for online stores
+# online-store-server
+a web app for online stores
