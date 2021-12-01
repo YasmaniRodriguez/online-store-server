@@ -86,7 +86,7 @@ app.use(session({ ...conf.SESSION_OPTIONS,
   })
 }));
 
-require("./auth/passport/handler.js")(app);
+require("./authentication/passport.js")(app);
 
 app.use(cors({
   origin: "*",

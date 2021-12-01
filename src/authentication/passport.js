@@ -7,8 +7,8 @@ const settings = (app) => {
 	passport.serializeUser((user, done) => done(null, user));
 	passport.deserializeUser((user, done) => done(null, user));
 
-	require("./local.js")(app);
-	require("./jwt.js")(app);
+	require("./strategies/local.js")(app);
+	require("./strategies/jwt.js")(app);
 };
 
 module.exports = settings;
