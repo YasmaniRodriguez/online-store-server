@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema(
 	{
 		code: { type: String },
-		total_amount: { type: Number },
-		total_quantity: { type: Number },
+		status: { type: Number },
 		buyer: { type: Array },
 		products: { type: Array },
-		status: { type: Number },
+		totalAmount: { type: Number },
+		totalQuantity: { type: Number },
 	},
 	{ timestamps: true }
 );

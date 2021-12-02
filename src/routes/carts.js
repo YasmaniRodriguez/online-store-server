@@ -1,33 +1,29 @@
 const express = require("express");
 const router = express.Router();
 const moment = require("moment");
-const service = require("../services/messaging.js").Whatsapp;
-const conf = require("../config.js");
 const classes = require("../classes.js");
 
-var cart = [];
+const cart = [];
 
 //get all products
 router.get("/carts", (req, res) => {
-	const filters = req.query;
-	const myPromise = new Promise((resolve, reject) => {
-		if (Object.keys(filters).length === 0) {
-			resolve(cart);
-		} else {
-			resolve(cart.find((row) => row.product.code == filters.product));
-		}
-	});
-	myPromise
-		.then((result) => {
-			if (!result) {
-				res.json({ error: "product is not in the cart" });
-			} else {
-				result.length === 0
-					? res.json({ error: "cart is empty" })
-					: res.json({ cart: result });
-			}
-		})
-		.catch((error) => res.json(error));
+	const code = req.session.id;
+	const user = req.session.passport.user;
+	const buyer = {
+		name: user.name,
+		phone: user.phone,
+		email: user.email,
+		address: user.address,
+	};
+
+	const order = [];
+
+	try {
+		order.push(new classes.Order(code, 0, buyer, cart, null, null));
+		res.json(order);
+	} catch (e) {
+		res.json(e);
+	}
 });
 
 //add product

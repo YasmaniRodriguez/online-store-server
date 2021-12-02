@@ -30,7 +30,6 @@ class mongo {
 	}
 
 	async getProducts(filters = null) {
-		console.log(filters);
 		if (Object.keys(filters).length === 0) {
 			const data = await products.find({}, { __v: 0 }).lean();
 			return data;
@@ -86,9 +85,10 @@ class mongo {
 	}
 
 	async getOrders(order = null) {
+		console.log(order);
 		return !order
-			? await orders.find({}, { __v: 0 }).lean()
-			: orders.findOne({ code: { $eq: order } }).lean();
+			? orders.find({}, { __v: 0 }).lean()
+			: orders.find(order).lean();
 	}
 
 	async addUsers(user) {
