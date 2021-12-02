@@ -36,8 +36,7 @@ router.post("/signin/:id", (req, res, next) => {
 								conf.GMAIL_OPTIONS.auth.user,
 								user.email,
 								"signin",
-								`You have logged in your account at ${moment().format()}`,
-								[{ path: "" }]
+								`You have logged in your account at ${moment().format()}`
 							);
 						}
 					});

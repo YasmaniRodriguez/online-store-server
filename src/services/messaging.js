@@ -15,16 +15,19 @@ const client = twilio(
 	process.env.TWILIO_AUTH_TOKEN || conf.TWILIO_AUTH_TOKEN
 );
 
-function buildMailHtml(eventType) {
+function buildMailHtml(eventType, body) {
 	switch (eventType) {
 		case "signin":
-			return "<h1>a signin has occurred</h1>";
+			return `<div><h1>a signin has occurred</h1>${body}</div>`;
 			break;
 		case "signout":
-			return "<h1>a signout has occurred</h1>";
+			return `<div><h1>a signout has occurred</h1>${body}</div>`;
 			break;
 		case "signup":
-			return "<h1>a new signup has occurred</h1>";
+			return `<div><h1>a new signup has occurred</h1>${body}</div>`;
+			break;
+		case "order":
+			return `</div><h1>a new order has occurred</h1>${body}</div>`;
 			break;
 		default:
 			throw "event type was not defined";
@@ -41,13 +44,14 @@ class Email {
 		receiver,
 		eventType,
 		subject,
+		body = "<span></span>",
 		attachments = []
 	) {
 		const message = {
 			from: sender,
 			to: receiver,
 			subject: subject,
-			html: buildMailHtml(eventType),
+			html: buildMailHtml(eventType, body),
 			attachments: attachments,
 		};
 
