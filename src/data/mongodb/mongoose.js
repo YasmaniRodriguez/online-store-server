@@ -72,7 +72,8 @@ class mongo {
 	}
 
 	async getMessages() {
-		const normalize = require("../normalization/handler.js").getNormalizedData;
+		const normalize =
+			require("../normalization/normalizr.js").getNormalizedData;
 		const schema = require("../normalization/schemas/messages.js");
 		const data = await messages.find({}, { __v: 0 }).lean();
 
