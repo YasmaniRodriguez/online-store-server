@@ -56,7 +56,7 @@ app.use(
 		}),
 	})
 );
-require("./authentication/passport.js")(app);
+require("./auth/passport.js")(app);
 
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.static(path.join(__dirname, "public")));
