@@ -2,8 +2,8 @@ const ProfileModel = require("./model");
 
 module.exports = {
 	async getProfiles(req, res) {
+		const filters = req.query;
 		try {
-			const filters = req.query;
 			const profiles = await ProfileModel.getProfiles(filters);
 			profiles.length === 0
 				? res.json({ status: "error", message: "this profile does not exist" })

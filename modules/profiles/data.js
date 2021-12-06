@@ -3,9 +3,13 @@ const profiles = require("../../services/mongodb/models/profiles");
 module.exports = {
 	async getProfiles(filters = null) {
 		try {
-			return !filters
-				? await profiles.find({}, { __v: 0 }).lean()
-				: profiles.findOne({ _id: { $eq: filters } }).lean();
+			if (Object.keys(filters).length === 0) {
+				const data = await profiles.find({}, { __v: 0 }).lean();
+				return data;
+			} else {
+				const data = await profiles.find({ filters }, { __v: 0 }).lean();
+				return data;
+			}
 		} catch (error) {
 			return error;
 		}

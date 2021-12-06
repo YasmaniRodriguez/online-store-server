@@ -26,6 +26,13 @@ module.exports = {
 
 	async updateMessages(message = null, fields) {
 		try {
+			return !message
+				? await messages.updateMany({}, { $set: fields }, { multi: true })
+				: await messages.updateOne(
+						{ code: { $eq: message } },
+						{ $set: fields },
+						{ multi: true }
+				  );
 		} catch (error) {
 			return error;
 		}
@@ -33,6 +40,9 @@ module.exports = {
 
 	async deleteMessages(message = null) {
 		try {
+			return !message
+				? await messages.deleteMany({})
+				: messages.deleteOne({ code: { $eq: message } });
 		} catch (error) {
 			return error;
 		}

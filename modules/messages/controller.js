@@ -2,8 +2,8 @@ const MessageModel = require("./model");
 
 module.exports = {
 	async getMessages(req, res) {
+		const filters = req.query;
 		try {
-			const filters = req.query;
 			const messages = await MessageModel.getMessages(filters);
 			messages.length === 0
 				? res.json({ status: "error", message: "there is not messages" })
@@ -24,7 +24,10 @@ module.exports = {
 	},
 
 	async updateMessages(req, res) {
+		const record = req.params.id;
+		const fields = req.body;
 		try {
+			await MessageModel.updateMessages(record, fields);
 			res.json({ status: "ok", message: "message updated" });
 		} catch (error) {
 			res.json({ status: "error", message: error.message });
@@ -32,7 +35,9 @@ module.exports = {
 	},
 
 	async deleteMessages(req, res) {
+		const record = req.params.id;
 		try {
+			await MessageModel.deleteMessages(record);
 			res.json({ status: "ok", message: "message removed" });
 		} catch (error) {
 			res.json({ status: "error", message: error.message });
