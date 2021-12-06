@@ -40,7 +40,7 @@ const storage = multer.diskStorage({
 	},
 });
 const routes = require("./routes");
-const { checkAuthentication, checkAuthorities } = require("./middleware");
+const { checkAuthentication, checkAuthorities } = require("./middlewares");
 const conf = require("./config");
 
 app.set("port", process.env.PORT || conf.PORT);
@@ -63,7 +63,7 @@ app.use(
 		}),
 	})
 );
-require("./auth/passport.js")(app);
+require("./services/passport")(app);
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));

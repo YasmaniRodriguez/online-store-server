@@ -1,7 +1,7 @@
 const passport = require("passport");
 const facebookStrategy = require("passport-facebook").Strategy;
-const User = require("../../data/mongo/models/users");
-const conf = require("../../config.js");
+const User = require("../../mongodb/models/users");
+const conf = require("../../../config");
 
 const facebook = (app) => {
 	passport.use(

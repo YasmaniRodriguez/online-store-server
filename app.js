@@ -85,7 +85,7 @@ const routes = require("./routes");
 const {
   checkAuthentication,
   checkAuthorities
-} = require("./middleware");
+} = require("./middlewares");
 
 const conf = require("./config");
 
@@ -111,7 +111,7 @@ app.use(session({ ...conf.SESSION_OPTIONS,
   })
 }));
 
-require("./auth/passport.js")(app);
+require("./services/passport")(app);
 
 app.use(cors({
   origin: "*",

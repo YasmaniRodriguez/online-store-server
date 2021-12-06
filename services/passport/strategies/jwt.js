@@ -1,4 +1,4 @@
-const conf = require("../../config.js");
+const conf = require("../../../config");
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -7,7 +7,7 @@ const opts = {
 	secretOrKey: process.env.PRIVATE_KEY || conf.PRIVATE_KEY,
 	passReqToCallback: true,
 };
-const User = require("../../data/mongodb/models/users");
+const User = require("../../mongodb/models/users");
 
 const jwt = (app) => {
 	passport.use(
