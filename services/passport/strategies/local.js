@@ -1,6 +1,6 @@
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
-const User = require("../../mongodb/models/users");
+const User = require("../../mongodb/models/profiles");
 const { compareHash } = require("../../../utils/functions");
 
 const local = (app) => {

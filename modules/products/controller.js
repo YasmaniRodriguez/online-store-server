@@ -1,10 +1,10 @@
 const ProductModel = require("./model");
 
 module.exports = {
-	async readProducts(req, res) {
+	async getProducts(req, res) {
 		const filters = req.query;
 		try {
-			const products = await ProductModel.readProducts(filters);
+			const products = await ProductModel.getProducts(filters);
 			products.length === 0
 				? res.json({ status: "error", message: "there is not products" })
 				: res.json(products);
@@ -13,10 +13,10 @@ module.exports = {
 		}
 	},
 
-	async createProducts(req, res) {
+	async addProducts(req, res) {
 		const { code, name, category, description, image, price, stock } = req.body;
 		try {
-			await ProductModel.createProducts({
+			await ProductModel.addProducts({
 				code,
 				name,
 				category,

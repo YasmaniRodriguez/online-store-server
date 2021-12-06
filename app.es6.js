@@ -25,7 +25,6 @@ log4js.configure({
 const loggerInfo = log4js.getLogger("info");
 const loggerWarn = log4js.getLogger("warn");
 const loggerError = log4js.getLogger("error");
-
 const cors = require("cors");
 const cookieParse = require("cookie-parser");
 const session = require("express-session");

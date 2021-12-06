@@ -1,23 +1,43 @@
 const ProfileModel = require("./model");
 
 module.exports = {
-	async readProfiles(req, res) {
-		//variables:
-		//return:
+	async getProfiles(req, res) {
+		try {
+			const filters = req.query;
+			const profiles = await ProfileModel.getProfiles(filters);
+			profiles.length === 0
+				? res.json({ status: "error", message: "this profile does not exist" })
+				: res.json({ profiles });
+		} catch (error) {
+			res.json({ status: "error", message: error.message });
+		}
 	},
 
-	async createProfiles(req, res) {
-		//variables:
-		//return:
+	async addProfiles(req, res) {
+		try {
+			res.json({ status: "ok", message: "profile uploaded" });
+		} catch (error) {
+			res.json({ status: "error", message: error.message });
+		}
 	},
 
 	async updateProfiles(req, res) {
-		//variables:
-		//return:
+		const myself = req.session.passport.user._id;
+		const fields = req.body;
+		const avatar = req.file ? `/images/${req.file.filename}` : req.file;
+		try {
+			await ProfileModel.updateProfiles(myself, { ...fields, avatar });
+			res.json({ status: "ok", message: "profile updated" });
+		} catch (error) {
+			res.json({ status: "error", message: error.message });
+		}
 	},
 
 	async deleteProfiles(req, res) {
-		//variables:
-		//return:
+		try {
+			res.json({ status: "ok", message: "profile removed" });
+		} catch (error) {
+			res.json({ status: "error", message: error.message });
+		}
 	},
 };

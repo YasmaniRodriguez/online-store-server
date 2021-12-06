@@ -1,19 +1,20 @@
-const MessageDal = require("./data");
+const ProfileData = require("./data");
+const conf = require("../../config");
 
 module.exports = {
-	async readMessages(filters) {
-		return MessageDal.readMessages(filters);
+	async getProfiles(filters) {
+		return ProfileData.getProfiles(filters);
 	},
 
-	async createMessages(filters) {
-		return MessageDal.createMessages(filters);
+	async addProfiles(profile) {
+		return ProfileData.addProfiles(profile);
 	},
 
-	async updateMessages(filters) {
-		return MessageDal.updateMessages(filters);
+	async updateProfiles(record, fields) {
+		return ProfileData.updateProfiles(record, fields);
 	},
 
-	async deleteMessages(filters) {
-		return MessageDal.deleteMessages(filters);
+	async deleteProfiles(profile) {
+		return ProfileData.deleteProfiles(profile);
 	},
 };

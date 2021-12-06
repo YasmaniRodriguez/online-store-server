@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const controller = require("./controller.js");
 
-router.get("/orders", controller.readOrders);
-router.post("/orders", controller.createOrders);
-router.put("/orders", controller.updateOrders);
-router.delete("/orders", controller.deleteOrders);
+router.get("/orders", controller.getOrders);
+router.post("/orders", controller.addOrders);
+router.put("/orders/id", controller.updateOrders);
+router.delete("/orders/:id", controller.deleteOrders);
 
 module.exports = router;
