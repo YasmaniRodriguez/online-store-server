@@ -6,15 +6,15 @@ module.exports = {
 		return CartData.getCarts(filters);
 	},
 
-	async addCarts(cart) {
+	async addCartProduct(cart) {
 		return CartData.addCartProduct(cart);
 	},
 
-	async updateCarts(record, fields) {
+	async updateCartProduct(record, fields) {
 		return CartData.updateCartProduct(record, fields);
 	},
 
-	async deleteCarts(cart) {
+	async deleteCartProduct(cart) {
 		return CartData.deleteCartProduct(cart);
 	},
 };

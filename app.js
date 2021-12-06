@@ -20,46 +20,9 @@ const io = socketio(server, {
   }
 });
 
-const logger = require("morgan");
+const morgan = require("morgan");
 
-const log4js = require("log4js");
-
-log4js.configure({
-  appenders: {
-    miLoggerConsole: {
-      type: "console"
-    },
-    miLoggerFileWarn: {
-      type: "file",
-      filename: "warn.log"
-    },
-    miLoggerFileError: {
-      type: "file",
-      filename: "error.log"
-    }
-  },
-  categories: {
-    default: {
-      appenders: ["miLoggerConsole"],
-      level: "trace"
-    },
-    info: {
-      appenders: ["miLoggerConsole"],
-      level: "info"
-    },
-    warn: {
-      appenders: ["miLoggerFileWarn"],
-      level: "warn"
-    },
-    error: {
-      appenders: ["miLoggerFileError"],
-      level: "error"
-    }
-  }
-});
-const loggerInfo = log4js.getLogger("info");
-const loggerWarn = log4js.getLogger("warn");
-const loggerError = log4js.getLogger("error");
+const logger = require("./services/log4js");
 
 const cors = require("cors");
 
@@ -91,9 +54,6 @@ const conf = require("./config");
 
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
-app.set("loggerInfo", loggerInfo);
-app.set("loggerWarn", loggerWarn);
-app.set("loggerError", loggerError);
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({
@@ -118,7 +78,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(logger("dev"));
+app.use(morgan("dev"));
 app.use(multer({
   storage,
   limits: {
@@ -144,15 +104,15 @@ io.on("connection", socket => {
 }); /////////////////////////////////////////////////////////
 
 server.listen(app.get("port"), async () => {
-  loggerInfo.info(`magic is happening in ${process.env.BASE_URL || "http://localhost:"}:${app.get("port")} - PID WORKER ${process.pid}`);
+  logger.info(`magic is happening in ${process.env.BASE_URL || "http://localhost:"}:${app.get("port")} - PID WORKER ${process.pid}`);
 
   try {
     await mongoose.connect(conf.MONGO_DATA_LOCAL_URI, conf.MONGO_DATA_LOCAL_OPTIONS);
-    loggerInfo.info("congrats, we are connected to mongo");
+    logger.info("congrats, we are connected to mongo");
   } catch (error) {
-    loggerInfo.info("sorry, we can't connect to mongo");
-    loggerError.error(`sorry, we can't connect to mongo, more detail in: ${error}`);
+    logger.info("sorry, we can't connect to mongo");
+    logger.error(`sorry, we can't connect to mongo, more detail in: ${error}`);
   }
 }).on("error", error => {
-  loggerError.error(`something is preventing us grow , more detail in: ${error}`);
+  logger.error(`something is preventing us grow , more detail in: ${error}`);
 });

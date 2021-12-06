@@ -14,17 +14,9 @@ module.exports = {
 	},
 
 	async addProducts(req, res) {
-		const { code, name, category, description, image, price, stock } = req.body;
+		const product = req.body;
 		try {
-			await ProductModel.addProducts({
-				code,
-				name,
-				category,
-				description,
-				image,
-				price,
-				stock,
-			});
+			await ProductModel.addProducts(product);
 			res.json({ status: "ok", message: "product uploaded" });
 		} catch (error) {
 			res.json({ status: "error", message: error.message });

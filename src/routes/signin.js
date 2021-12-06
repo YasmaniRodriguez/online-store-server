@@ -18,6 +18,7 @@ router.post("/signin/:id", (req, res, next) => {
 						if (err) {
 							throw err;
 						} else {
+							console.log(req.session.passport.user._id);
 							const emailService = new service();
 							res
 								.status(200)
