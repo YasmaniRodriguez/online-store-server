@@ -1,6 +1,5 @@
 const nodemailer = require("nodemailer");
-const twilio = require("twilio");
-const conf = require("../config.js");
+const conf = require("../../config");
 
 const ethereal = nodemailer.createTransport(
 	process.env.ETHEREAL_OPTIONS || conf.ETHEREAL_OPTIONS
@@ -8,11 +7,6 @@ const ethereal = nodemailer.createTransport(
 
 const gmail = nodemailer.createTransport(
 	process.env.GMAIL_OPTIONS || conf.GMAIL_OPTIONS
-);
-
-const client = twilio(
-	process.env.TWILIO_ACCOUNT_SID || conf.TWILIO_ACCOUNT_SID,
-	process.env.TWILIO_AUTH_TOKEN || conf.TWILIO_AUTH_TOKEN
 );
 
 function buildMailHtml(eventType, body) {
@@ -75,34 +69,4 @@ class Email {
 	}
 }
 
-class ShortMessageService {
-	constructor() {}
-
-	async SendMessage(sender, receiver, message) {
-		return client.messages
-			.create({
-				body: message,
-				from: sender,
-				to: receiver,
-			})
-			.then((msg) => console.log(msg.sid))
-			.catch(console.log);
-	}
-}
-
-class Whatsapp {
-	constructor() {}
-
-	async SendMessage(sender, receiver, message) {
-		return client.messages
-			.create({
-				from: `whatsapp:${sender}`,
-				body: message,
-				to: `whatsapp:${receiver}`,
-			})
-			.then((msg) => console.log(msg.sid))
-			.catch(console.log);
-	}
-}
-
-module.exports = { Email, ShortMessageService, Whatsapp };
+module.exports = { Email };

@@ -1,19 +1,19 @@
-const MessageDal = require("./data");
+const ProductData = require("./data");
 
 module.exports = {
-	async readMessages(filters) {
-		return MessageDal.readMessages(filters);
+	async readProducts(filters) {
+		return ProductData.readProducts(filters);
 	},
 
-	async createMessages(filters) {
-		return MessageDal.createMessages(filters);
+	async createProducts(filters) {
+		return ProductData.createProducts(filters);
 	},
 
-	async updateMessages(filters) {
-		return MessageDal.updateMessages(filters);
+	async updateProducts(filters) {
+		return ProductData.updateProducts(filters);
 	},
 
-	async deleteMessages(filters) {
-		return MessageDal.deleteMessages(filters);
+	async deleteProducts(filters) {
+		return ProductData.deleteProducts(filters);
 	},
 };
