@@ -1,5 +1,4 @@
 const CartData = require("./data");
-const conf = require("../../config");
 
 module.exports = {
 	async getCarts(filters) {

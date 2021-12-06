@@ -1,5 +1,6 @@
 const twilio = require("twilio");
 const conf = require("../../config");
+const logger = require("../log4js");
 
 const client = twilio(
 	process.env.TWILIO_ACCOUNT_SID || conf.TWILIO_ACCOUNT_SID,
@@ -16,8 +17,8 @@ class ShortMessageService {
 				from: sender,
 				to: receiver,
 			})
-			.then((msg) => console.log(msg.sid))
-			.catch(console.log);
+			.then((msg) => logger.info(msg.sid))
+			.catch((error) => logger.error(error));
 	}
 }
 
@@ -31,8 +32,8 @@ class Whatsapp {
 				body: message,
 				to: `whatsapp:${receiver}`,
 			})
-			.then((msg) => console.log(msg.sid))
-			.catch(console.log);
+			.then((msg) => logger.info(msg.sid))
+			.catch((error) => logger.error(error));
 	}
 }
 

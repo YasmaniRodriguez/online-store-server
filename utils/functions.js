@@ -1,5 +1,6 @@
 const conf = require("../config");
 const bcrypt = require("bcrypt");
+const logger = require("../services/log4js");
 
 function getDataHandlerFile() {
 	switch (process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE) {
@@ -7,7 +8,7 @@ function getDataHandlerFile() {
 			return "./data/mongodb/mongoose.js";
 			break;
 		default:
-			console.log("persistence mode was not defined");
+			logger.info("persistence mode was not defined");
 			break;
 	}
 }

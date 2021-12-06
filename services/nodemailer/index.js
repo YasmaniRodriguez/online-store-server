@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const conf = require("../../config");
+const logger = require("../log4js");
 
 const ethereal = nodemailer.createTransport(
 	process.env.ETHEREAL_OPTIONS || conf.ETHEREAL_OPTIONS
@@ -52,18 +53,18 @@ class Email {
 		return provider === "gmail"
 			? gmail.sendMail(message, (err, info) => {
 					if (err) {
-						console.log(err);
+						logger.error(err);
 						return err;
 					} else {
-						console.log(info);
+						logger.info(info);
 					}
 			  })
 			: ethereal.sendMail(message, (err, info) => {
 					if (err) {
-						console.log(err);
+						logger.error(err);
 						return err;
 					} else {
-						console.log(info);
+						logger.info(info);
 					}
 			  });
 	}
