@@ -1,20 +1,19 @@
-const ProfileData = require("./data");
-const conf = require("../../config");
+const profileData = require("./data");
 
 module.exports = {
 	async getProfiles(filters) {
-		return ProfileData.getProfiles(filters);
+		return profileData.getProfiles(filters);
 	},
 
 	async addProfiles(profile) {
-		return ProfileData.addProfiles(profile);
+		return profileData.addProfiles(profile);
 	},
 
 	async updateProfiles(record, fields) {
-		return ProfileData.updateProfiles(record, fields);
+		return profileData.updateProfiles(record, fields);
 	},
 
 	async deleteProfiles(profile) {
-		return ProfileData.deleteProfiles(profile);
+		return profileData.deleteProfiles(profile);
 	},
 };

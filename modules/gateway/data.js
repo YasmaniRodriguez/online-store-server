@@ -1,29 +1,24 @@
-const carts = [];
+const profiles = require("../../services/mongodb/models/profiles");
 
 module.exports = {
-	async getCarts(filters = null) {
+	async registerUser(profile) {
 		try {
+			const newProfile = new profiles(profile);
+			await newProfile.save();
+			return true;
 		} catch (error) {
 			return error;
 		}
 	},
-
-	async addCartProduct(cartProduct) {
+	async getUsers(filters = null) {
 		try {
-		} catch (error) {
-			return error;
-		}
-	},
-
-	async updateCartProduct(cartProduct = null, fields) {
-		try {
-		} catch (error) {
-			return error;
-		}
-	},
-
-	async deleteCartProduct(cartProduct = null) {
-		try {
+			if (Object.keys(filters).length === 0) {
+				const data = await profiles.find({}, { __v: 0 }).lean();
+				return data;
+			} else {
+				const data = await profiles.find({ filters }, { __v: 0 }).lean();
+				return data;
+			}
 		} catch (error) {
 			return error;
 		}

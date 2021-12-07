@@ -1,12 +1,11 @@
-const GatewayModel = require("./model");
-const passport = require("passport");
+const gatewayModel = require("./model");
 const { generateHash } = require("../../utils/functions");
-const moment = require("moment");
-const conf = require("../../config");
+const logger = require("../../services/log4js");
+const passport = require("passport");
 
 module.exports = {
-	async Signup(req, res, next) {
-		const password = await generateHash(req.body.password);
+	async registerUser(req, res, next) {
+		const password = generateHash(req.body.password);
 		const profile = {
 			name: req.body.name,
 			gender: req.body.gender,
@@ -20,14 +19,82 @@ module.exports = {
 			tyc: req.body.tyc,
 		};
 		try {
-			await GatewayModel.Signup(profile);
-			res.json({ status: "ok", message: "user uploaded" });
+			await gatewayModel.registerUser(profile);
+			res.status(200).json({ status: "ok", message: "user uploaded" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
-	async Signin(req, res, next) {},
+	async loginUser(req, res, next) {
+		const { email, password, confirm } = req.body;
 
-	async Signout(req, res, next) {},
+		if (!email) {
+			return res
+				.status(422)
+				.json({ status: "error", message: "you must enter an email address" });
+		}
+
+		if (!password) {
+			return res
+				.status(422)
+				.json({ status: "error", message: "you must enter a password" });
+		}
+
+		if (password !== confirm) {
+			return res
+				.status(422)
+				.json({ status: "error", message: "passwords are not the same" });
+		}
+
+		const userExists = await gatewayModel.getUsers({ email });
+
+		if (userExists) {
+			return res.status(422).json({
+				status: "error",
+				message: "that email address is already in use",
+			});
+		}
+
+		try {
+			passport.authenticate("local", (error, user, info) => {
+				if (error) {
+					throw error;
+					logger.error(error);
+				}
+
+				if (!user) {
+					res
+						.status(401)
+						.json({ status: "error", message: "wrong user or password" });
+				} else {
+					req.logIn(user, (error) => {
+						if (error) {
+							throw error;
+							logger.error(error);
+						} else {
+							res.status(200).json({
+								status: "ok",
+								message: "successfully authenticated user",
+							});
+						}
+					});
+				}
+			})(req, res, next);
+			await gatewayModel.loginUser();
+		} catch (error) {
+			res.json({ status: "error", message: error.message });
+			logger.error(error);
+		}
+	},
+
+	async logoutUser(req, res, next) {
+		try {
+			await gatewayModel.logoutUser();
+			res.status(200).json({ status: "ok", message: "logout success!" });
+		} catch (error) {
+			res.status(401).json({ status: "error", message: error.message });
+			logger.error(error);
+		}
+	},
 };

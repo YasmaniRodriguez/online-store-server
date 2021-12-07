@@ -1,19 +1,19 @@
-const ProductData = require("./data");
+const productData = require("./data");
 
 module.exports = {
 	async getProducts(filters) {
-		return ProductData.getProducts(filters);
+		return productData.getProducts(filters);
 	},
 
 	async addProducts(product) {
-		return ProductData.addProducts(product);
+		return productData.addProducts(product);
 	},
 
 	async updateProducts(record, fields) {
-		return ProductData.updateProducts(record, fields);
+		return productData.updateProducts(record, fields);
 	},
 
 	async deleteProducts(product) {
-		return ProductData.deleteProducts(product);
+		return productData.deleteProducts(product);
 	},
 };
