@@ -48,9 +48,14 @@ module.exports = {
 			role: req.body.role,
 			tyc: req.body.tyc,
 		};
+
 		try {
-			await gatewayModel.registerUser(profile);
-			res.status(201).json({ status: "ok", message: "user uploaded" });
+			const register = await gatewayModel.registerUser(profile);
+			register
+				? res.status(201).json({ status: "ok", message: "user uploaded" })
+				: res
+						.status(202)
+						.json({ status: "error", message: "something is wrong" });
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

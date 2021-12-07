@@ -8,15 +8,17 @@ const moment = require("moment");
 module.exports = {
 	async registerUser(profile) {
 		try {
-			await gatewayData.registerUser(profile);
-			await email.SendMessage(
-				"ethereal",
-				conf.ETHEREAL_OPTIONS.auth.user,
-				conf.ETHEREAL_OPTIONS.auth.user,
-				"signup",
-				`new signup`
-			);
-			return true;
+			const userWasCreated = await gatewayData.registerUser(profile);
+			return userWasCreated
+				? (await email.SendMessage(
+						"ethereal",
+						conf.ETHEREAL_OPTIONS.auth.user,
+						conf.ETHEREAL_OPTIONS.auth.user,
+						"signup",
+						`new signup`
+				  ),
+				  true)
+				: false;
 		} catch (error) {
 			logger.error(error);
 		}
@@ -25,7 +27,7 @@ module.exports = {
 	async getUsers(filters) {
 		try {
 			const user = await gatewayData.getUsers(filters);
-			return user;
+			return user.length === 0 ? false : true;
 		} catch (error) {
 			logger.error(error);
 		}

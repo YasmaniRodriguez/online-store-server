@@ -37,18 +37,13 @@ const multer = require("multer");
 const storage = multer.diskStorage({
   destination: path.join(__dirname, "public/images"),
   filename: (req, file, cb) => {
-    const myself = req.session.passport.user._id;
+    const myself = req.sessionID;
     const uniqueSuffix = `${myself}-${Date.now()}`;
     cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
   }
 });
 
 const routes = require("./routes");
-
-const {
-  checkAuthentication,
-  checkAuthorities
-} = require("./middlewares");
 
 const conf = require("./config");
 
@@ -95,8 +90,7 @@ app.use(multer({
     }
   }
 }).single("image"));
-app.use(routes);
-app.use(checkAuthentication); /////////////////////////////////////////////////////////
+app.use(routes); /////////////////////////////////////////////////////////
 
 io.on("connection", socket => {
   let connection_identifier = socket.id;

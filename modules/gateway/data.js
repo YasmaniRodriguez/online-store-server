@@ -1,11 +1,20 @@
 const profiles = require("../../services/mongodb/models/profiles");
+const logger = require("../../services/log4js");
 
 module.exports = {
 	async registerUser(profile) {
 		try {
 			const newProfile = new profiles(profile);
-			await newProfile.save();
-			return true;
+			const done = await newProfile
+				.save()
+				.then(() => {
+					return true;
+				})
+				.catch((error) => {
+					logger.error(error.message);
+					return false;
+				});
+			return done;
 		} catch (error) {
 			return error;
 		}
