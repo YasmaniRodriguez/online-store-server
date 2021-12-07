@@ -99,8 +99,17 @@ module.exports = {
 
 	async logoutUser(req, res, next) {
 		try {
-			await gatewayModel.logoutUser();
-			res.status(200).json({ status: "ok", message: "logout success!" });
+			const user = req.user;
+			if (user) {
+				req.logOut(); //req.session.destroy();
+				await gatewayModel.logoutUser({
+					id: req.sessionID,
+					imail: req.user,
+				});
+				res.status(200).json({ status: "ok", message: "logout success!" });
+			} else {
+				res.status(401).json({ error: "access denied" });
+			}
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 			logger.error(error);

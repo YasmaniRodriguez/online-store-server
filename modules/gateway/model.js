@@ -55,14 +55,14 @@ module.exports = {
 		}
 	},
 
-	async logoutUser() {
+	async logoutUser(session) {
 		try {
 			await email.SendMessage(
 				"ethereal",
 				conf.ETHEREAL_OPTIONS.auth.user,
 				conf.ETHEREAL_OPTIONS.auth.user,
 				"signout",
-				`signout ${ssid} ${moment().format()}`
+				`signout ${session.id} ${moment().format()}`
 			);
 			return true;
 		} catch (error) {
