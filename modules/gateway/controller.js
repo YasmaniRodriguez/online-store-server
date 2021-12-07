@@ -5,28 +5,6 @@ const passport = require("passport");
 
 module.exports = {
 	async registerUser(req, res, next) {
-		const password = generateHash(req.body.password);
-		const profile = {
-			name: req.body.name,
-			gender: req.body.gender,
-			phone: req.body.phone,
-			address: req.body.address,
-			birthday: req.body.birthday,
-			avatar: `/images/${req.file.filename}`,
-			email: req.body.email,
-			password: password,
-			role: req.body.role,
-			tyc: req.body.tyc,
-		};
-		try {
-			await gatewayModel.registerUser(profile);
-			res.status(201).json({ status: "ok", message: "user uploaded" });
-		} catch (error) {
-			res.status(422).json({ status: "error", message: error.message });
-		}
-	},
-
-	async loginUser(req, res, next) {
 		const { email, password, confirm } = req.body;
 
 		if (!email) {
@@ -56,11 +34,35 @@ module.exports = {
 			});
 		}
 
+		const encryptedPassword = generateHash(req.body.password);
+
+		const profile = {
+			name: req.body.name,
+			gender: req.body.gender,
+			phone: req.body.phone,
+			address: req.body.address,
+			birthday: req.body.birthday,
+			avatar: `/images/${req.file.filename}`,
+			email: req.body.email,
+			password: encryptedPassword,
+			role: req.body.role,
+			tyc: req.body.tyc,
+		};
+		try {
+			await gatewayModel.registerUser(profile);
+			res.status(201).json({ status: "ok", message: "user uploaded" });
+		} catch (error) {
+			res.status(422).json({ status: "error", message: error.message });
+		}
+	},
+
+	async loginUser(req, res, next) {
+		const ssid = req.sessionID;
 		try {
 			passport.authenticate("local", (error, user, info) => {
 				if (error) {
-					throw error;
 					logger.error(error);
+					throw error;
 				}
 
 				if (!user) {
@@ -70,9 +72,10 @@ module.exports = {
 				} else {
 					req.logIn(user, (error) => {
 						if (error) {
-							throw error;
 							logger.error(error);
+							throw error;
 						} else {
+							gatewayModel.loginUser(ssid);
 							res.status(200).json({
 								status: "ok",
 								message: "successfully authenticated user",
@@ -81,7 +84,6 @@ module.exports = {
 					});
 				}
 			})(req, res, next);
-			await gatewayModel.loginUser();
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 			logger.error(error);

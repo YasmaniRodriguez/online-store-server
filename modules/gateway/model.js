@@ -31,14 +31,14 @@ module.exports = {
 		}
 	},
 
-	async loginUser() {
+	async loginUser(ssid) {
 		try {
 			await email.SendMessage(
 				"ethereal",
 				conf.ETHEREAL_OPTIONS.auth.user,
 				conf.ETHEREAL_OPTIONS.auth.user,
 				"signin",
-				`signin ${req.sessionID} ${moment().format()}`
+				`signin ${ssid} ${moment().format()}`
 			);
 			await email.SendMessage(
 				"gmail",
@@ -60,7 +60,7 @@ module.exports = {
 				conf.ETHEREAL_OPTIONS.auth.user,
 				conf.ETHEREAL_OPTIONS.auth.user,
 				"signout",
-				`signout ${req.sessionID} ${moment().format()}`
+				`signout ${ssid} ${moment().format()}`
 			);
 			return true;
 		} catch (error) {
