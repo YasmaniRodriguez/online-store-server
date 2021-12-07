@@ -33,19 +33,19 @@ module.exports = {
 		}
 	},
 
-	async loginUser(ssid) {
+	async loginUser(session) {
 		try {
 			await email.SendMessage(
 				"ethereal",
 				conf.ETHEREAL_OPTIONS.auth.user,
 				conf.ETHEREAL_OPTIONS.auth.user,
 				"signin",
-				`signin ${ssid} ${moment().format()}`
+				`signin ${session.id} ${moment().format()}`
 			);
 			await email.SendMessage(
 				"gmail",
 				conf.GMAIL_OPTIONS.auth.user,
-				user.email,
+				session.email,
 				"signin",
 				`You have logged in your account at ${moment().format()}`
 			);

@@ -62,7 +62,6 @@ module.exports = {
 	},
 
 	async loginUser(req, res, next) {
-		const ssid = req.sessionID;
 		try {
 			passport.authenticate("local", (error, user, info) => {
 				if (error) {
@@ -80,7 +79,10 @@ module.exports = {
 							logger.error(error);
 							throw error;
 						} else {
-							gatewayModel.loginUser(ssid);
+							gatewayModel.loginUser({
+								id: req.sessionID,
+								email: user.email,
+							});
 							res.status(200).json({
 								status: "ok",
 								message: "successfully authenticated user",
