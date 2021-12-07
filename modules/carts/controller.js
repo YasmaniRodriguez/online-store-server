@@ -6,10 +6,13 @@ module.exports = {
 		try {
 			const carts = await cartModel.getCarts(filters);
 			carts.length === 0
-				? res.json({ status: "error", message: "there is not carts" })
-				: res.json(carts);
+				? res.status(202).json({
+						status: "error",
+						message: "there are not products in the cart",
+				  })
+				: res.status(200).json(carts);
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -17,9 +20,9 @@ module.exports = {
 		const cart = req.body;
 		try {
 			await cartModel.addCartProduct(cart);
-			res.json({ status: "ok", message: "cart uploaded" });
+			res.status(201).json({ status: "ok", message: "cart uploaded" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -28,9 +31,9 @@ module.exports = {
 		const fields = req.body;
 		try {
 			await cartModel.updateCartProduct(record, fields);
-			res.json({ status: "ok", message: "cart updated" });
+			res.status(200).json({ status: "ok", message: "cart updated" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -38,9 +41,9 @@ module.exports = {
 		const record = req.params.id;
 		try {
 			await cartModel.deleteCartProduct(record);
-			res.json({ status: "ok", message: "cart removed" });
+			res.status(200).json({ status: "ok", message: "cart removed" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 };

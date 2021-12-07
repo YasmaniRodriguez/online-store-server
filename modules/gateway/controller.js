@@ -20,7 +20,7 @@ module.exports = {
 		};
 		try {
 			await gatewayModel.registerUser(profile);
-			res.status(200).json({ status: "ok", message: "user uploaded" });
+			res.status(201).json({ status: "ok", message: "user uploaded" });
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
@@ -31,26 +31,26 @@ module.exports = {
 
 		if (!email) {
 			return res
-				.status(422)
+				.status(417)
 				.json({ status: "error", message: "you must enter an email address" });
 		}
 
 		if (!password) {
 			return res
-				.status(422)
+				.status(417)
 				.json({ status: "error", message: "you must enter a password" });
 		}
 
 		if (password !== confirm) {
 			return res
-				.status(422)
+				.status(417)
 				.json({ status: "error", message: "passwords are not the same" });
 		}
 
 		const userExists = await gatewayModel.getUsers({ email });
 
 		if (userExists) {
-			return res.status(422).json({
+			return res.status(417).json({
 				status: "error",
 				message: "that email address is already in use",
 			});
@@ -65,7 +65,7 @@ module.exports = {
 
 				if (!user) {
 					res
-						.status(401)
+						.status(417)
 						.json({ status: "error", message: "wrong user or password" });
 				} else {
 					req.logIn(user, (error) => {
@@ -83,7 +83,7 @@ module.exports = {
 			})(req, res, next);
 			await gatewayModel.loginUser();
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 			logger.error(error);
 		}
 	},
@@ -93,7 +93,7 @@ module.exports = {
 			await gatewayModel.logoutUser();
 			res.status(200).json({ status: "ok", message: "logout success!" });
 		} catch (error) {
-			res.status(401).json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 			logger.error(error);
 		}
 	},

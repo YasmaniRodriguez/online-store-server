@@ -6,10 +6,12 @@ module.exports = {
 		try {
 			const profiles = await profileModel.getProfiles(filters);
 			profiles.length === 0
-				? res.json({ status: "error", message: "this profile does not exist" })
-				: res.json({ profiles });
+				? res
+						.status(202)
+						.json({ status: "error", message: "this profile does not exist" })
+				: res.status(200).json({ profiles });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -17,9 +19,9 @@ module.exports = {
 		const profile = req.body;
 		try {
 			await profileModel.addProfiles(profile);
-			res.json({ status: "ok", message: "profile uploaded" });
+			res.status(201).json({ status: "ok", message: "profile uploaded" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -29,17 +31,17 @@ module.exports = {
 		const avatar = req.file ? `/images/${req.file.filename}` : req.file;
 		try {
 			await profileModel.updateProfiles(record, { ...fields, avatar });
-			res.json({ status: "ok", message: "profile updated" });
+			res.status(200).json({ status: "ok", message: "profile updated" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
 	async deleteProfiles(req, res) {
 		try {
-			res.json({ status: "ok", message: "profile removed" });
+			res.status(200).json({ status: "ok", message: "profile removed" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 };

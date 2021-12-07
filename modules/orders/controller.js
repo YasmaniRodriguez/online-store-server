@@ -6,10 +6,12 @@ module.exports = {
 		try {
 			const orders = await OrderModel.getOrders(filters);
 			orders.length === 0
-				? res.json({ status: "error", message: "there is not orders" })
-				: res.json(orders);
+				? res
+						.status(202)
+						.json({ status: "error", message: "there is not orders" })
+				: res.status(200).json(orders);
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -17,9 +19,9 @@ module.exports = {
 		const order = req.body;
 		try {
 			await OrderModel.addOrders(order);
-			res.json({ status: "ok", message: "order uploaded" });
+			res.status(201).json({ status: "ok", message: "order uploaded" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -28,9 +30,9 @@ module.exports = {
 		const fields = req.body;
 		try {
 			await OrderModel.updateOrders(record, fields);
-			res.json({ status: "ok", message: "order updated" });
+			res.status(200).json({ status: "ok", message: "order updated" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -38,9 +40,9 @@ module.exports = {
 		const record = req.params.id;
 		try {
 			await OrderModel.deleteOrders(record);
-			res.json({ status: "ok", message: "order removed" });
+			res.status(200).json({ status: "ok", message: "order removed" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 };

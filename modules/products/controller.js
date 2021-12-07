@@ -6,10 +6,12 @@ module.exports = {
 		try {
 			const products = await productModel.getProducts(filters);
 			products.length === 0
-				? res.json({ status: "error", message: "there is not products" })
-				: res.json(products);
+				? res
+						.status(202)
+						.json({ status: "error", message: "there is not products" })
+				: res.status(200).json(products);
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -17,9 +19,9 @@ module.exports = {
 		const product = req.body;
 		try {
 			await productModel.addProducts(product);
-			res.json({ status: "ok", message: "product uploaded" });
+			res.status(201).json({ status: "ok", message: "product uploaded" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -28,9 +30,9 @@ module.exports = {
 		const fields = req.body;
 		try {
 			await productModel.updateProducts(record, fields);
-			res.json({ status: "ok", message: "product updated" });
+			res.status(200).json({ status: "ok", message: "product updated" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
@@ -38,9 +40,9 @@ module.exports = {
 		const record = req.params.id;
 		try {
 			await productModel.deleteProducts(record);
-			res.json({ status: "ok", message: "product removed" });
+			res.status(200).json({ status: "ok", message: "product removed" });
 		} catch (error) {
-			res.json({ status: "error", message: error.message });
+			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 };
