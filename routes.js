@@ -5,11 +5,12 @@ const orders = require("./modules/orders/routes.js");
 const messages = require("./modules/messages/routes.js");
 const profiles = require("./modules/profiles/routes.js");
 const gateway = require("./modules/gateway/routes.js");
+const { checkAuthentication } = require("./middlewares");
 
 router.use(gateway);
-router.use(products);
-router.use(orders);
-router.use(messages);
-router.use(profiles);
+router.use(checkAuthentication, products);
+router.use(checkAuthentication, orders);
+router.use(checkAuthentication, messages);
+router.use(checkAuthentication, profiles);
 
 module.exports = router;
