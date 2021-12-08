@@ -1,19 +1,19 @@
-const express = require("express");
-const compression = require("compression");
-const path = require("path");
-const mongoose = require("mongoose");
+import express from "express";
+import compression from "compression";
+import path from "path";
+import mongoose from "mongoose";
 const app = express();
-const http = require("http");
+import http from "http";
 const server = http.createServer(app);
-const socketio = require("socket.io");
+import socketio from "socket.io";
 const io = socketio(server, { cors: { origin: "*" } });
-const morgan = require("morgan");
+import morgan from "morgan";
 const logger = require("./services/log4js");
-const cors = require("cors");
-const cookieParse = require("cookie-parser");
-const session = require("express-session");
-const mongoStore = require("connect-mongo");
-const multer = require("multer");
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import mongoStore from "connect-mongo";
+import multer from "multer";
 const storage = multer.diskStorage({
 	destination: path.join(__dirname, "public/images"),
 	filename: (req, file, cb) => {
@@ -23,6 +23,7 @@ const storage = multer.diskStorage({
 	},
 });
 const routes = require("./routes");
+
 const conf = require("./config");
 
 app.set("port", process.env.PORT || conf.PORT);
@@ -31,7 +32,7 @@ app.set("socketio", io);
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParse());
+app.use(cookieParser());
 app.use(
 	session({
 		...conf.SESSION_OPTIONS,
@@ -65,6 +66,10 @@ app.use(
 );
 app.use(routes);
 
+app.get("/", (req, res) => {
+	res.status(200).sendFile("index.html", { root: __dirname + "/public" });
+});
+
 /////////////////////////////////////////////////////////
 
 io.on("connection", (socket) => {
@@ -78,7 +83,7 @@ server
 	.listen(app.get("port"), async () => {
 		logger.info(
 			`magic is happening in ${
-				process.env.BASE_URL || "http://localhost:"
+				process.env.BASE_URL || "http://localhost"
 			}:${app.get("port")} - PID WORKER ${process.pid}`
 		);
 		try {

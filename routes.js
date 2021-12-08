@@ -6,8 +6,10 @@ const carts = require("./modules/carts/routes.js");
 const messages = require("./modules/messages/routes.js");
 const profiles = require("./modules/profiles/routes.js");
 const gateway = require("./modules/gateway/routes.js");
+const graphql = require("./services/graphql");
 const { checkAuthentication } = require("./middlewares");
 
+router.use(graphql);
 router.use(gateway);
 router.use(checkAuthentication, products);
 router.use(checkAuthentication, carts);
