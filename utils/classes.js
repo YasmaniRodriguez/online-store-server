@@ -21,12 +21,11 @@ class Product {
 }
 
 class OrderRow {
-	constructor(row, product, quantity, amount, timestamp) {
+	constructor(row, product, quantity, amount) {
 		this.row = row;
 		this.product = product;
 		this.quantity = quantity;
 		this.amount = this.calcAmount();
-		this.timestamp = timestamp;
 	}
 
 	calcAmount() {

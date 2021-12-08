@@ -12,8 +12,6 @@ module.exports = {
 
 		try {
 			const carts = await cartModel.getCarts({ ouid, buyer });
-
-			console.log(carts);
 			carts
 				? res.status(200).json(carts)
 				: res
@@ -25,31 +23,33 @@ module.exports = {
 	},
 
 	async addCartProduct(req, res) {
-		const cart = req.body;
+		const { product, quantity } = req.body;
 		try {
-			await cartModel.addCartProduct(cart);
-			res.status(201).json({ status: "ok", message: "cart uploaded" });
+			const record = await cartModel.addCartProduct({ product, quantity });
+			res.status(201).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
 	async updateCartProduct(req, res) {
-		const record = req.params.id;
-		const fields = req.body;
+		const { product, quantity } = req.body;
 		try {
-			await cartModel.updateCartProduct(record, fields);
-			res.status(200).json({ status: "ok", message: "cart updated" });
+			const record = await cartModel.updateCartProduct({ product, quantity });
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
 	async deleteCartProduct(req, res) {
-		const record = req.params.id;
+		const { product } = req.body;
 		try {
-			await cartModel.deleteCartProduct(record);
-			res.status(200).json({ status: "ok", message: "cart removed" });
+			const record = await cartModel.deleteCartProduct({ product });
+			res.status(200).json({
+				status: "ok",
+				message: `product ${record.name} that was in row ${record.row} was removed from cart`,
+			});
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
