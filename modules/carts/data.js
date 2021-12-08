@@ -1,8 +1,15 @@
-const carts = [];
+const template = require("../../utils/classes");
+const moment = require("moment");
+
+const cart = [];
 
 module.exports = {
-	async getCarts(filters = null) {
+	async getCarts(filters) {
+		const { ouid, buyer } = filters;
+		const preview = [];
 		try {
+			preview.push(new template.Order(ouid, 0, buyer, cart, null, null));
+			return preview;
 		} catch (error) {
 			return error;
 		}

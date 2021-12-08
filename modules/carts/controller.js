@@ -2,15 +2,23 @@ const cartModel = require("./model");
 
 module.exports = {
 	async getCarts(req, res) {
-		const filters = req.query;
+		const buyer = {
+			name: req.user.name,
+			phone: req.user.phone,
+			email: req.user.email,
+			address: req.user.address,
+		};
+		const ouid = `${req.user._id}-${req.sessionID}`;
+
 		try {
-			const carts = await cartModel.getCarts(filters);
-			carts.length === 0
-				? res.status(202).json({
-						status: "error",
-						message: "there are not products in the cart",
-				  })
-				: res.status(200).json(carts);
+			const carts = await cartModel.getCarts({ ouid, buyer });
+
+			console.log(carts);
+			carts
+				? res.status(200).json(carts)
+				: res
+						.status(202)
+						.json({ status: "error", message: "something is wrong" });
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

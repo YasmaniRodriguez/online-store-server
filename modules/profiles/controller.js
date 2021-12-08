@@ -2,7 +2,7 @@ const profileModel = require("./model");
 
 module.exports = {
 	async getProfiles(req, res) {
-		const filters = req.query;
+		const filters = { _id: req.user._id };
 		try {
 			const profiles = await profileModel.getProfiles(filters);
 			profiles.length === 0
