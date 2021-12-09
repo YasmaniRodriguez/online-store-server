@@ -2,31 +2,13 @@ const { buildSchema } = require("graphql");
 
 const schema = buildSchema(`
     type Query {
-        getProducts(filter: productFilters): [Product]
-        getMessages: [Message]
+        getProducts(filters: ProductQueryFilters): [Product]
         getCarts: [Cart]
         getOrders: [Cart]
     }
 
     type Mutation {
         addProducts: Product
-        addMessages: Message
-        addCartProduct: CartProduct
-        addOrders: Cart
-    }
-
-    type Author {
-        email: String
-        name: String
-        lastname: String
-        birthday: String
-        alias: String
-        avatar: String
-    }
-
-    type Message {
-        author: Author
-        message: String
     }
 
     type Buyer {
@@ -62,14 +44,14 @@ const schema = buildSchema(`
         stock: Int
     }
     
-    input productFilters {
+    input ProductQueryFilters {
         code: String
         category: String
-        price: rangeFilter
-        stock: rangeFilter
+        price: FilterRange
+        stock: FilterRange
     }
 
-    input rangeFilter {
+    input FilterRange {
         lte: Float
         gte: Float
     }
