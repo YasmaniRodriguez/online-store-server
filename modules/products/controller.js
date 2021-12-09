@@ -18,19 +18,19 @@ module.exports = {
 	async addProducts(req, res) {
 		const product = req.body;
 		try {
-			await productModel.addProducts(product);
-			res.status(201).json({ status: "ok", message: "product uploaded" });
+			const record = await productModel.addProducts(product);
+			res.status(201).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
 	async updateProducts(req, res) {
-		const record = req.params.id;
+		const product = req.params.id;
 		const fields = req.body;
 		try {
-			await productModel.updateProducts(record, fields);
-			res.status(200).json({ status: "ok", message: "product updated" });
+			const record = await productModel.updateProducts(product, fields);
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

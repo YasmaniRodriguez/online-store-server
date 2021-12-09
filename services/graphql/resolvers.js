@@ -4,13 +4,16 @@ const carts = require("../../modules/carts/data");
 
 const resolvers = {
 	//Query:
-	getProducts(args) {
-		return products.getProducts(args.filters);
+	getProducts({ filters }) {
+		return products.getProducts(filters);
 	},
 	getCarts: carts.getCarts,
 	getOrders: orders.getOrders,
 	//Mutation:
-	addProducts: products.addProducts,
+	addProducts({ input }) {
+		console.log(input);
+		return products.addProducts(input);
+	},
 	addCartProduct: carts.addCartProduct,
 	addOrders: orders.addOrders,
 };

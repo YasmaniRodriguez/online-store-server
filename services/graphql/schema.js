@@ -35,6 +35,7 @@ const schema = buildSchema(`
     }
 
     type Product {
+        _id: ID
         code: String
         name: String
         category: String

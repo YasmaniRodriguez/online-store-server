@@ -41,6 +41,10 @@ module.exports = {
 		try {
 			const newProduct = new products(product);
 			await newProduct.save();
+			const preview = await products
+				.find({ code: product.code }, { __v: 0 })
+				.lean();
+			return preview;
 		} catch (error) {
 			return error;
 		}
@@ -48,13 +52,21 @@ module.exports = {
 
 	async updateProducts(product = null, fields) {
 		try {
-			return !product
-				? await products.updateMany({}, { $set: fields }, { multi: true })
-				: await products.updateOne(
-						{ code: { $eq: product } },
-						{ $set: fields },
-						{ multi: true }
-				  );
+			if (product) {
+				await products.updateOne(
+					{ code: { $eq: product } },
+					{ $set: fields },
+					{ multi: true }
+				);
+				const preview = await products
+					.find({ code: product.code }, { __v: 0 })
+					.lean();
+				return preview;
+			} else {
+				await products.updateMany({}, { $set: fields }, { multi: true });
+				const preview = await products.find({}, { __v: 0 }).lean();
+				return preview;
+			}
 		} catch (error) {
 			return error;
 		}

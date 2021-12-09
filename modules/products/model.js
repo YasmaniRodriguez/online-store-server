@@ -9,8 +9,8 @@ module.exports = {
 		return productData.addProducts(product);
 	},
 
-	async updateProducts(record, fields) {
-		return productData.updateProducts(record, fields);
+	async updateProducts(product, fields) {
+		return productData.updateProducts(product, fields);
 	},
 
 	async deleteProducts(product) {
