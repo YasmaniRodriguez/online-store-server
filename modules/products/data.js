@@ -7,13 +7,24 @@ module.exports = {
 				const data = await products.find({}, { __v: 0 }).lean();
 				return data;
 			} else {
+				console.log(filters);
 				let match = new Object();
-				let range = new Object();
+				let range = new Object(); //example: /products?price[gte]=1000&price[lte]=2000
 
 				for (let key in filters) {
-					typeof filters[key] === "object"
-						? (range[key] = { $gte: filters[key].gte, $lte: filters[key].lte })
-						: (match[key] = filters[key]);
+					if (typeof filters[key] !== "object") {
+						match[key] = filters[key];
+					} else if (Object.keys(filters[key]).length === 2) {
+						range[key] = {
+							$gte: filters[key].gte,
+							$lte: filters[key].lte,
+						};
+					} else {
+						const fil = Object.keys(filters[key])[0];
+						fil === "lte"
+							? (range[key] = { $lte: filters[key].lte })
+							: (range[key] = { $gte: filters[key].gte });
+					}
 				}
 
 				const data = await products

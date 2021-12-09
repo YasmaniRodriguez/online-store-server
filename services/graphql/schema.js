@@ -2,7 +2,7 @@ const { buildSchema } = require("graphql");
 
 const schema = buildSchema(`
     type Query {
-        getProducts: [Product]
+        getProducts(filter: InstanceTypeQueryInput): [Product]
         getMessages: [Message]
         getCarts: [Cart]
         getOrders: [Cart]
@@ -60,7 +60,16 @@ const schema = buildSchema(`
         image: String
         price: Float
         stock: Int
-    }    
+    }
+    
+    input InstanceTypeQueryInput {
+        price: FloatFilter
+    }
+
+    input FloatFilter {
+        lte: Float
+        gte: Float
+    }
 `);
 
 module.exports = schema;

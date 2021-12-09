@@ -5,7 +5,9 @@ const carts = require("../../modules/carts/data");
 
 const resolver = {
 	getMessages: messages.getMessages,
-	getProducts: products.getProducts,
+	getProducts(args) {
+		return products.getProducts(args.filter);
+	},
 	getCarts: carts.getCarts,
 	getOrders: orders.getOrders,
 	////////////////////////////
