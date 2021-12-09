@@ -8,7 +8,7 @@ const schema = buildSchema(`
     }
 
     type Mutation {
-        addProducts: Product
+        addProducts(input: ProductInput): Product
     }
 
     type Buyer {
@@ -54,6 +54,16 @@ const schema = buildSchema(`
     input FilterRange {
         lte: Float
         gte: Float
+    }
+
+    input ProductInput {
+        code: String!
+        name: String!
+        category: String
+        description: String
+        image: String
+        price: Float
+        stock: Int
     }
 `);
 
