@@ -8,7 +8,7 @@ const schema = buildSchema(`
     }
 
     type Mutation {
-        addProducts(input: ProductInput): Product
+        addProducts(input: ProductInput): [Product]
     }
 
     type Buyer {
