@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema");
-const resolver = require("./resolver");
+const resolvers = require("./resolvers");
 
 router.use(
 	"/graphql",
 	graphqlHTTP({
 		schema: schema,
-		rootValue: resolver,
+		rootValue: resolvers,
 		graphiql: true,
 	})
 );
