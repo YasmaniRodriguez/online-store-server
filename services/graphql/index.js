@@ -1,21 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const { graphqlHTTP } = require("express-graphql");
-const { buildSchema } = require("graphql");
-
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`);
-
-const root = { hello: () => "Hello world!" };
+const schema = require("./schema");
+const resolver = require("./resolver");
 
 router.use(
 	"/graphql",
 	graphqlHTTP({
 		schema: schema,
-		rootValue: root,
+		rootValue: resolver,
 		graphiql: true,
 	})
 );

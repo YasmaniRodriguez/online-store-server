@@ -9,8 +9,8 @@ const gateway = require("./modules/gateway/routes.js");
 const graphql = require("./services/graphql");
 const { checkAuthentication } = require("./middlewares");
 
-router.use(graphql);
 router.use(gateway);
+router.use(graphql);
 router.use(checkAuthentication, products);
 router.use(checkAuthentication, carts);
 router.use(checkAuthentication, orders);

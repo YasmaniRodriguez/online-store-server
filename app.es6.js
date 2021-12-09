@@ -1,19 +1,19 @@
-import express from "express";
-import compression from "compression";
-import path from "path";
-import mongoose from "mongoose";
+const express = require("express");
+const compression = require("compression");
+const path = require("path");
+const mongoose = require("mongoose");
 const app = express();
-import http from "http";
+const http = require("http");
 const server = http.createServer(app);
-import socketio from "socket.io";
+const socketio = require("socket.io");
 const io = socketio(server, { cors: { origin: "*" } });
-import morgan from "morgan";
+const morgan = require("morgan");
 const logger = require("./services/log4js");
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import session from "express-session";
-import mongoStore from "connect-mongo";
-import multer from "multer";
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const mongoStore = require("connect-mongo");
+const multer = require("multer");
 const storage = multer.diskStorage({
 	destination: path.join(__dirname, "public/images"),
 	filename: (req, file, cb) => {

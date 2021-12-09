@@ -1,31 +1,5 @@
 "use strict";
 
-var _express = _interopRequireDefault(require("express"));
-
-var _compression = _interopRequireDefault(require("compression"));
-
-var _path = _interopRequireDefault(require("path"));
-
-var _mongoose = _interopRequireDefault(require("mongoose"));
-
-var _http = _interopRequireDefault(require("http"));
-
-var _socket = _interopRequireDefault(require("socket.io"));
-
-var _morgan = _interopRequireDefault(require("morgan"));
-
-var _cors = _interopRequireDefault(require("cors"));
-
-var _cookieParser = _interopRequireDefault(require("cookie-parser"));
-
-var _expressSession = _interopRequireDefault(require("express-session"));
-
-var _connectMongo = _interopRequireDefault(require("connect-mongo"));
-
-var _multer = _interopRequireDefault(require("multer"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
@@ -36,24 +10,48 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var app = (0, _express["default"])();
+var express = require("express");
 
-var server = _http["default"].createServer(app);
+var compression = require("compression");
 
-var io = (0, _socket["default"])(server, {
+var path = require("path");
+
+var mongoose = require("mongoose");
+
+var app = express();
+
+var http = require("http");
+
+var server = http.createServer(app);
+
+var socketio = require("socket.io");
+
+var io = socketio(server, {
   cors: {
     origin: "*"
   }
 });
 
+var morgan = require("morgan");
+
 var logger = require("./services/log4js");
 
-var storage = _multer["default"].diskStorage({
-  destination: _path["default"].join(__dirname, "public/images"),
+var cors = require("cors");
+
+var cookieParser = require("cookie-parser");
+
+var session = require("express-session");
+
+var mongoStore = require("connect-mongo");
+
+var multer = require("multer");
+
+var storage = multer.diskStorage({
+  destination: path.join(__dirname, "public/images"),
   filename: function filename(req, file, cb) {
     var myself = req.sessionID;
     var uniqueSuffix = "".concat(myself, "-").concat(Date.now());
-    cb(null, "".concat(uniqueSuffix).concat(_path["default"].extname(file.originalname)));
+    cb(null, "".concat(uniqueSuffix).concat(path.extname(file.originalname)));
   }
 });
 
@@ -63,14 +61,14 @@ var conf = require("./config");
 
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
-app.use((0, _compression["default"])());
-app.use(_express["default"].json());
-app.use(_express["default"].urlencoded({
+app.use(compression());
+app.use(express.json());
+app.use(express.urlencoded({
   extended: true
 }));
-app.use((0, _cookieParser["default"])());
-app.use((0, _expressSession["default"])(_objectSpread(_objectSpread({}, conf.SESSION_OPTIONS), {}, {
-  store: _connectMongo["default"].create({
+app.use(cookieParser());
+app.use(session(_objectSpread(_objectSpread({}, conf.SESSION_OPTIONS), {}, {
+  store: mongoStore.create({
     mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
     mongoOptions: {
       useNewUrlParser: true,
@@ -82,13 +80,13 @@ app.use((0, _expressSession["default"])(_objectSpread(_objectSpread({}, conf.SES
 
 require("./services/passport")(app);
 
-app.use((0, _cors["default"])({
+app.use(cors({
   origin: "*",
   credentials: true
 }));
-app.use(_express["default"]["static"](_path["default"].join(__dirname, "public")));
-app.use((0, _morgan["default"])("dev"));
-app.use((0, _multer["default"])({
+app.use(express["static"](path.join(__dirname, "public")));
+app.use(morgan("dev"));
+app.use(multer({
   storage: storage,
   limits: {
     fileSize: 10000000
@@ -126,7 +124,7 @@ server.listen(app.get("port"), /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/rege
           logger.info("magic is happening in ".concat(process.env.BASE_URL || "http://localhost", ":").concat(app.get("port"), " - PID WORKER ").concat(process.pid));
           _context.prev = 1;
           _context.next = 4;
-          return _mongoose["default"].connect(conf.MONGO_DATA_LOCAL_URI, conf.MONGO_DATA_LOCAL_OPTIONS);
+          return mongoose.connect(conf.MONGO_DATA_LOCAL_URI, conf.MONGO_DATA_LOCAL_OPTIONS);
 
         case 4:
           logger.info("congrats, we are connected to mongo");
