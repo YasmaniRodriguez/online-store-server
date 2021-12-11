@@ -6,7 +6,7 @@ const email = new service();
 const moment = require("moment");
 
 module.exports = {
-	async registerUser(profile) {
+	async userRegister(profile) {
 		try {
 			const userWasCreated = await gatewayData.addUser(profile);
 			return userWasCreated
@@ -33,7 +33,7 @@ module.exports = {
 		}
 	},
 
-	async loginUser(session) {
+	async userLogin(session) {
 		try {
 			await email.SendMessage(
 				"ethereal",
@@ -55,7 +55,7 @@ module.exports = {
 		}
 	},
 
-	async logoutUser(session) {
+	async userLogout(session) {
 		try {
 			await email.SendMessage(
 				"ethereal",

@@ -4,7 +4,7 @@ const logger = require("../../services/log4js");
 const passport = require("passport");
 
 module.exports = {
-	async registerUser(req, res, next) {
+	async userRegister(req, res, next) {
 		const { email, password, confirm } = req.body;
 
 		if (!email) {
@@ -50,7 +50,7 @@ module.exports = {
 		};
 
 		try {
-			const register = await gatewayModel.registerUser(profile);
+			const register = await gatewayModel.userRegister(profile);
 			register
 				? res.status(201).json({ status: "ok", message: "user uploaded" })
 				: res
@@ -61,7 +61,7 @@ module.exports = {
 		}
 	},
 
-	async loginUser(req, res, next) {
+	async userLogin(req, res, next) {
 		try {
 			passport.authenticate("local", (error, user, info) => {
 				if (error) {
@@ -79,7 +79,7 @@ module.exports = {
 							logger.error(error);
 							throw error;
 						} else {
-							gatewayModel.loginUser({
+							gatewayModel.userLogin({
 								id: req.sessionID,
 								email: user.email,
 							});
@@ -97,12 +97,12 @@ module.exports = {
 		}
 	},
 
-	async logoutUser(req, res, next) {
+	async userLogout(req, res, next) {
 		try {
 			const user = req.user;
 			if (user) {
 				req.logOut(); //req.session.destroy();
-				await gatewayModel.logoutUser({
+				await gatewayModel.userLogout({
 					id: req.sessionID,
 					imail: req.user,
 				});
