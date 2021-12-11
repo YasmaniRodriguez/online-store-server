@@ -1,8 +1,8 @@
-const profiles = require("../../services/mongodb/models/profiles");
+const profiles = require("../../services/mongoose/models/profiles");
 const logger = require("../../services/log4js");
 
 module.exports = {
-	async registerUser(profile) {
+	async addUser(profile) {
 		try {
 			const newProfile = new profiles(profile);
 			const done = await newProfile

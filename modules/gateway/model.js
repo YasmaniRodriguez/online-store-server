@@ -8,7 +8,7 @@ const moment = require("moment");
 module.exports = {
 	async registerUser(profile) {
 		try {
-			const userWasCreated = await gatewayData.registerUser(profile);
+			const userWasCreated = await gatewayData.addUser(profile);
 			return userWasCreated
 				? (await email.SendMessage(
 						"ethereal",
@@ -24,7 +24,7 @@ module.exports = {
 		}
 	},
 
-	async getUsers(filters) {
+	async findUsers(filters) {
 		try {
 			const user = await gatewayData.getUsers(filters);
 			return user.length === 0 ? false : true;

@@ -32,6 +32,8 @@ var io = socketio(server, {
   }
 });
 
+var routes = require("./routes");
+
 var morgan = require("morgan");
 
 var logger = require("./services/log4js");
@@ -55,12 +57,17 @@ var storage = multer.diskStorage({
   }
 });
 
-var routes = require("./routes");
+var _require = require("./utils/function"),
+    getDataHandler = _require.getDataHandler;
 
 var conf = require("./config");
 
+var DataAccessObject = require(getDataHandler());
+
+var dataHandler = new DataAccessObject();
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
+app.set("dataHandler", dataHandler);
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({
@@ -121,28 +128,18 @@ server.listen(app.get("port"), /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/rege
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
+          _context.next = 2;
+          return dataHandler.Builder();
+
+        case 2:
           logger.info("magic is happening in ".concat(process.env.BASE_URL || "http://localhost", ":").concat(app.get("port"), " - PID WORKER ").concat(process.pid));
-          _context.prev = 1;
-          _context.next = 4;
-          return mongoose.connect(conf.MONGO_DATA_LOCAL_URI, conf.MONGO_DATA_LOCAL_OPTIONS);
 
-        case 4:
-          logger.info("congrats, we are connected to mongo");
-          _context.next = 11;
-          break;
-
-        case 7:
-          _context.prev = 7;
-          _context.t0 = _context["catch"](1);
-          logger.info("sorry, we can't connect to mongo");
-          logger.error("sorry, we can't connect to mongo, more detail in: ".concat(_context.t0));
-
-        case 11:
+        case 3:
         case "end":
           return _context.stop();
       }
     }
-  }, _callee, null, [[1, 7]]);
+  }, _callee);
 }))).on("error", function (error) {
   logger.error("something is preventing us grow , more detail in: ".concat(error));
 });

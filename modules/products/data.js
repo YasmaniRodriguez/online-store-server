@@ -1,4 +1,4 @@
-const products = require("../../services/mongodb/models/products");
+const products = require("../../services/mongoose/models/products");
 
 module.exports = {
 	async getProducts(filters = null) {

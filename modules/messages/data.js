@@ -1,4 +1,4 @@
-const messages = require("../../services/mongodb/models/messages");
+const messages = require("../../services/mongoose/models/messages");
 
 module.exports = {
 	async getMessages(filters = null) {

@@ -2,10 +2,13 @@ const conf = require("../config");
 const bcrypt = require("bcrypt");
 const logger = require("../services/log4js");
 
-function getDataHandlerFile() {
+function getDataHandler() {
 	switch (process.env.DATA_PERSISTENCE_MODE || conf.DATA_PERSISTENCE_MODE) {
 		case 1:
-			return "./data/mongodb/mongoose.js";
+			return "./services/mongoose";
+			break;
+		case 2:
+			return "./services/knex";
 			break;
 		default:
 			logger.info("persistence mode was not defined");
@@ -22,7 +25,7 @@ function compareHash(value1, value2) {
 }
 
 module.exports = {
-	getDataHandlerFile,
+	getDataHandler,
 	generateHash,
 	compareHash,
 };

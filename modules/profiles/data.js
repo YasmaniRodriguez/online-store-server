@@ -1,4 +1,4 @@
-const profiles = require("../../services/mongodb/models/profiles");
+const profiles = require("../../services/mongoose/models/profiles");
 
 module.exports = {
 	async getProfiles(filters = null) {

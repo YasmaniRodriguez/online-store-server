@@ -7,6 +7,7 @@ const http = require("http");
 const server = http.createServer(app);
 const socketio = require("socket.io");
 const io = socketio(server, { cors: { origin: "*" } });
+const routes = require("./routes");
 const morgan = require("morgan");
 const logger = require("./services/log4js");
 const cors = require("cors");
@@ -22,12 +23,15 @@ const storage = multer.diskStorage({
 		cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
 	},
 });
-const routes = require("./routes");
-
+const { getDataHandler } = require("./utils/function");
 const conf = require("./config");
+
+const DataAccessObject = require(getDataHandler());
+const dataHandler = new DataAccessObject();
 
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
+app.set("dataHandler", dataHandler);
 
 app.use(compression());
 app.use(express.json());
@@ -81,23 +85,12 @@ io.on("connection", (socket) => {
 
 server
 	.listen(app.get("port"), async () => {
+		await dataHandler.Builder();
 		logger.info(
 			`magic is happening in ${
 				process.env.BASE_URL || "http://localhost"
 			}:${app.get("port")} - PID WORKER ${process.pid}`
 		);
-		try {
-			await mongoose.connect(
-				conf.MONGO_DATA_LOCAL_URI,
-				conf.MONGO_DATA_LOCAL_OPTIONS
-			);
-			logger.info("congrats, we are connected to mongo");
-		} catch (error) {
-			logger.info("sorry, we can't connect to mongo");
-			logger.error(
-				`sorry, we can't connect to mongo, more detail in: ${error}`
-			);
-		}
 	})
 	.on("error", (error) => {
 		logger.error(`something is preventing us grow , more detail in: ${error}`);

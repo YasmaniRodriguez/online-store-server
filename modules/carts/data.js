@@ -1,5 +1,5 @@
-const template = require("../../utils/classes");
-const products = require("../../services/mongodb/models/products");
+const { Order, OrderRow } = require("../../utils/class");
+const products = require("../../services/mongoose/models/products");
 const moment = require("moment");
 
 const cart = [];
@@ -9,7 +9,7 @@ module.exports = {
 		const { ouid, buyer } = filters;
 		const preview = [];
 		try {
-			preview.push(new template.Order(ouid, 0, buyer, cart, null, null));
+			preview.push(new Order(ouid, 0, buyer, cart, null, null));
 			return preview;
 		} catch (error) {
 			return error;
@@ -20,9 +20,7 @@ module.exports = {
 		const { product, quantity } = filters;
 		try {
 			const data = await products.find({ code: product }, { __v: 0 }).lean();
-			cart.push(
-				new template.OrderRow(cart.length + 1, data[0], quantity, null)
-			);
+			cart.push(new OrderRow(cart.length + 1, data[0], quantity, null));
 			const preview = cart.filter((obj) => obj.product.code === product);
 			return preview[0];
 		} catch (error) {

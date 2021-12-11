@@ -1,5 +1,5 @@
 const gatewayModel = require("./model");
-const { generateHash } = require("../../utils/functions");
+const { generateHash } = require("../../utils/function");
 const logger = require("../../services/log4js");
 const passport = require("passport");
 
@@ -25,7 +25,7 @@ module.exports = {
 				.json({ status: "error", message: "passwords are not the same" });
 		}
 
-		const userExists = await gatewayModel.getUsers({ email });
+		const userExists = await gatewayModel.findUsers({ email });
 
 		if (userExists) {
 			return res.status(417).json({

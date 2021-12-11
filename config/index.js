@@ -19,11 +19,15 @@ const MONGO_SESSION_CLOUD_URI =
 	"mongodb+srv://root:masterinc@online-store-server.ocmyz.mongodb.net/sessions";
 const MONGO_DATA_LOCAL_URI = "mongodb://localhost:27017/ecommerce";
 const MYSQL_LOCAL_OPTIONS = {
-	host: "127.0.0.1",
-	port: 3306,
-	user: "root",
-	password: "12345678",
-	database: "ecommerce",
+	client: "mysql",
+	connection: {
+		host: "127.0.0.1",
+		port: 3306,
+		user: "root",
+		password: "q3rtY456*",
+		database: "ecommerce",
+	},
+	pool: { min: 0, max: 7 },
 };
 const SQLITE_LOCAL_OPTIONS = {
 	filename: "dao/SQLite/data/ecommerce.sqlite",
