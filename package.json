@@ -4,6 +4,7 @@
 	"description": "a full web app for online stores",
 	"main": "app.js",
 	"scripts": {
+		"test": "mocha ./tests/*.test.js",
 		"start": "nodemon ./app.js --exec babel-node",
 		"build": ".\\node_modules\\.bin\\babel ./app.es6.js -o ./app.js -w"
 	},
