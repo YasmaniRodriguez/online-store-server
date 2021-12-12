@@ -1,7 +1,7 @@
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
 const User = require("../../mongoose/models/profiles");
-const { compareHash } = require("../../../utils/function");
+const { checkHash } = require("../../../utils/function");
 
 const local = (app) => {
 	passport.use(
@@ -10,7 +10,7 @@ const local = (app) => {
 			async (email, password, done) => {
 				try {
 					const user = await User.findOne({ email: email });
-					if (user && compareHash(password, user.password)) {
+					if (user && checkHash(password, user.password)) {
 						done(null, user);
 					} else {
 						done(null, false);

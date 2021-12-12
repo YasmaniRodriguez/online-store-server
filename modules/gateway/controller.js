@@ -1,5 +1,5 @@
 const gatewayModel = require("./model");
-const { generateHash } = require("../../utils/function");
+const { buildHash } = require("../../utils/function");
 const logger = require("../../services/log4js");
 const passport = require("passport");
 
@@ -34,7 +34,7 @@ module.exports = {
 			});
 		}
 
-		const encryptedPassword = generateHash(req.body.password);
+		const encryptedPassword = buildHash(req.body.password);
 
 		const profile = {
 			name: req.body.name,
