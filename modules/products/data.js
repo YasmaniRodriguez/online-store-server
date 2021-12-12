@@ -7,7 +7,6 @@ module.exports = {
 				const data = await products.find({}, { __v: 0 }).lean();
 				return data;
 			} else {
-				console.log(filters);
 				let match = new Object();
 				let range = new Object(); //example: /products?price[gte]=1000&price[lte]=2000
 
@@ -59,7 +58,7 @@ module.exports = {
 					{ multi: true }
 				);
 				const preview = await products
-					.find({ code: product.code }, { __v: 0 })
+					.find({ code: product }, { __v: 0 })
 					.lean();
 				return preview;
 			} else {
