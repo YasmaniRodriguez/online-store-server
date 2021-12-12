@@ -14,7 +14,8 @@ const getValidator = (key) => {
 	const val = validators.filter((obj) => obj.key === key);
 	return val[0].value;
 };
-console.log("all ready to run tests of the suite products");
+
+console.log("all is ready to run tests of the suite products");
 
 describe("[unit tests for products endpoint]", () => {
 	describe("POST", () => {
