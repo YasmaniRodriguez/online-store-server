@@ -53,7 +53,7 @@ describe("[unit tests for products endpoint]", () => {
 			const data = response.body;
 			expect(data.length).to.eql(1);
 			expect(data[0].code).to.eql(product);
-			expect(data[0].stock).to.eql(5000); //hacer refactor para meter en un for de fields
+			expect(data[0].stock).to.eql(5000); //hacer refactor para meter en un for los elementos de fields
 		});
 	});
 
