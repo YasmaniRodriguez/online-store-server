@@ -16,8 +16,6 @@ var compression = require("compression");
 
 var path = require("path");
 
-var mongoose = require("mongoose");
-
 var app = express();
 
 var http = require("http");
@@ -57,17 +55,14 @@ var storage = multer.diskStorage({
   }
 });
 
+var conf = require("./config");
+
 var _require = require("./utils/function"),
     getDataHandler = _require.getDataHandler;
 
-var conf = require("./config");
-
-var DataAccessObject = require(getDataHandler());
-
-var dataHandler = new DataAccessObject();
+var dataHandler = getDataHandler();
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
-app.set("dataHandler", dataHandler);
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({

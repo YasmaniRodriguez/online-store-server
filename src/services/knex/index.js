@@ -157,4 +157,4 @@ class mysql {
 	}
 }
 
-module.exports = mysql;
+module.exports = { mysql };

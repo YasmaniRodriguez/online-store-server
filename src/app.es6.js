@@ -1,7 +1,6 @@
 const express = require("express");
 const compression = require("compression");
 const path = require("path");
-const mongoose = require("mongoose");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
@@ -23,15 +22,13 @@ const storage = multer.diskStorage({
 		cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
 	},
 });
-const { getDataHandler } = require("./utils/function");
 const conf = require("./config");
 
-const DataAccessObject = require(getDataHandler());
-const dataHandler = new DataAccessObject();
+const { getDataHandler } = require("./utils/function");
+const dataHandler = getDataHandler();
 
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
-app.set("dataHandler", dataHandler);
 
 app.use(compression());
 app.use(express.json());

@@ -7,7 +7,7 @@ const SESSION_OPTIONS = {
 	cookie: { maxAge: 600000 },
 };
 const PORT = 8080;
-const DATA_PERSISTENCE_MODE = 1;
+const PERS = "mongo";
 const MONGO_DATA_LOCAL_OPTIONS = {
 	authSource: "admin",
 	user: "root",
@@ -72,7 +72,7 @@ module.exports = {
 	PRIVATE_KEY,
 	SESSION_OPTIONS,
 	PORT,
-	DATA_PERSISTENCE_MODE,
+	PERS,
 	MONGO_DATA_CLOUD_URI,
 	MONGO_DATA_LOCAL_URI,
 	MONGO_DATA_LOCAL_OPTIONS,
