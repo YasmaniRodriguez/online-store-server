@@ -15,7 +15,9 @@ class mongo {
 			);
 			logger.info("we are connected to mongo");
 		} catch (error) {
-			logger.error(`we can't connect to mongo, more detail in: ${error}`);
+			logger.error(
+				`we can't connect to mongo, more detail in: ${error.message}`
+			);
 		}
 	}
 

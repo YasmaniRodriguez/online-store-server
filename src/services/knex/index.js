@@ -5,7 +5,15 @@ const logger = require("../log4js");
 const db = knex(process.env.MYSQL_LOCAL_OPTIONS || conf.MYSQL_LOCAL_OPTIONS);
 
 class mysql {
-	constructor() {}
+	constructor() {
+		try {
+			logger.info("we are connected to mysql");
+		} catch (error) {
+			logger.error(
+				`we can't connect to mysql, more detail in: ${error.message}`
+			);
+		}
+	}
 
 	async Builder() {
 		db.schema.hasTable("profiles").then((profiles) => {
