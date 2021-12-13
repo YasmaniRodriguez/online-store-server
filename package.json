@@ -1,12 +1,12 @@
 {
 	"name": "online-store-server",
 	"version": "1.0.0",
-	"description": "a full web app for online stores",
+	"description": "a web service for online stores",
 	"main": "app.js",
 	"scripts": {
-		"test": "mocha ./tests/*.test.js",
-		"start": "nodemon ./app.js --exec babel-node",
-		"build": ".\\node_modules\\.bin\\babel ./app.es6.js -o ./app.js -w"
+		"test": "mocha ./src/tests/*.test.js",
+		"start": "nodemon ./src/app.js --exec babel-node",
+		"build": ".\\node_modules\\.bin\\babel ./src/app.es6.js -o ./src/app.js -w"
 	},
 	"repository": {
 		"type": "git",
