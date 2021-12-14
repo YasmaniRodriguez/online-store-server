@@ -1,5 +1,5 @@
 {
-	"name": "online-store-server",
+	"name": "store.server.node.express",
 	"version": "1.0.0",
 	"description": "a web service for online stores",
 	"main": "app.js",
@@ -10,15 +10,15 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/YasmaniRodriguez/online-store-server.git"
+		"url": "git+https://github.com/YasmaniRodriguez/store.server.node.express.git"
 	},
 	"keywords": [],
 	"author": "rodriguez yasmani",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/YasmaniRodriguez/online-store-server/issues"
+		"url": "https://github.com/YasmaniRodriguez/store.server.node.express/issues"
 	},
-	"homepage": "https://github.com/YasmaniRodriguez/online-store-server#readme",
+	"homepage": "https://github.com/YasmaniRodriguez/store.server.node.express#readme",
 	"dependencies": {
 		"bcrypt": "^5.0.1",
 		"body-parser": "^1.19.0",
