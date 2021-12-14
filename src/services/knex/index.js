@@ -163,6 +163,118 @@ class mysql {
 			}
 		});
 	}
+
+	async getProfiles(filters = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async addProfiles(profile) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async updateProfiles(profile = null, fields) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async deleteProfiles(profile = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async getProducts(filters = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async addProducts(product) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async updateProducts(product = null, fields) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async deleteProducts(product = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async getOrders(filters = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async addOrders(order) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async updateOrders(order = null, fields) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async deleteOrders(order = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async getMessages(filters = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async addMessages(message) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async updateMessages(message = null, fields) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async deleteMessages(message = null) {
+		try {
+		} catch (error) {
+			return error;
+		}
+	}
 }
 
 module.exports = { mysql };
