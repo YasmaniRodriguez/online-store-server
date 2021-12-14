@@ -6,15 +6,20 @@ const messages = require("./models/messages");
 const profiles = require("./models/profiles");
 const conf = require("../../config");
 
-try {
-	mongoose.connect(conf.MONGO_DATA_LOCAL_URI, conf.MONGO_DATA_LOCAL_OPTIONS);
-	logger.info("we are connected to mongo");
-} catch (error) {
-	logger.error(`we can't connect to mongo, more detail in: ${error.message}`);
-}
-
 class mongo {
-	constructor() {}
+	constructor() {
+		try {
+			mongoose.connect(
+				conf.MONGO_DATA_LOCAL_URI,
+				conf.MONGO_DATA_LOCAL_OPTIONS
+			);
+			logger.info("we are connected to mongo");
+		} catch (error) {
+			logger.error(
+				`we can't connect to mongo, more detail in: ${error.message}`
+			);
+		}
+	}
 
 	async Builder() {
 		logger.info("fantastic, everything is ready");
