@@ -1,6 +1,6 @@
 const { Order, OrderRow } = require("../../utils/class");
-const products = require("../../services/mongoose/models/products");
-const moment = require("moment");
+const { getDataHandler } = require("../../utils/function");
+const dataHandler = getDataHandler();
 
 const cart = [];
 
@@ -19,7 +19,7 @@ module.exports = {
 	async addCartProduct(filters) {
 		const { product, quantity } = filters;
 		try {
-			const data = await products.find({ code: product }, { __v: 0 }).lean();
+			const data = dataHandler.getProducts({ code: product });
 			cart.push(new OrderRow(cart.length + 1, data[0], quantity, null));
 			const preview = cart.filter((obj) => obj.product.code === product);
 			return preview[0];
