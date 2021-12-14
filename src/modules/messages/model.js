@@ -1,11 +1,14 @@
-const messageData = require("./data");
+//const messageData = require("./data");
 const normalize = require("../../services/normalizr").getNormalizedData;
 const schema = require("../../services/normalizr/schemas/messages");
 const conf = require("../../config");
+const { getDataHandler } = require("../../utils/function");
+const dataHandler = getDataHandler();
 
 module.exports = {
 	async getMessages(filters) {
-		const data = await messageData.getMessages(filters);
+		const data = await dataHandler.getMessages(filters);
+		//const data = await messageData.getMessages(filters);
 		return conf.DATA_NORMALIZATION ? normalize(data, schema) : data;
 	},
 
@@ -21,17 +24,21 @@ module.exports = {
 				conf.ADMIN_PHONE_NUMBER,
 				`User ${message.author.email} say: ${message.message}`
 			);
-			return messageData.addMessages(message);
+			return dataHandler.addMessages(message);
+			//return messageData.addMessages(message);
 		} else {
-			return messageData.addMessages(message);
+			return dataHandler.addMessages(message);
+			//return messageData.addMessages(message);
 		}
 	},
 
 	async updateMessages(record, fields) {
-		return messageData.updateMessages(record, fields);
+		return dataHandler.updateMessages(record, fields);
+		//return messageData.updateMessages(record, fields);
 	},
 
 	async deleteMessages(message) {
-		return messageData.deleteMessages(message);
+		return dataHandler.deleteMessages(message);
+		//return messageData.deleteMessages(message);
 	},
 };

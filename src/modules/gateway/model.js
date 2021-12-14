@@ -1,14 +1,17 @@
-const gatewayData = require("./data");
+//const gatewayData = require("./data");
 const conf = require("../../config");
 const service = require("../../services/nodemailer");
 const logger = require("../../services/log4js");
 const email = new service();
 const moment = require("moment");
+const { getDataHandler } = require("../../utils/function");
+const dataHandler = getDataHandler();
 
 module.exports = {
 	async userRegister(profile) {
 		try {
-			const userWasCreated = await gatewayData.addUser(profile);
+			const userWasCreated = await dataHandler.addProfiles(profile);
+			//const userWasCreated = await gatewayData.addUser(profile);
 			return userWasCreated
 				? (await email.SendMessage(
 						"ethereal",
@@ -26,7 +29,8 @@ module.exports = {
 
 	async findUsers(filters) {
 		try {
-			const user = await gatewayData.getUsers(filters);
+			const user = await dataHandler.getProfiles(filters);
+			//const user = await gatewayData.getUsers(filters);
 			return user.length === 0 ? false : true;
 		} catch (error) {
 			logger.error(error);

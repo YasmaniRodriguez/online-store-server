@@ -12,14 +12,12 @@ class DataHandler {
 			switch (pers) {
 				case "mongo":
 					this.handler = new mongo();
-					DataHandler.instance = this.handler;
+					DataHandler.instance = this;
 					break;
-
 				case "mysql":
 					this.handler = new mysql();
-					DataHandler.instance = this.handler;
+					DataHandler.instance = this;
 					break;
-
 				default:
 					logger.info("persistence mode was not defined");
 					break;
@@ -28,7 +26,6 @@ class DataHandler {
 			return DataHandler.instance;
 		}
 	}
-
 	getHandler() {
 		return this.handler;
 	}
