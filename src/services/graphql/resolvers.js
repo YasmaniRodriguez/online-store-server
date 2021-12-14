@@ -1,13 +1,14 @@
-const products = require("../../modules/products/data");
+const { getDataHandler } = require("../../utils/function");
+const dataHandler = getDataHandler();
 
 const resolvers = {
 	//Query:
 	getProducts({ filters }) {
-		return products.getProducts(filters);
+		return dataHandler.getProducts(filters);
 	},
 	//Mutation:
 	addProducts({ input }) {
-		return products.addProducts(input);
+		return dataHandler.addProducts(input);
 	},
 };
 
