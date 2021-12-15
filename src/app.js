@@ -61,6 +61,7 @@ var _require = require("./utils/function"),
     getDataHandler = _require.getDataHandler;
 
 var dataHandler = getDataHandler();
+console.log(process.env.NODE_ENV);
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
 app.use(compression());

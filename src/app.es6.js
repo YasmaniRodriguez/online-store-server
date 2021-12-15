@@ -27,6 +27,7 @@ const conf = require("./config");
 const { getDataHandler } = require("./utils/function");
 const dataHandler = getDataHandler();
 
+console.log(process.env.NODE_ENV);
 app.set("port", process.env.PORT || conf.PORT);
 app.set("socketio", io);
 
