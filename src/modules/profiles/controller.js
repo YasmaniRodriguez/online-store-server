@@ -70,7 +70,7 @@ module.exports = {
 	},
 
 	async updateProfiles(req, res) {
-		const record = req.params.id;
+		const record = req.user._id;
 		const fields = req.body;
 		const avatar = req.file ? `/images/${req.file.filename}` : req.file;
 		try {
