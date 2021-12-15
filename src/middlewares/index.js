@@ -1,5 +1,8 @@
 const checkAuthentication = (req, res, next) => {
-	if (req.isAuthenticated()) {
+	const { method, url } = req;
+	if (method === "POST" && url === "/profiles") {
+		return next();
+	} else if (req.isAuthenticated()) {
 		return next();
 	} else {
 		res.status(401).json({ error: "access denied" });

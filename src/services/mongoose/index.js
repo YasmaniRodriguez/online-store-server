@@ -45,10 +45,14 @@ class mongo {
 	async addProfiles(profile) {
 		try {
 			const newProfile = new profiles(profile);
-			await newProfile.save();
-			const preview = await profiles
-				.find({ email: profile.email }, { __v: 0 })
-				.lean();
+			const preview = await newProfile.save(function (err, obj) {
+				if (err) {
+					return err;
+				} else {
+					return obj;
+				}
+			});
+			console.log(preview);
 			return preview;
 		} catch (error) {
 			return error;
@@ -117,11 +121,13 @@ class mongo {
 	async addProducts(product) {
 		try {
 			const newProduct = new products(product);
-			await newProduct.save();
-			const preview = await products
-				.find({ code: product.code }, { __v: 0 })
-				.lean();
-			return preview;
+			await newProduct.save(function (err, obj) {
+				if (err) {
+					return err;
+				} else {
+					return obj;
+				}
+			});
 		} catch (error) {
 			return error;
 		}
@@ -176,7 +182,13 @@ class mongo {
 	async addOrders(order) {
 		try {
 			const newOrder = new orders(order);
-			await newOrder.save();
+			await newOrder.save(function (err, obj) {
+				if (err) {
+					return err;
+				} else {
+					return obj;
+				}
+			});
 		} catch (error) {
 			return error;
 		}
@@ -223,7 +235,13 @@ class mongo {
 	async addMessages(message) {
 		try {
 			const newMessage = new messages(message);
-			await newMessage.save();
+			await newMessage.save(function (err, obj) {
+				if (err) {
+					return err;
+				} else {
+					return obj;
+				}
+			});
 		} catch (error) {
 			return error;
 		}

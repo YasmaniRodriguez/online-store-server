@@ -11,10 +11,10 @@ const { checkAuthentication } = require("./middlewares");
 
 router.use(gateway);
 router.use(graphql);
+router.use(checkAuthentication, profiles);
 router.use(checkAuthentication, products);
 router.use(checkAuthentication, carts);
 router.use(checkAuthentication, orders);
 router.use(checkAuthentication, messages);
-router.use(checkAuthentication, profiles);
 
 module.exports = router;

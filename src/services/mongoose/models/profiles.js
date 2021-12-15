@@ -11,6 +11,7 @@ const profileSchema = new mongoose.Schema(
 		address: { type: String },
 		password: { type: String },
 		role: { type: String, enum: ["customer", "owner"], default: "customer" },
+		tyc: { type: Boolean },
 	},
 	{ timestamps: true }
 );

@@ -82,7 +82,9 @@ module.exports = {
 	},
 
 	async deleteProfiles(req, res) {
+		const record = req.user._id;
 		try {
+			await profileModel.deleteProfiles(record);
 			res.status(200).json({ status: "ok", message: "profile removed" });
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
