@@ -1,3 +1,7 @@
+const config = require("../../config");
+const service = require("../../services/nodemailer");
+const logger = require("../../services/log4js");
+const email = new service();
 const { getDataHandler } = require("../../utils/function");
 const dataHandler = getDataHandler();
 
@@ -7,7 +11,23 @@ module.exports = {
 	},
 
 	async addProfiles(profile) {
-		return dataHandler.addProfiles(profile);
+		try {
+			const record = await dataHandler.addProfiles(profile);
+
+			if (record.length !== 0) {
+				await email.SendMessage(
+					"ethereal",
+					config.ETHEREAL_USER,
+					config.ETHEREAL_USER,
+					"signup",
+					`new signup`
+				);
+			}
+
+			return record;
+		} catch (error) {
+			logger.error(error);
+		}
 	},
 
 	async updateProfiles(record, fields) {

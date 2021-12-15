@@ -1,10 +1,9 @@
 const bcrypt = require("bcrypt");
-const logger = require("../services/log4js");
 const faker = require("faker/locale/en");
-const singleton = require("./singleton");
+const SingleDataAccessObject = require("./dao");
 
 const getDataHandler = () => {
-	return new singleton().getHandler();
+	return new SingleDataAccessObject().getHandler();
 };
 
 function buildHash(value) {

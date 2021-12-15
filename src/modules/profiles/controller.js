@@ -1,4 +1,5 @@
 const profileModel = require("./model");
+const { buildHash } = require("../../utils/function");
 
 module.exports = {
 	async getProfiles(req, res) {
@@ -16,10 +17,53 @@ module.exports = {
 	},
 
 	async addProfiles(req, res) {
-		const profile = req.body;
+		const { email, password, confirm } = req.body;
+
+		if (!email) {
+			return res
+				.status(417)
+				.json({ status: "error", message: "you must enter an email address" });
+		}
+
+		if (!password) {
+			return res
+				.status(417)
+				.json({ status: "error", message: "you must enter a password" });
+		}
+
+		if (password !== confirm) {
+			return res
+				.status(417)
+				.json({ status: "error", message: "passwords are not the same" });
+		}
+
+		const exists = await profileModel.getProfiles({ email });
+		console.log(exists);
+		if (exists.length !== 0) {
+			return res.status(417).json({
+				status: "error",
+				message: "that email address is already in use",
+			});
+		}
+
+		const encryptedPassword = buildHash(req.body.password);
+
+		const profile = {
+			name: req.body.name,
+			lastname: req.body.lastname,
+			birthday: req.body.birthday,
+			avatar: `/images/${req.file.filename}`,
+			phone: req.body.phone,
+			email: req.body.email,
+			address: req.body.address,
+			password: encryptedPassword,
+			role: req.body.role,
+			tyc: req.body.tyc,
+		};
+
 		try {
-			await profileModel.addProfiles(profile);
-			res.status(201).json({ status: "ok", message: "profile uploaded" });
+			const record = await profileModel.addProfiles(profile);
+			res.status(201).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

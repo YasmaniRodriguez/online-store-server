@@ -45,16 +45,11 @@ class mongo {
 	async addProfiles(profile) {
 		try {
 			const newProfile = new profiles(profile);
-			const done = await newProfile
-				.save()
-				.then(() => {
-					return true;
-				})
-				.catch((error) => {
-					logger.error(error.message);
-					return false;
-				});
-			return done;
+			await newProfile.save();
+			const preview = await profiles
+				.find({ email: profile.email }, { __v: 0 })
+				.lean();
+			return preview;
 		} catch (error) {
 			return error;
 		}
