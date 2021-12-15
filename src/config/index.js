@@ -6,7 +6,7 @@ const SESSION_OPTIONS = {
 	rolling: true,
 	cookie: { maxAge: 600000 },
 };
-const PORT = 8080;
+//const PORT = 8080;
 const PERS = "mongo";
 const MONGO_DATA_LOCAL_OPTIONS = {
 	authSource: "admin",
@@ -71,7 +71,7 @@ const ADMIN_PHONE_NUMBER = "+5491134601544";
 module.exports = {
 	PRIVATE_KEY,
 	SESSION_OPTIONS,
-	PORT,
+	//PORT,
 	PERS,
 	MONGO_DATA_CLOUD_URI,
 	MONGO_DATA_LOCAL_URI,

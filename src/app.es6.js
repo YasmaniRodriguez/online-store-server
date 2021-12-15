@@ -1,6 +1,10 @@
 const express = require("express");
 const compression = require("compression");
 const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config({
+	path: path.resolve(__dirname, `${process.env.NODE_ENV}.env`),
+});
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
@@ -27,8 +31,7 @@ const conf = require("./config");
 const { getDataHandler } = require("./utils/function");
 const dataHandler = getDataHandler();
 
-console.log(process.env.NODE_ENV);
-app.set("port", process.env.PORT || conf.PORT);
+app.set("port", process.env.PORT);
 app.set("socketio", io);
 
 app.use(compression());
@@ -74,22 +77,30 @@ app.get("/", (req, res) => {
 
 /////////////////////////////////////////////////////////
 
-io.on("connection", (socket) => {
-	let connection_identifier = socket.id;
-	socket.emit("connection", connection_identifier);
-});
+// io.on("connection", (socket) => {
+// 	let connection_identifier = socket.id;
+// 	socket.emit("connection", connection_identifier);
+// });
 
 /////////////////////////////////////////////////////////
+process.once("SIGUSR2", function () {
+	logger.info(`process ${process.pid} be closed`);
+	process.kill(process.pid, "SIGUSR2");
+});
+
+process.on("SIGINT", function () {
+	logger.info("all process be closed");
+	process.exit(0);
+});
 
 server
-	.listen(app.get("port"), async () => {
+	.listen(process.env.PORT, async () => {
 		await dataHandler.Builder();
 		logger.info(
-			`magic is happening in ${
-				process.env.BASE_URL || "http://localhost"
-			}:${app.get("port")} - PID WORKER ${process.pid}`
+			`server is running in http://localhost:${process.env.PORT} - pid worker: ${process.pid}`
 		);
 	})
 	.on("error", (error) => {
-		logger.error(`something is preventing us grow , more detail in: ${error}`);
+		logger.error(`something is preventing us grow: ${error.message}`);
 	});
+/////////////////////////////////////////////////////////

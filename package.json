@@ -6,6 +6,7 @@
 	"scripts": {
 		"test": "mocha ./src/tests/*.test.js",
 		"dev": "cross-env NODE_ENV=development nodemon ./src/app.js --exec babel-node",
+		"prod": "cross-env NODE_ENV=production nodemon ./src/app.js --exec babel-node",
 		"build": ".\\node_modules\\.bin\\babel ./src/app.es6.js -o ./src/app.js -w"
 	},
 	"repository": {

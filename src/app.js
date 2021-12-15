@@ -16,6 +16,11 @@ var compression = require("compression");
 
 var path = require("path");
 
+var dotenv = require("dotenv");
+
+dotenv.config({
+  path: path.resolve(__dirname, "".concat(process.env.NODE_ENV, ".env"))
+});
 var app = express();
 
 var http = require("http");
@@ -61,8 +66,7 @@ var _require = require("./utils/function"),
     getDataHandler = _require.getDataHandler;
 
 var dataHandler = getDataHandler();
-console.log(process.env.NODE_ENV);
-app.set("port", process.env.PORT || conf.PORT);
+app.set("port", process.env.PORT);
 app.set("socketio", io);
 app.use(compression());
 app.use(express.json());
@@ -113,13 +117,21 @@ app.get("/", function (req, res) {
     root: __dirname + "/public"
   });
 }); /////////////////////////////////////////////////////////
+// io.on("connection", (socket) => {
+// 	let connection_identifier = socket.id;
+// 	socket.emit("connection", connection_identifier);
+// });
+/////////////////////////////////////////////////////////
 
-io.on("connection", function (socket) {
-  var connection_identifier = socket.id;
-  socket.emit("connection", connection_identifier);
-}); /////////////////////////////////////////////////////////
-
-server.listen(app.get("port"), /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+process.once("SIGUSR2", function () {
+  logger.info("process ".concat(process.pid, " be closed"));
+  process.kill(process.pid, "SIGUSR2");
+});
+process.on("SIGINT", function () {
+  logger.info("all process be closed");
+  process.exit(0);
+});
+server.listen(process.env.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -128,7 +140,7 @@ server.listen(app.get("port"), /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/rege
           return dataHandler.Builder();
 
         case 2:
-          logger.info("magic is happening in ".concat(process.env.BASE_URL || "http://localhost", ":").concat(app.get("port"), " - PID WORKER ").concat(process.pid));
+          logger.info("server is running in http://localhost:".concat(process.env.PORT, " - pid worker: ").concat(process.pid));
 
         case 3:
         case "end":
@@ -137,5 +149,5 @@ server.listen(app.get("port"), /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/rege
     }
   }, _callee);
 }))).on("error", function (error) {
-  logger.error("something is preventing us grow , more detail in: ".concat(error));
-});
+  logger.error("something is preventing us grow: ".concat(error.message));
+}); /////////////////////////////////////////////////////////
