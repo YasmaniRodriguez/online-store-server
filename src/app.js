@@ -16,11 +16,8 @@ var compression = require("compression");
 
 var path = require("path");
 
-var dotenv = require("dotenv");
+var config = require("./config");
 
-dotenv.config({
-  path: path.resolve(__dirname, "".concat(process.env.NODE_ENV, ".env"))
-});
 var app = express();
 
 var http = require("http");
@@ -59,8 +56,15 @@ var storage = multer.diskStorage({
     cb(null, "".concat(uniqueSuffix).concat(path.extname(file.originalname)));
   }
 });
-
-var conf = require("./config");
+var session_options = {
+  secret: config.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  rolling: true,
+  cookie: {
+    maxAge: 600000
+  }
+};
 
 var _require = require("./utils/function"),
     getDataHandler = _require.getDataHandler;
@@ -73,9 +77,9 @@ app.use(express.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
-app.use(session(_objectSpread(_objectSpread({}, conf.SESSION_OPTIONS), {}, {
+app.use(session(_objectSpread(_objectSpread({}, session_options), {}, {
   store: mongoStore.create({
-    mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
+    mongoUrl: config.SESSION_URI,
     mongoOptions: {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -116,11 +120,11 @@ app.get("/", function (req, res) {
     root: __dirname + "/public"
   });
 }); /////////////////////////////////////////////////////////
-// io.on("connection", (socket) => {
-// 	let connection_identifier = socket.id;
-// 	socket.emit("connection", connection_identifier);
-// });
-/////////////////////////////////////////////////////////
+
+io.on("connection", function (socket) {
+  var connection_identifier = socket.id;
+  socket.emit("connection", connection_identifier);
+}); /////////////////////////////////////////////////////////
 
 process.once("SIGUSR2", function () {
   logger.info("restarting nodemon \u21E8 process ".concat(process.pid, " will be closed"));
@@ -130,7 +134,7 @@ process.on("SIGINT", function () {
   logger.info("shutting down the server ⇨ all node process will be closed");
   process.exit(0);
 });
-server.listen(process.env.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+server.listen(config.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
@@ -139,7 +143,7 @@ server.listen(process.env.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/reg
           return dataHandler.Builder();
 
         case 2:
-          logger.info("server is running in http://".concat(process.env.HOST, ":").concat(process.env.PORT, " - pid worker: ").concat(process.pid));
+          logger.info("server is running in http://".concat(config.HOST, ":").concat(config.PORT, " - pid worker: ").concat(process.pid));
 
         case 3:
         case "end":

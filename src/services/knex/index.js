@@ -1,8 +1,20 @@
 const knex = require("knex");
-const conf = require("../../config");
+const config = require("../../config");
 const logger = require("../log4js");
 
-const db = knex(process.env.MYSQL_LOCAL_OPTIONS || conf.MYSQL_LOCAL_OPTIONS);
+const options = {
+	client: "mysql",
+	connection: {
+		host: config.MYSQL_LOCAL_HOST,
+		port: config.MYSQL_LOCAL_PORT,
+		user: config.MYSQL_LOCAL_USER,
+		password: config.MYSQL_LOCAL_PASSWORD,
+		database: config.MYSQL_LOCAL_DATABASE,
+	},
+	pool: { min: 0, max: 7 },
+};
+
+const db = knex(options);
 
 class mysql {
 	constructor() {

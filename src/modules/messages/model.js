@@ -1,14 +1,13 @@
 const normalize = require("../../services/normalizr").getNormalizedData;
 const schema = require("../../services/normalizr/schemas/messages");
-const conf = require("../../config");
+const config = require("../../config");
 const { getDataHandler } = require("../../utils/function");
 const dataHandler = getDataHandler();
 
 module.exports = {
 	async getMessages(filters) {
 		const data = await dataHandler.getMessages(filters);
-
-		return conf.DATA_NORMALIZATION ? normalize(data, schema) : data;
+		return config.NORMALIZATION ? normalize(data, schema) : data;
 	},
 
 	async addMessages(message) {
@@ -19,8 +18,8 @@ module.exports = {
 		if (findKeywords) {
 			const smsService = new service();
 			smsService.SendMessage(
-				conf.TWILIO_ACCOUNT_NUMBER,
-				conf.ADMIN_PHONE_NUMBER,
+				config.TWILIO_ACCOUNT_NUMBER,
+				config.ADMIN_PHONE_NUMBER,
 				`User ${message.author.email} say: ${message.message}`
 			);
 			return dataHandler.addMessages(message);

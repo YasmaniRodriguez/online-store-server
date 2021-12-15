@@ -4,15 +4,18 @@ const products = require("./models/products");
 const orders = require("./models/orders");
 const messages = require("./models/messages");
 const profiles = require("./models/profiles");
-const conf = require("../../config");
+const config = require("../../config");
+
+const options = {
+	authSource: config.MONGO_LOCAL_AUTH_SOURCE,
+	user: config.MONGO_LOCAL_USER,
+	pass: config.MONGO_LOCAL_PASSWORD,
+};
 
 class mongo {
 	constructor() {
 		try {
-			mongoose.connect(
-				conf.MONGO_DATA_LOCAL_URI,
-				conf.MONGO_DATA_LOCAL_OPTIONS
-			);
+			mongoose.connect(config.MONGO_LOCAL_URI, options);
 			logger.info("we are connected to mongo");
 		} catch (error) {
 			logger.error(

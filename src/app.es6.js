@@ -1,10 +1,7 @@
 const express = require("express");
 const compression = require("compression");
 const path = require("path");
-const dotenv = require("dotenv");
-dotenv.config({
-	path: path.resolve(__dirname, `${process.env.NODE_ENV}.env`),
-});
+const config = require("./config");
 const app = express();
 const http = require("http");
 const server = http.createServer(app);
@@ -26,8 +23,13 @@ const storage = multer.diskStorage({
 		cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
 	},
 });
-const conf = require("./config");
-
+const session_options = {
+	secret: config.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false,
+	rolling: true,
+	cookie: { maxAge: 600000 },
+};
 const { getDataHandler } = require("./utils/function");
 const dataHandler = getDataHandler();
 
@@ -39,9 +41,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
 	session({
-		...conf.SESSION_OPTIONS,
+		...session_options,
 		store: mongoStore.create({
-			mongoUrl: conf.MONGO_SESSION_CLOUD_URI,
+			mongoUrl: config.SESSION_URI,
 			mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
 			ttl: 600,
 		}),
@@ -76,10 +78,10 @@ app.get("/", (req, res) => {
 
 /////////////////////////////////////////////////////////
 
-// io.on("connection", (socket) => {
-// 	let connection_identifier = socket.id;
-// 	socket.emit("connection", connection_identifier);
-// });
+io.on("connection", (socket) => {
+	let connection_identifier = socket.id;
+	socket.emit("connection", connection_identifier);
+});
 
 /////////////////////////////////////////////////////////
 process.once("SIGUSR2", function () {
@@ -93,10 +95,10 @@ process.on("SIGINT", function () {
 });
 
 server
-	.listen(process.env.PORT, async () => {
+	.listen(config.PORT, async () => {
 		await dataHandler.Builder();
 		logger.info(
-			`server is running in http://${process.env.HOST}:${process.env.PORT} - pid worker: ${process.pid}`
+			`server is running in http://${config.HOST}:${config.PORT} - pid worker: ${process.pid}`
 		);
 	})
 	.on("error", (error) => {

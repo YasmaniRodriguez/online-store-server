@@ -1,15 +1,14 @@
 const passport = require("passport");
 const facebookStrategy = require("passport-facebook").Strategy;
 const User = require("../../mongoose/models/profiles");
-const conf = require("../../../config");
+const config = require("../../../config");
 
 const facebook = (app) => {
 	passport.use(
 		new facebookStrategy(
 			{
-				clientID: process.env.FACEBOOK_CLIENT_ID || conf.FACEBOOK_CLIENT_ID,
-				clientSecret:
-					process.env.FACEBOOK_CLIENT_SECRET || conf.FACEBOOK_CLIENT_SECRET,
+				clientID: config.FACEBOOK_CLIENT_ID,
+				clientSecret: config.FACEBOOK_CLIENT_SECRET,
 				callbackURL: "/signin/facebook/callback",
 				profileFields: ["email", "name"],
 			},

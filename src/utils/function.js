@@ -1,4 +1,3 @@
-const conf = require("../config");
 const bcrypt = require("bcrypt");
 const logger = require("../services/log4js");
 const faker = require("faker/locale/en");

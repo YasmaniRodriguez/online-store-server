@@ -1,10 +1,10 @@
-const conf = require("../../../config");
+const config = require("../../../config");
 const passport = require("passport");
 const JwtStrategy = require("passport-jwt").Strategy;
 const ExtractJwt = require("passport-jwt").ExtractJwt;
 const opts = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-	secretOrKey: process.env.PRIVATE_KEY || conf.PRIVATE_KEY,
+	secretOrKey: config.JWT_SECRET,
 	passReqToCallback: true,
 };
 const User = require("../../mongoose/models/profiles");

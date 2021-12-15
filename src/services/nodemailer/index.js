@@ -1,14 +1,27 @@
 const nodemailer = require("nodemailer");
-const conf = require("../../config");
+const config = require("../../config");
 const logger = require("../log4js");
 
-const ethereal = nodemailer.createTransport(
-	process.env.ETHEREAL_OPTIONS || conf.ETHEREAL_OPTIONS
-);
+const ethereal_options = {
+	host: config.ETHEREAL_HOST,
+	port: config.ETHEREAL_PORT,
+	auth: {
+		user: config.ETHEREAL_USER,
+		pass: config.ETHEREAL_PASSWORD,
+	},
+};
 
-const gmail = nodemailer.createTransport(
-	process.env.GMAIL_OPTIONS || conf.GMAIL_OPTIONS
-);
+const gmail_options = {
+	service: "gmail",
+	auth: {
+		user: config.GMAIL_USER,
+		pass: config.GMAIL_PASSWORD,
+	},
+};
+
+const ethereal = nodemailer.createTransport(ethereal_options);
+
+const gmail = nodemailer.createTransport(gmail_options);
 
 function buildMailHtml(eventType, body) {
 	switch (eventType) {

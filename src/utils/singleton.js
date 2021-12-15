@@ -1,15 +1,14 @@
-const conf = require("../config");
+const config = require("../config");
 const logger = require("../services/log4js");
 const mongo = require("../services/mongoose");
 const mysql = require("../services/knex").mysql;
-const pers = process.env.PERS || conf.PERS;
 
 class DataHandler {
 	static instance;
 
 	constructor() {
 		if (!DataHandler.instance) {
-			switch (pers) {
+			switch (config.PERSISTENCE) {
 				case "mongo":
 					this.handler = new mongo();
 					DataHandler.instance = this;
