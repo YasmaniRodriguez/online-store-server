@@ -66,7 +66,6 @@ var _require = require("./utils/function"),
     getDataHandler = _require.getDataHandler;
 
 var dataHandler = getDataHandler();
-app.set("port", process.env.PORT);
 app.set("socketio", io);
 app.use(compression());
 app.use(express.json());
@@ -124,11 +123,11 @@ app.get("/", function (req, res) {
 /////////////////////////////////////////////////////////
 
 process.once("SIGUSR2", function () {
-  logger.info("process ".concat(process.pid, " be closed"));
+  logger.info("restarting nodemon \u21E8 process ".concat(process.pid, " will be closed"));
   process.kill(process.pid, "SIGUSR2");
 });
 process.on("SIGINT", function () {
-  logger.info("all process be closed");
+  logger.info("shutting down the server ⇨ all node process will be closed");
   process.exit(0);
 });
 server.listen(process.env.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
@@ -140,7 +139,7 @@ server.listen(process.env.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/reg
           return dataHandler.Builder();
 
         case 2:
-          logger.info("server is running in http://localhost:".concat(process.env.PORT, " - pid worker: ").concat(process.pid));
+          logger.info("server is running in http://".concat(process.env.HOST, ":").concat(process.env.PORT, " - pid worker: ").concat(process.pid));
 
         case 3:
         case "end":

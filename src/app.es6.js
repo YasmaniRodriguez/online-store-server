@@ -31,7 +31,6 @@ const conf = require("./config");
 const { getDataHandler } = require("./utils/function");
 const dataHandler = getDataHandler();
 
-app.set("port", process.env.PORT);
 app.set("socketio", io);
 
 app.use(compression());
@@ -84,12 +83,12 @@ app.get("/", (req, res) => {
 
 /////////////////////////////////////////////////////////
 process.once("SIGUSR2", function () {
-	logger.info(`process ${process.pid} be closed`);
+	logger.info(`restarting nodemon ⇨ process ${process.pid} will be closed`);
 	process.kill(process.pid, "SIGUSR2");
 });
 
 process.on("SIGINT", function () {
-	logger.info("all process be closed");
+	logger.info("shutting down the server ⇨ all node process will be closed");
 	process.exit(0);
 });
 
@@ -97,7 +96,7 @@ server
 	.listen(process.env.PORT, async () => {
 		await dataHandler.Builder();
 		logger.info(
-			`server is running in http://localhost:${process.env.PORT} - pid worker: ${process.pid}`
+			`server is running in http://${process.env.HOST}:${process.env.PORT} - pid worker: ${process.pid}`
 		);
 	})
 	.on("error", (error) => {
