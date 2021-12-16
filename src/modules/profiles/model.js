@@ -14,7 +14,7 @@ module.exports = {
 		try {
 			const record = await dataHandler.addProfiles(profile);
 
-			if (record.length !== 0) {
+			if (record._id) {
 				await email.SendMessage(
 					"ethereal",
 					config.ETHEREAL_USER,

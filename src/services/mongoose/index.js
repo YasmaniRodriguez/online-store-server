@@ -45,15 +45,8 @@ class mongo {
 	async addProfiles(profile) {
 		try {
 			const newProfile = new profiles(profile);
-			const preview = await newProfile.save(function (err, obj) {
-				if (err) {
-					return err;
-				} else {
-					return obj;
-				}
-			});
-			console.log(preview);
-			return preview;
+			const document = await newProfile.save();
+			return document;
 		} catch (error) {
 			return error;
 		}
@@ -121,13 +114,8 @@ class mongo {
 	async addProducts(product) {
 		try {
 			const newProduct = new products(product);
-			await newProduct.save(function (err, obj) {
-				if (err) {
-					return err;
-				} else {
-					return obj;
-				}
-			});
+			const document = await newProduct.save();
+			return document;
 		} catch (error) {
 			return error;
 		}
@@ -182,13 +170,8 @@ class mongo {
 	async addOrders(order) {
 		try {
 			const newOrder = new orders(order);
-			await newOrder.save(function (err, obj) {
-				if (err) {
-					return err;
-				} else {
-					return obj;
-				}
-			});
+			const document = await newOrder.save();
+			return document;
 		} catch (error) {
 			return error;
 		}
@@ -235,13 +218,8 @@ class mongo {
 	async addMessages(message) {
 		try {
 			const newMessage = new messages(message);
-			await newMessage.save(function (err, obj) {
-				if (err) {
-					return err;
-				} else {
-					return obj;
-				}
-			});
+			const document = await newMessage.save();
+			return document;
 		} catch (error) {
 			return error;
 		}
