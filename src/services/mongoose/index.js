@@ -54,13 +54,21 @@ class mongo {
 
 	async updateProfiles(profile = null, fields) {
 		try {
-			return !profile
-				? await profiles.updateMany({}, { $set: fields }, { multi: true })
-				: await profiles.updateOne(
-						{ _id: { $eq: profile } },
-						{ $set: fields },
-						{ multi: true }
-				  );
+			if (profile) {
+				await profiles.updateOne(
+					{ _id: { $eq: profile } },
+					{ $set: fields },
+					{ multi: true }
+				);
+				const preview = await profiles
+					.find({ _id: profile }, { __v: 0 })
+					.lean();
+				return preview;
+			} else {
+				await profiles.updateMany({}, { $set: fields }, { multi: true });
+				const preview = await profiles.find({}, { __v: 0 }).lean();
+				return preview;
+			}
 		} catch (error) {
 			return error;
 		}

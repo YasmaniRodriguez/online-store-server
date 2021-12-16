@@ -10,7 +10,7 @@ module.exports = {
 				? res
 						.status(202)
 						.json({ status: "error", message: "this profile does not exist" })
-				: res.status(200).json({ profiles });
+				: res.status(200).json(profiles);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
@@ -70,21 +70,24 @@ module.exports = {
 	},
 
 	async updateProfiles(req, res) {
-		const record = req.user._id;
+		const profile = req.user._id;
 		const fields = req.body;
 		const avatar = req.file ? `/images/${req.file.filename}` : req.file;
 		try {
-			await profileModel.updateProfiles(record, { ...fields, avatar });
-			res.status(200).json({ status: "ok", message: "profile updated" });
+			const record = await profileModel.updateProfiles(profile, {
+				...fields,
+				avatar,
+			});
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
 
 	async deleteProfiles(req, res) {
-		const record = req.user._id;
+		const profile = req.user._id;
 		try {
-			await profileModel.deleteProfiles(record);
+			await profileModel.deleteProfiles(profile);
 			res.status(200).json({ status: "ok", message: "profile removed" });
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });

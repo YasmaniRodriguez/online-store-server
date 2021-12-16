@@ -9,7 +9,7 @@ module.exports = {
 				? res
 						.status(202)
 						.json({ status: "error", message: "there is not messages" })
-				: res.status(200).json({ messages });
+				: res.status(200).json(messages);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

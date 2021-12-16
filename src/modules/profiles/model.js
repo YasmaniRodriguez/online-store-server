@@ -30,8 +30,8 @@ module.exports = {
 		}
 	},
 
-	async updateProfiles(record, fields) {
-		return dataHandler.updateProfiles(record, fields);
+	async updateProfiles(profile, fields) {
+		return dataHandler.updateProfiles(profile, fields);
 	},
 
 	async deleteProfiles(profile) {
