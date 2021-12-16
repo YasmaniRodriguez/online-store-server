@@ -26,11 +26,11 @@ module.exports = {
 	},
 
 	async updateMessages(req, res) {
-		const record = req.params.id;
+		const message = req.params.id;
 		const fields = req.body;
 		try {
-			await messageModel.updateMessages(record, fields);
-			res.status(200).json({ status: "ok", message: "message updated" });
+			const record = await messageModel.updateMessages(message, fields);
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

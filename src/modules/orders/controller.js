@@ -26,11 +26,11 @@ module.exports = {
 	},
 
 	async updateOrders(req, res) {
-		const record = req.params.id;
+		const order = req.params.id;
 		const fields = req.body;
 		try {
-			await OrderModel.updateOrders(record, fields);
-			res.status(200).json({ status: "ok", message: "order updated" });
+			const record = await OrderModel.updateOrders(order, fields);
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
