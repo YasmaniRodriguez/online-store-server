@@ -19,9 +19,6 @@ const gmail_options = {
 	},
 };
 
-console.log("my user:" + config.GMAIL_USER);
-console.log("my password:" + config.GMAIL_PASSWORD);
-
 const ethereal = nodemailer.createTransport(ethereal_options);
 
 const gmail = nodemailer.createTransport(gmail_options);
