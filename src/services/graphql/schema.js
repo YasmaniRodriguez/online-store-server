@@ -13,8 +13,8 @@ const schema = buildSchema(`
         _id: ID
         code: String
         name: String
-        category: String
         description: String
+        category: String
         image: String
         price: Float
         stock: Int
