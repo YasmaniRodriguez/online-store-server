@@ -13,6 +13,10 @@ const resolvers = {
 	addProducts({ input }) {
 		return dataHandler.addProducts(input);
 	},
+
+	addProfiles({ input }) {
+		return dataHandler.addProfiles(input);
+	},
 };
 
 module.exports = resolvers;

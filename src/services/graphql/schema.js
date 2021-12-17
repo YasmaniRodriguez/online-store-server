@@ -50,8 +50,8 @@ const schema = buildSchema(`
     input ProductInput {
         code: String!
         name: String!
-        category: String
         description: String
+        category: String
         image: String
         price: Float
         stock: Int
