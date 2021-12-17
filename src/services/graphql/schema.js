@@ -7,6 +7,7 @@ const schema = buildSchema(`
 
     type Mutation {
         addProducts(input: ProductInput): [Product]
+        addProfiles(input: ProfileInput): Profile
     }
 
     type Product {
@@ -18,6 +19,20 @@ const schema = buildSchema(`
         image: String
         price: Float
         stock: Int
+    }
+
+    type Profile {
+        _id: ID
+        name: String
+        lastname: String
+        birthday: String
+        avatar: String
+        phone: String
+        email: String
+        address: String
+        password: String
+        role: String
+        tyc: Boolean
     }
     
     input ProductQueryFilters {
@@ -40,6 +55,20 @@ const schema = buildSchema(`
         image: String
         price: Float
         stock: Int
+    }
+
+    input ProfileInput {
+        name: String!
+        lastname: String!
+        birthday: String!
+        avatar: String
+        phone: String
+        email: String!
+        address: String
+        password: String!
+        confirm: String!
+        role: String!
+        tyc: Boolean!
     }
 `);
 
