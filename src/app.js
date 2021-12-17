@@ -32,7 +32,9 @@ var io = socketio(server, {
   }
 });
 
-var routes = require("./routes");
+var restfull = require("./restfull");
+
+var graphql = require("./graphql");
 
 var morgan = require("morgan");
 
@@ -114,7 +116,8 @@ app.use(multer({
     }
   }
 }).single("image"));
-app.use(routes);
+app.use("/v1", restfull);
+app.use("/v2", graphql);
 app.get("/", function (req, res) {
   res.status(200).sendFile("index.html", {
     root: __dirname + "/public"

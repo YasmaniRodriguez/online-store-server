@@ -7,7 +7,8 @@ const http = require("http");
 const server = http.createServer(app);
 const socketio = require("socket.io");
 const io = socketio(server, { cors: { origin: "*" } });
-const routes = require("./routes");
+const restfull = require("./restfull");
+const graphql = require("./graphql");
 const morgan = require("morgan");
 const logger = require("./services/log4js");
 const cors = require("cors");
@@ -70,7 +71,8 @@ app.use(
 		},
 	}).single("image")
 );
-app.use(routes);
+app.use("/v1", restfull);
+app.use("/v2", graphql);
 
 app.get("/", (req, res) => {
 	res.status(200).sendFile("index.html", { root: __dirname + "/public" });
