@@ -67,8 +67,8 @@ const schema = buildSchema(`
     type Order {
         _id: ID
         products: [Cart]
-        created_at: String
-        updated_at: String
+        createdAt: String
+        updatedAt: String
     }
 
     type Cart {
@@ -176,7 +176,12 @@ const schema = buildSchema(`
     }
 
     input OrderRequiredFields {
-        cart: Cart
+        code: ID
+        status: Int
+        buyer: BuyerFields
+        products: [CartRowFields]
+        totalAmount: Float
+        totalQuantity: Float
     }
 
     input AuthorFields {
@@ -185,6 +190,20 @@ const schema = buildSchema(`
         avatar: String
         email: String
     }
+
+    input CartRowFields {
+        product: ProductRequiredFields
+        quantity: Float
+        amount: Float
+    }
+
+    input BuyerFields {
+        name: String
+        phone: String
+        email: String
+        address: String
+    }
+
 `);
 
 module.exports = schema;

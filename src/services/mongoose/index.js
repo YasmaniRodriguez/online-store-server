@@ -218,7 +218,20 @@ class mongo {
 				const data = await messages.find({}, { __v: 0 }).lean();
 				return data;
 			} else {
-				const data = await messages.find({ filters }, { __v: 0 }).lean();
+				let message = [];
+				let author = [];
+
+				for (let property in filters) {
+					if (property === "_id") {
+						message.push({ _id: filters[property] });
+					} else {
+						author.push({ "author.email": filters[property] });
+					}
+				}
+
+				const data = await messages
+					.find({ ...message[0], ...author[0] }, { __v: 0 })
+					.lean();
 				return data;
 			}
 		} catch (error) {
@@ -252,10 +265,19 @@ class mongo {
 
 	async deleteMessages(message = null) {
 		try {
-			return !message
-				? await messages.deleteMany({})
-				: messages.findOneAndDelete({ code: { $eq: message } }, {});
-			//: messages.deleteOne({ code: { $eq: message } });
+			if (message) {
+				return messages.findOneAndDelete({ _id: message }, {});
+			} else {
+				const arr = [];
+				await messages.find().forEach(async (doc) => {
+					const obj = await messages.findOneAndDelete({ _id: doc._id }, {});
+					arr.push(obj);
+				});
+				return arr;
+			}
+			// return !message
+			// 	? await messages.deleteMany({})
+			// 	: messages.findOneAndDelete({ code: { $eq: message } }, {});
 		} catch (error) {
 			return error;
 		}
