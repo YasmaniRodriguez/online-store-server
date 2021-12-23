@@ -78,7 +78,8 @@ class mongo {
 		try {
 			return !profile
 				? await profiles.deleteMany({})
-				: profiles.deleteOne({ email: { $eq: profile } });
+				: profiles.findOneAndDelete({ code: { $eq: profile } }, {});
+			//: profiles.deleteOne({ email: { $eq: profile } });
 		} catch (error) {
 			return error;
 		}
@@ -155,7 +156,8 @@ class mongo {
 		try {
 			return !product
 				? await products.deleteMany({})
-				: products.deleteOne({ code: { $eq: product } });
+				: products.findOneAndDelete({ code: { $eq: product } }, {});
+			//: products.deleteOne({ code: { $eq: product } });
 		} catch (error) {
 			return error;
 		}
@@ -203,7 +205,8 @@ class mongo {
 		try {
 			return !order
 				? await orders.deleteMany({})
-				: orders.deleteOne({ code: { $eq: order } });
+				: orders.findOneAndDelete({ code: { $eq: order } }, {});
+			//: orders.deleteOne({ code: { $eq: order } });
 		} catch (error) {
 			return error;
 		}
@@ -251,7 +254,8 @@ class mongo {
 		try {
 			return !message
 				? await messages.deleteMany({})
-				: messages.deleteOne({ code: { $eq: message } });
+				: messages.findOneAndDelete({ code: { $eq: message } }, {});
+			//: messages.deleteOne({ code: { $eq: message } });
 		} catch (error) {
 			return error;
 		}

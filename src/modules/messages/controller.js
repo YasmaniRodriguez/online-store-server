@@ -37,10 +37,10 @@ module.exports = {
 	},
 
 	async deleteMessages(req, res) {
-		const record = req.params.id;
+		const message = req.params.id;
 		try {
-			await messageModel.deleteMessages(record);
-			res.status(200).json({ status: "ok", message: "message removed" });
+			const record = await messageModel.deleteMessages(message);
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

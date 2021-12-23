@@ -37,10 +37,10 @@ module.exports = {
 	},
 
 	async deleteOrders(req, res) {
-		const record = req.params.id;
+		const order = req.params.id;
 		try {
-			await OrderModel.deleteOrders(record);
-			res.status(200).json({ status: "ok", message: "order removed" });
+			const record = await OrderModel.deleteOrders(order);
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

@@ -116,8 +116,8 @@ app.use(multer({
     }
   }
 }).single("image"));
-app.use("/v1", restfull);
-app.use("/v2", graphql);
+app.use("/api", restfull);
+app.use("/gql", graphql);
 app.get("/", function (req, res) {
   res.status(200).sendFile("index.html", {
     root: __dirname + "/public"

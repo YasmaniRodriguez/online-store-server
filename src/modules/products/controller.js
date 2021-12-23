@@ -37,10 +37,10 @@ module.exports = {
 	},
 
 	async deleteProducts(req, res) {
-		const record = req.params.id;
+		const product = req.params.id;
 		try {
-			await productModel.deleteProducts(record);
-			res.status(200).json({ status: "ok", message: "product removed" });
+			const record = await productModel.deleteProducts(product);
+			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

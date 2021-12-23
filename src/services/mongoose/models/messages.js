@@ -3,12 +3,10 @@ const mongoose = require("mongoose");
 const messageSchema = new mongoose.Schema(
 	{
 		author: {
-			email: { type: String },
 			name: { type: String },
 			lastname: { type: String },
-			birthday: { type: String },
-			alias: { type: String },
 			avatar: { type: String },
+			email: { type: String },
 		},
 		message: { type: String },
 	},

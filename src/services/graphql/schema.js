@@ -6,8 +6,11 @@ const schema = buildSchema(`
     }
 
     type Mutation {
-        addProducts(input: ProductInput): [Product]
-        addProfiles(input: ProfileInput): Profile
+        addProducts(product: ProductInput): Product
+        updateProducts(product: String, fields: ProductFields): [Product]
+        deleteProducts(product: String): Product
+        addProfiles(input: ProfileInput): [Profile]
+        addMessages(input: MessageInput): [Message]
     }
 
     type Product {
@@ -34,6 +37,19 @@ const schema = buildSchema(`
         role: String
         tyc: Boolean
     }
+
+    type Author {
+        name: String
+        lastname: String
+        avatar: String
+        email: String
+    }
+
+    type Message {
+        _id: ID
+        author: Author
+        message: String
+    }
     
     input ProductQueryFilters {
         code: String
@@ -57,6 +73,16 @@ const schema = buildSchema(`
         stock: Int
     }
 
+    input ProductFields {
+        code: String
+        name: String
+        description: String
+        category: String
+        image: String
+        price: Float
+        stock: Int
+    }
+
     input ProfileInput {
         name: String!
         lastname: String!
@@ -69,6 +95,18 @@ const schema = buildSchema(`
         confirm: String!
         role: String!
         tyc: Boolean!
+    }
+
+    input AuthorInput {
+        name: String
+        lastname: String
+        avatar: String
+        email: String
+    }
+
+    input MessageInput {
+        author: AuthorInput
+        message: String
     }
 `);
 
