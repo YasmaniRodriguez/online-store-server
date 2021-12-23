@@ -7,8 +7,13 @@ const resolvers = {
 	async getProducts({ filters }) {
 		const records = await dataHandler.getProducts(filters);
 		return records;
-		//return DTO.productDeliverableObject(products);
 	},
+
+	async getProfiles({ filters }) {
+		const records = await dataHandler.getProfiles(filters);
+		return records;
+	},
+
 	//Mutations:
 	async addProducts({ product }) {
 		const records = await dataHandler.addProducts(product);
