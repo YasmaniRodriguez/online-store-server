@@ -45,8 +45,8 @@ const resolvers = {
 		return records;
 	},
 	///////////////////////////////
-	async addMessages({ input }) {
-		const records = await dataHandler.addMessages(input);
+	async addMessages({ message }) {
+		const records = await dataHandler.addMessages(message);
 		return records;
 	},
 
@@ -57,6 +57,7 @@ const resolvers = {
 
 	async deleteMessages({ message }) {
 		const records = await dataHandler.deleteMessages(message);
+		console.log(records);
 		return records;
 	},
 	///////////////////////////////

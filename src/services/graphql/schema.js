@@ -17,9 +17,9 @@ const schema = buildSchema(`
         updateProfiles(profile: String, fields: ProfileEditableFields): [Profile]
         deleteProfiless(profile: String): Profile
 
-        addMessages(message: MessageRequiredFields): [Message]
+        addMessages(message: MessageRequiredFields): Message
         updateMessages(message: String, fields: MessageEditableFields): [Message]
-        deleteMessages(message: String): Message
+        deleteMessages(message: String): [Message]
 
         addOrders(order: OrderRequiredFields): [Order]
         updateOrders(order: String, fields: OrderEditableFields): [Order]

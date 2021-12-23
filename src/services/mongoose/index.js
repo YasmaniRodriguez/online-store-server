@@ -211,7 +211,7 @@ class mongo {
 			return error;
 		}
 	}
-
+	///////////////////////////////
 	async getMessages(filters = null) {
 		try {
 			if (Object.keys(filters).length === 0) {
@@ -250,34 +250,54 @@ class mongo {
 	}
 
 	async updateMessages(message = null, fields) {
+		const data = [];
 		try {
-			return !message
-				? await messages.updateMany({}, { $set: fields }, { multi: true })
-				: await messages.updateOne(
-						{ code: { $eq: message } },
+			if (message) {
+				const obj = await messages.findOneAndUpdate(
+					{ _id: { $eq: message } },
+					{ $set: fields },
+					{ new: true }
+				);
+				data.push(obj);
+				return data;
+			} else {
+				for await (const doc of messages.find([{ $sort: { _id: 1 } }])) {
+					const obj = await messages.findOneAndUpdate(
+						{ _id: doc._id },
 						{ $set: fields },
-						{ multi: true }
-				  );
+						{ new: true }
+					);
+					data.push(obj);
+				}
+				return data;
+			}
+
+			// return !message
+			// 	? await messages.updateMany({}, { $set: fields }, { multi: true })
+			// : await messages.findOneAndUpdate(
+			// 		{ _id: { $eq: message } },
+			// 		{ $set: fields },
+			// 		{ new: true }
+			//   );
 		} catch (error) {
 			return error;
 		}
 	}
 
 	async deleteMessages(message = null) {
+		const data = [];
 		try {
 			if (message) {
-				return messages.findOneAndDelete({ _id: message }, {});
+				const obj = await messages.findOneAndDelete({ _id: message }, {});
+				data.push(obj);
+				return data;
 			} else {
-				const arr = [];
-				await messages.find().forEach(async (doc) => {
+				for await (const doc of messages.find([{ $sort: { _id: 1 } }])) {
 					const obj = await messages.findOneAndDelete({ _id: doc._id }, {});
-					arr.push(obj);
-				});
-				return arr;
+					data.push(obj);
+				}
+				return data;
 			}
-			// return !message
-			// 	? await messages.deleteMany({})
-			// 	: messages.findOneAndDelete({ code: { $eq: message } }, {});
 		} catch (error) {
 			return error;
 		}
