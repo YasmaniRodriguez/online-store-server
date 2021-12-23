@@ -5,7 +5,6 @@ const schema = buildSchema(`
         getProfiles(filters: ProfileQueryFilters): [Profile]
         getMessages(filters: MessageQueryFilters): [Message]
         getProducts(filters: ProductQueryFilters): [Product]
-        getCarts(filters: CartQueryFilters): [Cart]
         getOrders(filters: OrderQueryFilters): [Order]
     }
 
@@ -21,10 +20,6 @@ const schema = buildSchema(`
         addMessages(message: MessageRequiredFields): [Message]
         updateMessages(message: String, fields: MessageEditableFields): [Message]
         deleteMessages(message: String): Message
-
-        addCartProduct(cartProduct: CartProductRequiredFields): [CartProduct]
-        updateCartProduct(cartProduct: String, fields: CartProductEditableFields): [CartProduct]
-        deleteCartProduct(cartProduct: String): CartProduct
 
         addOrders(order: OrderRequiredFields): [Order]
         updateOrders(order: String, fields: OrderEditableFields): [Order]
@@ -69,29 +64,27 @@ const schema = buildSchema(`
         message: String
     }
 
+    type Order {
+        _id: ID
+        products: [Cart]
+        created_at: String
+        updated_at: String
+    }
+
     type Cart {
         code: ID
         status: Int
         buyer: Profile
-        products: [CartProduct]
+        products: [CartRow]
         totalAmount: Float
         totalQuantity: Float
     }
 
-    type CartProduct {
+    type CartRow {
         row: Int
         product: Product
         quantity: Float
         amount: Float
-    }
-
-    type Order {
-        code: ID
-        status: Int
-        buyer: Profile
-        products: [CartProduct]
-        totalAmount: Float
-        totalQuantity: Float
     }
 
     input ProductQueryFilters {
@@ -110,11 +103,6 @@ const schema = buildSchema(`
     input MessageQueryFilters {
         _id: String
         author: String
-    }
-
-    input CartQueryFilters {
-        code: String
-        buyer: String
     }
 
     input OrderQueryFilters {
@@ -181,16 +169,6 @@ const schema = buildSchema(`
     input MessageRequiredFields {
         author: AuthorFields
         message: String
-    }
-
-    input CartProductEditableFields {
-        product: String
-        quantity: Float
-    }
-
-    input CartProductRequiredFields {
-        product: String
-        quantity: Float
     }
 
     input OrderEditableFields {
