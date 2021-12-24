@@ -57,7 +57,6 @@ const resolvers = {
 
 	async deleteMessages({ message }) {
 		const records = await dataHandler.deleteMessages(message);
-		console.log(records);
 		return records;
 	},
 	///////////////////////////////

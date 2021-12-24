@@ -27,7 +27,7 @@ class mongo {
 	async Builder() {
 		logger.info("fantastic, everything is ready");
 	}
-
+	///////////////////////////////
 	async getProfiles(filters = null) {
 		try {
 			if (Object.keys(filters).length === 0) {
@@ -84,7 +84,7 @@ class mongo {
 			return error;
 		}
 	}
-
+	///////////////////////////////
 	async getProducts(filters = null) {
 		try {
 			if (Object.keys(filters).length === 0) {
@@ -162,7 +162,7 @@ class mongo {
 			return error;
 		}
 	}
-
+	///////////////////////////////
 	async getOrders(filters = null) {
 		try {
 			if (Object.keys(filters).length === 0) {
@@ -271,14 +271,6 @@ class mongo {
 				}
 				return data;
 			}
-
-			// return !message
-			// 	? await messages.updateMany({}, { $set: fields }, { multi: true })
-			// : await messages.findOneAndUpdate(
-			// 		{ _id: { $eq: message } },
-			// 		{ $set: fields },
-			// 		{ new: true }
-			//   );
 		} catch (error) {
 			return error;
 		}
