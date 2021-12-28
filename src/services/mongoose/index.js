@@ -5,6 +5,7 @@ const orders = require("./models/orders");
 const messages = require("./models/messages");
 const profiles = require("./models/profiles");
 const config = require("../../config");
+const { Order, OrderRow } = require("../../utils/class");
 
 const options = {
 	authSource: config.MONGO_LOCAL_AUTH_SOURCE,
@@ -178,8 +179,11 @@ class mongo {
 	}
 
 	async addOrders(order) {
+		const { buyer, rows } = order;
+		console.log(buyer);
 		try {
-			const newOrder = new orders(order);
+			const myOrder = new Order(buyer, rows, null, null);
+			const newOrder = new orders(myOrder);
 			const document = await newOrder.save();
 			return document;
 		} catch (error) {

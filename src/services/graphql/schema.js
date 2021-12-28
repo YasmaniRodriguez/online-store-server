@@ -21,7 +21,7 @@ const schema = buildSchema(`
         updateMessages(message: String, fields: MessageEditableFields): [Message]
         deleteMessages(message: String): [Message]
 
-        addOrders(order: OrderRequiredFields): [Order]
+        addOrders(order: OrderRequiredFields): Order
         updateOrders(order: String, fields: OrderEditableFields): [Order]
         deleteOrders(order: String): Order
     }
@@ -58,6 +58,14 @@ const schema = buildSchema(`
         email: String
     }
 
+    type Buyer {
+        name: String
+        lastname: String
+        email: String
+        phone: String
+        address: String
+    }
+
     type Message {
         _id: ID
         author: Author
@@ -66,86 +74,20 @@ const schema = buildSchema(`
 
     type Order {
         _id: ID
-        products: [Cart]
+        status: Int
+        buyer: Buyer
+        products: [OrderRow]
+        totalAmount: Float
+        totalQuantity: Float
         createdAt: String
         updatedAt: String
     }
 
-    type Cart {
-        code: ID
-        status: Int
-        buyer: Profile
-        products: [CartRow]
-        totalAmount: Float
-        totalQuantity: Float
-    }
-
-    type CartRow {
+    type OrderRow {
         row: Int
         product: Product
         quantity: Float
         amount: Float
-    }
-
-    input ProductQueryFilters {
-        code: String
-        category: String
-        price: FloatFilterRange
-        stock: FloatFilterRange
-    }
-
-    input ProfileQueryFilters {
-        _id: String
-        email: String
-        phone: String
-    }
-
-    input MessageQueryFilters {
-        _id: String
-        author: String
-    }
-
-    input OrderQueryFilters {
-        code: String
-        buyer: String
-        status: Int
-    }
-
-    input FloatFilterRange {
-        lte: Float
-        gte: Float
-    }
-
-    input ProductRequiredFields {
-        code: String!
-        name: String!
-        description: String
-        category: String
-        image: String
-        price: Float
-        stock: Int
-    }
-
-    input ProductEditableFields {
-        code: String
-        name: String
-        description: String
-        category: String
-        image: String
-        price: Float
-        stock: Int
-    }
-
-    input ProfileEditableFields {
-        name: String
-        lastname: String
-        birthday: String
-        avatar: String
-        phone: String
-        email: String
-        address: String
-        password: String
-        role: String
     }
 
     input ProfileRequiredFields {
@@ -162,8 +104,22 @@ const schema = buildSchema(`
         tyc: Boolean!
     }
 
-    input MessageEditableFields {
-        message: String
+    input ProfileQueryFilters {
+        _id: String
+        email: String
+        phone: String
+    }
+
+    input ProfileEditableFields {
+        name: String
+        lastname: String
+        birthday: String
+        avatar: String
+        phone: String
+        email: String
+        address: String
+        password: String
+        role: String
     }
 
     input MessageRequiredFields {
@@ -171,17 +127,55 @@ const schema = buildSchema(`
         message: String
     }
 
-    input OrderEditableFields {
-        status: Int
+    input MessageQueryFilters {
+        _id: String
+        author: String
+    }
+
+    input MessageEditableFields {
+        message: String
+    }
+
+    input ProductRequiredFields {
+        code: String!
+        name: String!
+        description: String
+        category: String
+        image: String
+        price: Float
+        stock: Float
+    }
+
+    input ProductQueryFilters {
+        code: String
+        category: String
+        price: FloatFilterRange
+        stock: FloatFilterRange
+    }
+
+    input ProductEditableFields {
+        code: String
+        name: String
+        description: String
+        category: String
+        image: String
+        price: Float
+        stock: Int
     }
 
     input OrderRequiredFields {
-        code: ID
-        status: Int
         buyer: BuyerFields
-        products: [CartRowFields]
-        totalAmount: Float
-        totalQuantity: Float
+        cart: [OrderRowFields]
+    }
+
+    input OrderQueryFilters {
+        _id: String
+        buyer: String
+        status: Int
+    }
+
+    input OrderEditableFields {
+        status: Int
     }
 
     input AuthorFields {
@@ -191,17 +185,22 @@ const schema = buildSchema(`
         email: String
     }
 
-    input CartRowFields {
-        product: ProductRequiredFields
-        quantity: Float
-        amount: Float
-    }
-
     input BuyerFields {
         name: String
-        phone: String
+        lastname: String
         email: String
+        phone: String
         address: String
+    }
+
+    input OrderRowFields {
+        product: String
+        quantity: Float
+    }
+
+    input FloatFilterRange {
+        lte: Float
+        gte: Float
     }
 
 `);

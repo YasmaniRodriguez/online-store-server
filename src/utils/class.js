@@ -39,13 +39,12 @@ class OrderRow {
 }
 
 class Order {
-	constructor(code, status, buyer, products, totalAmount, totalQuantity) {
-		this.code = code;
-		this.status = status;
+	constructor(buyer, products, totalAmount, totalQuantity) {
 		this.buyer = buyer;
 		this.products = products;
 		this.totalAmount = this.calcTotalAmount();
 		this.totalQuantity = this.calcTotalQuantity();
+		this.status = 0;
 	}
 
 	calcTotalAmount() {

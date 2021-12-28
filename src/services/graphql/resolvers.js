@@ -1,4 +1,5 @@
 const { getDataHandler } = require("../../utils/function");
+const { Order, OrderRow } = require("../../utils/class");
 const dataHandler = getDataHandler();
 const DTO = require("../../utils/dto");
 
@@ -16,11 +17,6 @@ const resolvers = {
 
 	async getProducts({ filters }) {
 		const records = await dataHandler.getProducts(filters);
-		return records;
-	},
-
-	async getCarts({ filters }) {
-		const records = await dataHandler.getCarts(filters);
 		return records;
 	},
 
@@ -76,7 +72,16 @@ const resolvers = {
 	},
 	///////////////////////////////
 	async addOrders({ order }) {
-		const records = await dataHandler.addOrders(order);
+		const { buyer, cart } = order;
+
+		const rows = [];
+
+		for await (let row of cart) {
+			let product = await dataHandler.getProducts({ code: row.product });
+			rows.push(new OrderRow(rows.length + 1, product[0], row.quantity, null));
+		}
+
+		const records = await dataHandler.addOrders({ buyer, rows });
 		return records;
 	},
 
