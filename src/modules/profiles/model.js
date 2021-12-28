@@ -37,6 +37,7 @@ module.exports = {
 	},
 
 	async deleteProfiles(profile) {
-		return dataHandler.deleteProfiles(profile);
+		const profiles = dataHandler.deleteProfiles(profile);
+		return deliverableObject("profiles", profiles);
 	},
 };
