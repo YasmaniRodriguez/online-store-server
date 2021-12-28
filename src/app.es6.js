@@ -71,8 +71,8 @@ app.use(
 		},
 	}).single("image")
 );
-app.use("/api", restfull);
-app.use("/gql", graphql);
+app.use("/restfull", restfull);
+app.use("/graphql", graphql);
 
 app.get("/", (req, res) => {
 	res.status(200).sendFile("index.html", { root: __dirname + "/public" });

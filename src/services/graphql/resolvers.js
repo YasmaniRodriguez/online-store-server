@@ -1,7 +1,5 @@
 const { getDataHandler } = require("../../utils/function");
-const { Order, OrderRow } = require("../../utils/class");
 const dataHandler = getDataHandler();
-const DTO = require("../../utils/dto");
 
 const resolvers = {
 	//Queries:
