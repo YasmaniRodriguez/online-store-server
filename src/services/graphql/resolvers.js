@@ -77,12 +77,12 @@ const resolvers = {
 	},
 
 	async updateOrders({ order, fields }) {
-		const records = await dataHandler.updateCartProducts(order, fields);
+		const records = await dataHandler.updateOrders(order, fields);
 		return records;
 	},
 
 	async deleteOrders({ order }) {
-		const records = await dataHandler.deleteCartProducts(order);
+		const records = await dataHandler.deleteOrders(order);
 		return records;
 	},
 	///////////////////////////////

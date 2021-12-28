@@ -179,15 +179,16 @@ class mongo {
 	}
 
 	async addOrders(order) {
+		const { buyer, cart } = order;
+
+		const rows = [];
+
+		for await (const row of cart) {
+			let product = await products.find({ code: row.product }, { __v: 0 });
+			rows.push(new OrderRow(rows.length + 1, product[0], row.quantity, null));
+		}
+
 		try {
-			const { buyer, cart } = order;
-			const rows = [];
-			for await (let row of cart) {
-				let product = await products.find({ code: row.product }, { __v: 0 });
-				rows.push(
-					new OrderRow(rows.length + 1, product[0], row.quantity, null)
-				);
-			}
 			const myOrder = new Order(buyer, rows, null, null);
 			const newOrder = new orders(myOrder);
 			const document = await newOrder.save();
@@ -198,25 +199,46 @@ class mongo {
 	}
 
 	async updateOrders(order = null, fields) {
+		const data = [];
 		try {
-			return !order
-				? await orders.updateMany({}, { $set: fields }, { multi: true })
-				: await orders.updateOne(
-						{ code: { $eq: order } },
+			if (order) {
+				const obj = await orders.findOneAndUpdate(
+					{ _id: { $eq: order } },
+					{ $set: fields },
+					{ new: true }
+				);
+				data.push(obj);
+				return data;
+			} else {
+				for await (const doc of orders.find([{ $sort: { _id: 1 } }])) {
+					const obj = await orders.findOneAndUpdate(
+						{ _id: doc._id },
 						{ $set: fields },
-						{ multi: true }
-				  );
+						{ new: true }
+					);
+					data.push(obj);
+				}
+				return data;
+			}
 		} catch (error) {
 			return error;
 		}
 	}
 
 	async deleteOrders(order = null) {
+		const data = [];
 		try {
-			return !order
-				? await orders.deleteMany({})
-				: orders.findOneAndDelete({ code: { $eq: order } }, {});
-			//: orders.deleteOne({ code: { $eq: order } });
+			if (order) {
+				const obj = await orders.findOneAndDelete({ _id: order }, {});
+				data.push(obj);
+				return data;
+			} else {
+				for await (const doc of orders.find([{ $sort: { _id: 1 } }])) {
+					const obj = await orders.findOneAndDelete({ _id: doc._id }, {});
+					data.push(obj);
+				}
+				return data;
+			}
 		} catch (error) {
 			return error;
 		}

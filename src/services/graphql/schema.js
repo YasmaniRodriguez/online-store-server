@@ -23,7 +23,7 @@ const schema = buildSchema(`
 
         addOrders(order: OrderRequiredFields): Order
         updateOrders(order: String, fields: OrderEditableFields): [Order]
-        deleteOrders(order: String): Order
+        deleteOrders(order: String): [Order]
     }
 
     type Product {
