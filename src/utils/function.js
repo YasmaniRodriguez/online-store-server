@@ -1,3 +1,4 @@
+const moment = require("moment");
 const bcrypt = require("bcrypt");
 const faker = require("faker/locale/en");
 const SingleDataAccessObject = require("./dao");
@@ -27,9 +28,19 @@ function buildProduct() {
 	return product;
 }
 
+function buildDeliverable(data) {
+	const deliverable = {
+		timestamp: moment().format(),
+		pid: process.pid,
+		data: data,
+	};
+	return deliverable;
+}
+
 module.exports = {
 	getDataHandler,
 	buildHash,
 	checkHash,
 	buildProduct,
+	buildDeliverable,
 };

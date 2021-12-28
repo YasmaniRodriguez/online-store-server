@@ -1,5 +1,5 @@
-const { getDataHandler } = require("../../utils/function");
-const dataHandler = getDataHandler();
+const dataHandler = require("../../utils/function").getDataHandler();
+const { deliverableObject } = require("../../utils/dto");
 
 const resolvers = {
 	//Queries:

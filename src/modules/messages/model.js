@@ -1,8 +1,8 @@
 const normalize = require("../../services/normalizr").getNormalizedData;
 const schema = require("../../services/normalizr/schemas/messages");
 const config = require("../../config");
-const { getDataHandler } = require("../../utils/function");
-const dataHandler = getDataHandler();
+const dataHandler = require("../../utils/function").getDataHandler();
+const { deliverableObject } = require("../../utils/dto");
 
 module.exports = {
 	async getMessages(filters) {

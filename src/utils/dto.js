@@ -1,87 +1,65 @@
-const moment = require("moment");
+const { buildDeliverable } = require("./function");
 
 module.exports = {
-	async productDeliverableObject(products) {
-		function getDeliverable(objects) {
-			let convention = [];
-
-			if (Array.isArray(objects)) {
-				objects.forEach((object) => {
-					convention.push({
-						code: object.code,
-						category: object.category,
-						name: object.name,
-						description: object.description,
-						image: object.image,
-						price: object.price,
-						stock: object.stock,
+	async deliverableObject(model, payload) {
+		const data = [];
+		switch (model) {
+			case "profiles":
+				if (Array.isArray(payload)) {
+					payload.forEach((object) => {
+						data.push({
+							name: object.name,
+							lastname: object.lastname,
+							birthday: object.birthday,
+							avatar: object.avatar,
+							phone: object.phone,
+							email: object.email,
+							address: object.address,
+						});
 					});
-				});
-			} else {
-				convention.push({
-					code: products.code,
-					category: products.category,
-					name: products.name,
-					description: products.description,
-					image: products.image,
-					price: products.price,
-					stock: products.stock,
-				});
-			}
-
-			return convention;
-		}
-
-		const deliverableObject = await getDeliverable(products);
-
-		return {
-			timestamp: moment().format(),
-			pid: process.pid,
-			products: deliverableObject,
-		};
-	},
-
-	async profileDeliverableObject(profiles) {
-		function getDeliverable(objects) {
-			let convention = [];
-
-			if (Array.isArray(objects)) {
-				objects.forEach((object) => {
-					convention.push({
-						name: object.name,
-						lastname: object.lastname,
-						birthday: object.birthday,
-						avatar: object.avatar,
-						phone: object.phone,
-						email: object.email,
-						address: object.address,
+				} else {
+					data.push({
+						name: payload.name,
+						lastname: payload.lastname,
+						birthday: payload.birthday,
+						avatar: payload.avatar,
+						phone: payload.phone,
+						email: payload.email,
+						address: payload.address,
 					});
-				});
-			} else {
-				convention.push({
-					name: profiles.name,
-					lastname: profiles.lastname,
-					birthday: profiles.birthday,
-					avatar: profiles.avatar,
-					phone: profiles.phone,
-					email: profiles.email,
-					address: profiles.address,
-				});
-			}
-
-			return convention;
+				}
+				return buildDeliverable(data);
+			case "messages":
+				break;
+			case "products":
+				if (Array.isArray(payload)) {
+					payload.forEach((object) => {
+						data.push({
+							code: object.code,
+							category: object.category,
+							name: object.name,
+							description: object.description,
+							image: object.image,
+							price: object.price,
+							stock: object.stock,
+						});
+					});
+				} else {
+					data.push({
+						code: payload.code,
+						category: payload.category,
+						name: payload.name,
+						description: payload.description,
+						image: payload.image,
+						price: payload.price,
+						stock: payload.stock,
+					});
+				}
+				return buildDeliverable(data);
+			case "orders":
+				break;
+			default:
+				break;
 		}
-
-		const deliverableObject = await getDeliverable(profiles);
-
-		return {
-			timestamp: moment().format(),
-			pid: process.pid,
-			profiles: deliverableObject,
-		};
 	},
-
-	async orderDeliverableObject() {},
-
-	async messageDeliverableObject() {},
 };

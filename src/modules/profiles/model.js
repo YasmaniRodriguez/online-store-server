@@ -2,14 +2,13 @@ const config = require("../../config");
 const service = require("../../services/nodemailer");
 const logger = require("../../services/log4js");
 const email = new service();
-const { getDataHandler } = require("../../utils/function");
-const dataHandler = getDataHandler();
-const DTO = require("../../utils/dto");
+const dataHandler = require("../../utils/function").getDataHandler();
+const { deliverableObject } = require("../../utils/dto");
 
 module.exports = {
 	async getProfiles(filters) {
 		const profiles = await dataHandler.getProfiles(filters);
-		return DTO.profileDeliverableObject(profiles);
+		return deliverableObject("profiles", profiles);
 	},
 
 	async addProfiles(profile) {
@@ -26,7 +25,7 @@ module.exports = {
 				);
 			}
 
-			return DTO.profileDeliverableObject(profiles);
+			return deliverableObject("profiles", profiles);
 		} catch (error) {
 			logger.error(error);
 		}
@@ -34,7 +33,7 @@ module.exports = {
 
 	async updateProfiles(profile, fields) {
 		const profiles = await dataHandler.updateProfiles(profile, fields);
-		return DTO.profileDeliverableObject(profiles);
+		return deliverableObject("profiles", profiles);
 	},
 
 	async deleteProfiles(profile) {
