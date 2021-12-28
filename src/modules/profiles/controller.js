@@ -39,7 +39,7 @@ module.exports = {
 
 		const exists = await profileModel.getProfiles({ email });
 		console.log(exists);
-		if (exists.length !== 0) {
+		if (exists.data.length !== 0) {
 			return res.status(417).json({
 				status: "error",
 				message: "that email address is already in use",

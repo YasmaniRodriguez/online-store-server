@@ -35,7 +35,7 @@ class mongo {
 				const data = await profiles.find({}, { __v: 0 }).lean();
 				return data;
 			} else {
-				const data = await profiles.find({ filters }, { __v: 0 }).lean();
+				const data = await profiles.find(filters, { __v: 0 }).lean();
 				return data;
 			}
 		} catch (error) {
