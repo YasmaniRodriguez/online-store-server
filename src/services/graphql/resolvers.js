@@ -72,16 +72,7 @@ const resolvers = {
 	},
 	///////////////////////////////
 	async addOrders({ order }) {
-		const { buyer, cart } = order;
-
-		const rows = [];
-
-		for await (let row of cart) {
-			let product = await dataHandler.getProducts({ code: row.product });
-			rows.push(new OrderRow(rows.length + 1, product[0], row.quantity, null));
-		}
-
-		const records = await dataHandler.addOrders({ buyer, rows });
+		const records = await dataHandler.addOrders(order);
 		return records;
 	},
 

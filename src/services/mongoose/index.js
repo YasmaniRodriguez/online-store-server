@@ -179,9 +179,15 @@ class mongo {
 	}
 
 	async addOrders(order) {
-		const { buyer, rows } = order;
-		console.log(buyer);
 		try {
+			const { buyer, cart } = order;
+			const rows = [];
+			for await (let row of cart) {
+				let product = await products.find({ code: row.product }, { __v: 0 });
+				rows.push(
+					new OrderRow(rows.length + 1, product[0], row.quantity, null)
+				);
+			}
 			const myOrder = new Order(buyer, rows, null, null);
 			const newOrder = new orders(myOrder);
 			const document = await newOrder.save();
