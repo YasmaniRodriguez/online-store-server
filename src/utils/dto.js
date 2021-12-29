@@ -1,4 +1,5 @@
 const { buildDeliverable } = require("./function");
+const config = require("../config");
 
 module.exports = {
 	async deliverableObject(model, payload) {
@@ -30,6 +31,7 @@ module.exports = {
 				}
 				return buildDeliverable(data);
 			case "messages":
+				//config.NORMALIZATION ? normalize(data, schema) : data;
 				break;
 			case "products":
 				if (Array.isArray(payload)) {

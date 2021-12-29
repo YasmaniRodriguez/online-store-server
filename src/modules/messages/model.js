@@ -7,7 +7,7 @@ const { deliverableObject } = require("../../utils/dto");
 module.exports = {
 	async getMessages(filters) {
 		const data = await dataHandler.getMessages(filters);
-		return config.NORMALIZATION ? normalize(data, schema) : data;
+		return data;
 	},
 
 	async addMessages(message) {
