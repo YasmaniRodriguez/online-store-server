@@ -18,8 +18,8 @@ module.exports = {
 	async addOrders(req, res) {
 		const order = req.body;
 		try {
-			await OrderModel.addOrders(order);
-			res.status(201).json({ status: "ok", message: "order uploaded" });
+			const record = await OrderModel.addOrders(order);
+			res.status(201).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
