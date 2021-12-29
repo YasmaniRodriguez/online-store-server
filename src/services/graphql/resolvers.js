@@ -4,22 +4,22 @@ const { deliverableObject } = require("../../utils/dto");
 const resolvers = {
 	//Queries:
 	async getProfiles({ filters }) {
-		const records = await dataHandler.getProfiles({ filters });
+		const records = await dataHandler.getProfiles(filters);
 		return records;
 	},
 
 	async getMessages({ filters }) {
-		const records = await dataHandler.getMessages({ filters });
+		const records = await dataHandler.getMessages(filters);
 		return records;
 	},
 
 	async getProducts({ filters }) {
-		const records = await dataHandler.getProducts({ filters });
+		const records = await dataHandler.getProducts(filters);
 		return records;
 	},
 
 	async getOrders({ filters }) {
-		const records = await dataHandler.getOrders({ filters });
+		const records = await dataHandler.getOrders(filters);
 		return records;
 	},
 

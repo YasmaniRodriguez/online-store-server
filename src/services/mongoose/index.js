@@ -35,7 +35,7 @@ class mongo {
 				const data = await profiles.find({}, { __v: 0 }).lean();
 				return data;
 			} else {
-				const data = await profiles.find(filters, { __v: 0 }).lean();
+				const data = await profiles.find({ filters }, { __v: 0 }).lean();
 				return data;
 			}
 		} catch (error) {
@@ -76,11 +76,19 @@ class mongo {
 	}
 
 	async deleteProfiles(profile = null) {
+		const data = [];
 		try {
-			return !profile
-				? await profiles.deleteMany({})
-				: profiles.findOneAndDelete({ code: { $eq: profile } }, {});
-			//: profiles.deleteOne({ email: { $eq: profile } });
+			if (profile) {
+				const obj = await profiles.findOneAndDelete({ _id: profile }, {});
+				data.push(obj);
+				return data;
+			} else {
+				for await (const doc of profiles.find([{ $sort: { _id: 1 } }])) {
+					const obj = await profiles.findOneAndDelete({ _id: doc._id }, {});
+					data.push(obj);
+				}
+				return data;
+			}
 		} catch (error) {
 			return error;
 		}
@@ -158,7 +166,6 @@ class mongo {
 			return !product
 				? await products.deleteMany({})
 				: products.findOneAndDelete({ code: { $eq: product } }, {});
-			//: products.deleteOne({ code: { $eq: product } });
 		} catch (error) {
 			return error;
 		}

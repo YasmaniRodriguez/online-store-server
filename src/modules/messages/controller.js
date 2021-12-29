@@ -18,8 +18,8 @@ module.exports = {
 	async addMessages(req, res) {
 		const message = req.body;
 		try {
-			await messageModel.addMessages(message);
-			res.status(201).json({ status: "ok", message: "message uploaded" });
+			const record = await await messageModel.addMessages(message);
+			res.status(201).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

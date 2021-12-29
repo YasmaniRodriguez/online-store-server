@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 const faker = require("faker/locale/en");
 const SingleDataAccessObject = require("./dao");
 
-const getDataHandler = () => {
+function getDataHandler() {
 	return new SingleDataAccessObject().getHandler();
-};
+}
 
 function buildHash(value) {
 	return bcrypt.hashSync(value, bcrypt.genSaltSync(10));
