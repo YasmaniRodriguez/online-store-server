@@ -1,5 +1,4 @@
 const normalize = require("../../services/normalizr").getNormalizedData;
-const schema = require("../../services/normalizr/schemas/messages");
 const config = require("../../config");
 const dataHandler = require("../../utils/function").getDataHandler();
 const { deliverableObject } = require("../../utils/dto");
