@@ -5,22 +5,22 @@ const ExtractJwt = require("passport-jwt").ExtractJwt;
 const opts = {
 	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: config.JWT_SECRET,
-	passReqToCallback: true,
+	passReqToCallback: false,
 };
 const User = require("../../mongoose/models/profiles");
 
 const jwt = (app) => {
 	passport.use(
-		new JwtStrategy(opts, async (jwtPayload, done) => {
+		new JwtStrategy(opts, async (payload, done) => {
 			try {
-				const user = await User.findOne({ id: jwtPayload.sub });
+				const user = await User.findOne({ _id: payload.sub });
 				if (user) {
 					return done(null, user);
 				} else {
 					return done(null, false);
 				}
-			} catch (e) {
-				done(e, false);
+			} catch (error) {
+				return done(error, false);
 			}
 		})
 	);

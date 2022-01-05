@@ -38,7 +38,7 @@ module.exports = {
 		}
 
 		const exists = await profileModel.getProfiles({ email });
-		console.log(exists);
+
 		if (exists.data.length !== 0) {
 			return res.status(417).json({
 				status: "error",

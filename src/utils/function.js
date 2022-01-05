@@ -1,5 +1,7 @@
 const moment = require("moment");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
 const faker = require("faker/locale/en");
 const SingleDataAccessObject = require("./dao");
 
@@ -37,10 +39,26 @@ function buildDeliverable(data) {
 	return deliverable;
 }
 
+function buildJwt(user) {
+	const payload = {
+		sub: user._id,
+		iat: Date.now(),
+	};
+
+	const expiration = "120m";
+
+	const token = jwt.sign(payload, config.JWT_SECRET, {
+		expiresIn: expiration,
+	});
+
+	return { token: token, expires: expiration };
+}
+
 module.exports = {
 	getDataHandler,
 	buildHash,
 	checkHash,
 	buildProduct,
 	buildDeliverable,
+	buildJwt,
 };

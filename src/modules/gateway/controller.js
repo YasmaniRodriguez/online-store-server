@@ -1,52 +1,62 @@
 const gatewayModel = require("./model");
 const logger = require("../../services/log4js");
-const passport = require("passport");
+const dataHandler = require("../../utils/function").getDataHandler();
+const { checkHash, buildJwt } = require("../../utils/function");
 
 module.exports = {
-	async userLogin(req, res, next) {
+	async login(req, res, next) {
 		try {
-			passport.authenticate("local", (error, user, info) => {
-				if (error) {
-					logger.error(error);
-					throw error;
-				}
+			const { email, password } = req.body;
 
-				if (!user) {
-					res
-						.status(417)
-						.json({ status: "error", message: "wrong user or password" });
-				} else {
-					req.logIn(user, (error) => {
-						if (error) {
-							logger.error(error);
-							throw error;
-						} else {
-							gatewayModel.userLogin({
-								id: req.sessionID,
-								email: user.email,
-							});
-							res.status(200).json({
-								status: "ok",
-								message: "successfully authenticated user",
-							});
-						}
-					});
-				}
-			})(req, res, next);
+			const user = await dataHandler.getProfiles({ email });
+
+			const isValid = user.find((u) => {
+				return u.email === email && checkHash(password, u.password);
+			});
+
+			if (isValid) {
+				const accessToken = buildJwt(user[0]);
+				req.logIn(user[0], (error) => {
+					if (error) {
+						logger.error(error);
+						throw error;
+					} else {
+						gatewayModel.userLogin({
+							id: req.sessionID,
+							email: user[0].email,
+						});
+						res.status(200).json({
+							status: "ok",
+							message: "successfully authenticated",
+							user: {
+								id: user[0]._id,
+								email: user[0].email,
+								role: user[0].role,
+							},
+							token: accessToken.token,
+							expires: accessToken.expires,
+						});
+					}
+				});
+			} else {
+				res
+					.status(417)
+					.json({ status: "error", message: "wrong user or password" });
+			}
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 			logger.error(error);
 		}
 	},
 
-	async userLogout(req, res, next) {
+	async logout(req, res, next) {
+		const user = req.user;
 		try {
-			const user = req.user;
 			if (user) {
 				req.logOut(); //req.session.destroy();
 				await gatewayModel.userLogout({
 					id: req.sessionID,
-					imail: req.user,
+					email: req.user,
 				});
 				res.status(200).json({ status: "ok", message: "logout success!" });
 			} else {
