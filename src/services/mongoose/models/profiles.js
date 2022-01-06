@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
 const config = require("../../../config");
 
 const profileSchema = new mongoose.Schema(
@@ -29,9 +28,13 @@ const profileSchema = new mongoose.Schema(
 
 profileSchema.methods.newAuthToken = async function () {
 	const user = this;
-	const token = jwt.sign({ _id: user.id.toString() }, config.JWT_SECRET, {
-		expiresIn: "1d",
-	});
+	const token = jwt.sign(
+		{ sub: user._id, iat: Date.now() },
+		config.JWT_SECRET,
+		{
+			expiresIn: "120m",
+		}
+	);
 	user.tokens = user.tokens.concat({ token });
 	await user.save();
 	return token;

@@ -17,6 +17,7 @@ module.exports = {
 							phone: object.phone,
 							email: object.email,
 							address: object.address,
+							tokens: object.tokens,
 						});
 					});
 				} else {
@@ -28,6 +29,7 @@ module.exports = {
 						phone: payload.phone,
 						email: payload.email,
 						address: payload.address,
+						tokens: payload.tokens,
 					});
 				}
 				return buildDeliverable(data);
