@@ -15,9 +15,14 @@ module.exports = {
 			});
 
 			if (isValid) {
-				//const accessToken = buildJwt(user[0]);
+				const accessToken = buildJwt(user[0]);
 
-				req.logIn(user[0], (error) => {
+				const token = await dataHandler.addProfileToken(
+					{ _id: user[0]._id.toString() },
+					accessToken
+				);
+
+				req.logIn(user[0], async (error) => {
 					if (error) {
 						logger.error(error);
 						throw error;
@@ -33,7 +38,7 @@ module.exports = {
 								id: user[0]._id,
 								email: user[0].email,
 								role: user[0].role,
-								tokens: user[0].tokens,
+								token: token.token,
 							},
 						});
 					}
@@ -51,8 +56,13 @@ module.exports = {
 
 	async logout(req, res, next) {
 		const user = req.user;
+		const token = req.headers.authorization.split(" ")[1];
 		try {
 			if (user) {
+				await dataHandler.deleteProfileToken(
+					{ _id: user._id.toString() },
+					token
+				);
 				req.logOut(); //req.session.destroy();
 				await gatewayModel.logout({
 					id: req.sessionID,

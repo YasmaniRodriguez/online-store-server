@@ -57,6 +57,33 @@ class mongo {
 		}
 	}
 
+	async addProfileToken(filters, token) {
+		try {
+			await profiles.updateOne(filters, {
+				$push: { tokens: token },
+			});
+			const data = await profiles.find(filters, { __v: 0 }).lean();
+			const last = data[0].tokens[data[0].tokens.length - 1];
+			return last;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async deleteProfileToken(filters, token) {
+		try {
+			await profiles.updateOne(filters, {
+				$pull: {
+					tokens: {
+						token: token,
+					},
+				},
+			});
+		} catch (error) {
+			return error;
+		}
+	}
+
 	async updateProfiles(profile = null, fields) {
 		try {
 			if (profile) {
