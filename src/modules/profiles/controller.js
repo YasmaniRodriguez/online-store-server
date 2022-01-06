@@ -1,5 +1,6 @@
 const profileModel = require("./model");
 const { buildHash } = require("../../utils/function");
+const validator = require("validator");
 
 module.exports = {
 	async getProfiles(req, res) {
@@ -17,12 +18,40 @@ module.exports = {
 	},
 
 	async addProfiles(req, res) {
-		const { email, password, confirm } = req.body;
+		const {
+			name,
+			lastname,
+			birthday,
+			phone,
+			email,
+			address,
+			password,
+			confirm,
+			role,
+			tyc,
+		} = req.body;
 
-		if (!email) {
-			return res
-				.status(417)
-				.json({ status: "error", message: "you must enter an email address" });
+		const avatar = req.file.filename;
+
+		if (!validator.isEmail(email)) {
+			return res.status(417).json({
+				status: "error",
+				message: "you must enter an valid email address",
+			});
+		}
+
+		if (!validator.isMobilePhone(phone, ["es-AR"])) {
+			return res.status(417).json({
+				status: "error",
+				message: "you must enter an valid phone number from AR",
+			});
+		}
+
+		if (!validator.isDate(birthday)) {
+			return res.status(417).json({
+				status: "error",
+				message: "you must enter an valid birthday format yyyy/mm/dd",
+			});
 		}
 
 		if (!password) {
@@ -46,19 +75,19 @@ module.exports = {
 			});
 		}
 
-		const encryptedPassword = buildHash(req.body.password);
+		const encryptedPassword = buildHash(password);
 
 		const profile = {
-			name: req.body.name,
-			lastname: req.body.lastname,
-			birthday: req.body.birthday,
-			avatar: `/images/${req.file.filename}`,
-			phone: req.body.phone,
-			email: req.body.email,
-			address: req.body.address,
+			name: name,
+			lastname: lastname,
+			birthday: birthday,
+			avatar: `/images/${avatar}`,
+			phone: phone,
+			email: email,
+			address: address,
 			password: encryptedPassword,
-			role: req.body.role,
-			tyc: req.body.tyc,
+			role: role,
+			tyc: tyc,
 		};
 
 		try {

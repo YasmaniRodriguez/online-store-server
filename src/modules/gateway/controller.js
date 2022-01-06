@@ -15,13 +15,14 @@ module.exports = {
 			});
 
 			if (isValid) {
-				const accessToken = buildJwt(user[0]);
+				//const accessToken = buildJwt(user[0]);
+
 				req.logIn(user[0], (error) => {
 					if (error) {
 						logger.error(error);
 						throw error;
 					} else {
-						gatewayModel.userLogin({
+						gatewayModel.login({
 							id: req.sessionID,
 							email: user[0].email,
 						});
@@ -32,9 +33,8 @@ module.exports = {
 								id: user[0]._id,
 								email: user[0].email,
 								role: user[0].role,
+								tokens: user[0].tokens,
 							},
-							token: accessToken.token,
-							expires: accessToken.expires,
 						});
 					}
 				});
@@ -54,7 +54,7 @@ module.exports = {
 		try {
 			if (user) {
 				req.logOut(); //req.session.destroy();
-				await gatewayModel.userLogout({
+				await gatewayModel.logout({
 					id: req.sessionID,
 					email: req.user,
 				});

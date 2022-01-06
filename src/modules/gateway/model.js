@@ -3,9 +3,10 @@ const service = require("../../services/nodemailer");
 const logger = require("../../services/log4js");
 const email = new service();
 const moment = require("moment");
+const dataHandler = require("../../utils/function").getDataHandler();
 
 module.exports = {
-	async userLogin(session) {
+	async login(session) {
 		try {
 			await email.SendMessage(
 				"ethereal",
@@ -27,7 +28,7 @@ module.exports = {
 		}
 	},
 
-	async userLogout(session) {
+	async logout(session) {
 		try {
 			await email.SendMessage(
 				"ethereal",
