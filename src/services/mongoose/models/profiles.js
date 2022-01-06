@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const config = require("../../../config");
 
-const profileSchema = new mongoose.Schema(
+const schema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
 		lastname: { type: String, required: true },
@@ -26,7 +26,7 @@ const profileSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-profileSchema.methods.newAuthToken = async function () {
+schema.methods.newAuthToken = async function () {
 	const user = this;
 	const token = jwt.sign(
 		{ sub: user._id, iat: Date.now() },
@@ -40,4 +40,4 @@ profileSchema.methods.newAuthToken = async function () {
 	return token;
 };
 
-module.exports = mongoose.model("profiles", profileSchema);
+module.exports = mongoose.model("profiles", schema);

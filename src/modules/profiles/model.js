@@ -13,11 +13,9 @@ module.exports = {
 
 	async addProfiles(profile) {
 		try {
-			const user = await dataHandler.addProfiles(profile);
+			const profiles = await dataHandler.addProfiles(profile);
 
-			if (user._id) {
-				await user.newAuthToken();
-
+			if (profiles._id) {
 				await email.SendMessage(
 					"ethereal",
 					config.ETHEREAL_USER,
@@ -26,8 +24,6 @@ module.exports = {
 					`new signup`
 				);
 			}
-
-			const profiles = await dataHandler.getProfiles({ _id: user._id });
 
 			return deliverableObject("profiles", profiles);
 		} catch (error) {

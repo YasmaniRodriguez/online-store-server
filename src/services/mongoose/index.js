@@ -46,7 +46,11 @@ class mongo {
 	async addProfiles(profile) {
 		try {
 			const newProfile = new profiles(profile);
-			const document = await newProfile.save();
+			const document = await newProfile.save().then(async (result) => {
+				await result.newAuthToken();
+				return result;
+			});
+
 			return document;
 		} catch (error) {
 			return error;
