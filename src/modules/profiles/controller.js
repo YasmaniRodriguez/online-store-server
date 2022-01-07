@@ -34,7 +34,7 @@ module.exports = {
 		const avatar = req.file.filename;
 
 		if (!validator.isEmail(email)) {
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			return res.status(417).json({
 				status: "error",
 				message: "you must enter an valid email address",
@@ -42,7 +42,7 @@ module.exports = {
 		}
 
 		if (!validator.isMobilePhone(phone, ["es-AR"])) {
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			return res.status(417).json({
 				status: "error",
 				message: "you must enter an valid phone number from AR",
@@ -50,7 +50,7 @@ module.exports = {
 		}
 
 		if (!validator.isDate(birthday)) {
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			return res.status(417).json({
 				status: "error",
 				message: "you must enter an valid birthday format yyyy/mm/dd",
@@ -58,14 +58,14 @@ module.exports = {
 		}
 
 		if (!password) {
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			return res
 				.status(417)
 				.json({ status: "error", message: "you must enter a password" });
 		}
 
 		if (password !== confirm) {
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			return res
 				.status(417)
 				.json({ status: "error", message: "passwords are not the same" });
@@ -74,7 +74,7 @@ module.exports = {
 		const exists = await profileModel.getProfiles({ email });
 
 		if (exists.data.length !== 0) {
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			return res.status(417).json({
 				status: "error",
 				message: "that email address is already in use",
@@ -100,7 +100,7 @@ module.exports = {
 			const record = await profileModel.addProfiles(profile);
 			res.status(201).json(record);
 		} catch (error) {
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
@@ -109,6 +109,12 @@ module.exports = {
 		const profile = req.user._id;
 		const fields = req.body;
 		const avatar = req.file ? `/uploads/${req.file.filename}` : req.file;
+
+		if (avatar) {
+			const oldAvatar = req.user.avatar.split("/")[2];
+			await deleteUploads(oldAvatar);
+		}
+
 		try {
 			const record = await profileModel.updateProfiles(profile, {
 				...fields,
@@ -122,9 +128,11 @@ module.exports = {
 
 	async deleteProfiles(req, res) {
 		const profile = req.user._id;
+		const avatar = req.user.avatar.split("/")[2];
+
 		try {
 			const record = await profileModel.deleteProfiles(profile);
-			deleteUploads(avatar);
+			await deleteUploads(avatar);
 			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
