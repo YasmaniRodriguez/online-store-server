@@ -84,7 +84,6 @@ const schema = buildSchema(`
     }
 
     type OrderRow {
-        row: Int
         product: Product
         quantity: Float
         amount: Float

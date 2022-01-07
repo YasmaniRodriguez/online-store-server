@@ -15,7 +15,7 @@ module.exports = {
 		}
 	},
 
-	async addCartProduct(filters) {
+	async addCartProducts(filters) {
 		const { product, quantity } = filters;
 		try {
 			const data = dataHandler.getProducts({ code: product });
@@ -27,7 +27,7 @@ module.exports = {
 		}
 	},
 
-	async updateCartProduct(filters) {
+	async updateCartProducts(filters) {
 		const { product, quantity } = filters;
 		try {
 			const data = await cart.find((row) => row.product.code === product);
@@ -39,7 +39,7 @@ module.exports = {
 		}
 	},
 
-	async deleteCartProduct(filters) {
+	async deleteCartProducts(filters) {
 		const { product } = filters;
 		try {
 			const data = await cart.find((row) => row.product.code === product);
