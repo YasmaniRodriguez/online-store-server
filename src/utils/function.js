@@ -1,3 +1,6 @@
+const fs = require("fs").promises;
+const path = require("path");
+const logger = require("../services/log4js");
 const moment = require("moment");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -54,6 +57,15 @@ function buildJwt(user) {
 	return { token: token, expires: expiration };
 }
 
+async function deleteUploads(file) {
+	try {
+		await fs.unlink(path.join(__dirname, `../public/uploads/${file}`));
+		logger.info("file was removed");
+	} catch (error) {
+		logger.error(error);
+	}
+}
+
 module.exports = {
 	getDataHandler,
 	buildHash,
@@ -61,4 +73,5 @@ module.exports = {
 	buildProduct,
 	buildDeliverable,
 	buildJwt,
+	deleteUploads,
 };

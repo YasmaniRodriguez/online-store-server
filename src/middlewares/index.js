@@ -1,6 +1,8 @@
+const path = require("path");
 const logger = require("../services/log4js");
 const passport = require("passport");
 const dataHandler = require("../utils/function").getDataHandler();
+const multer = require("multer");
 
 async function authentication(req, res, next) {
 	const { method, url } = req;
@@ -46,4 +48,29 @@ async function authentication(req, res, next) {
 
 async function authorities(req, res, next) {}
 
-module.exports = { authentication, authorities };
+const storage = multer.diskStorage({
+	destination: path.join(__dirname, "../public/uploads"),
+	filename: (req, file, cb) => {
+		const myself = req.sessionID;
+		const uniqueSuffix = `${myself}-${Date.now()}`;
+		cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
+	},
+});
+
+const uploads = multer({
+	storage,
+	limits: { fileSize: 10000000 },
+	fileFilter: (req, file, cb) => {
+		const filetypes = ["jpeg", "jpg", "png", "gif"];
+		const validFileType = filetypes.some((type) =>
+			file.mimetype.includes(type)
+		);
+		if (validFileType) {
+			cb(null, true);
+		} else {
+			cb("ERROR: invalid image extension");
+		}
+	},
+}).single("image");
+
+module.exports = { authentication, authorities, uploads };

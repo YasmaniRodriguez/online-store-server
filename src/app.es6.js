@@ -15,15 +15,6 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const mongoStore = require("connect-mongo");
-const multer = require("multer");
-const storage = multer.diskStorage({
-	destination: path.join(__dirname, "public/images"),
-	filename: (req, file, cb) => {
-		const myself = req.sessionID;
-		const uniqueSuffix = `${myself}-${Date.now()}`;
-		cb(null, `${uniqueSuffix}${path.extname(file.originalname)}`);
-	},
-});
 const session_options = {
 	secret: config.SESSION_SECRET,
 	resave: false,
@@ -31,8 +22,7 @@ const session_options = {
 	rolling: true,
 	cookie: { maxAge: 600000 },
 };
-const { getDataHandler } = require("./utils/function");
-const dataHandler = getDataHandler();
+const dataHandler = require("./utils/function").getDataHandler();
 
 app.set("socketio", io);
 
@@ -54,23 +44,6 @@ require("./services/passport")(app);
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
-app.use(
-	multer({
-		storage,
-		limits: { fileSize: 10000000 },
-		fileFilter: (req, file, cb) => {
-			const filetypes = ["jpeg", "jpg", "png", "gif"];
-			const validFileType = filetypes.some((type) =>
-				file.mimetype.includes(type)
-			);
-			if (validFileType) {
-				cb(null, true);
-			} else {
-				cb("ERROR: invalid image extension");
-			}
-		},
-	}).single("image")
-);
 app.use("/restfull", restfull);
 app.use("/graphql", graphql);
 

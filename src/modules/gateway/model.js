@@ -3,7 +3,6 @@ const service = require("../../services/nodemailer");
 const logger = require("../../services/log4js");
 const email = new service();
 const moment = require("moment");
-const dataHandler = require("../../utils/function").getDataHandler();
 
 module.exports = {
 	async login(session) {

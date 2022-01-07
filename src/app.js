@@ -48,16 +48,6 @@ var session = require("express-session");
 
 var mongoStore = require("connect-mongo");
 
-var multer = require("multer");
-
-var storage = multer.diskStorage({
-  destination: path.join(__dirname, "public/images"),
-  filename: function filename(req, file, cb) {
-    var myself = req.sessionID;
-    var uniqueSuffix = "".concat(myself, "-").concat(Date.now());
-    cb(null, "".concat(uniqueSuffix).concat(path.extname(file.originalname)));
-  }
-});
 var session_options = {
   secret: config.SESSION_SECRET,
   resave: false,
@@ -68,10 +58,8 @@ var session_options = {
   }
 };
 
-var _require = require("./utils/function"),
-    getDataHandler = _require.getDataHandler;
+var dataHandler = require("./utils/function").getDataHandler();
 
-var dataHandler = getDataHandler();
 app.set("socketio", io);
 app.use(compression());
 app.use(express.json());
@@ -98,24 +86,6 @@ app.use(cors({
 }));
 app.use(express["static"](path.join(__dirname, "public")));
 app.use(morgan("dev"));
-app.use(multer({
-  storage: storage,
-  limits: {
-    fileSize: 10000000
-  },
-  fileFilter: function fileFilter(req, file, cb) {
-    var filetypes = ["jpeg", "jpg", "png", "gif"];
-    var validFileType = filetypes.some(function (type) {
-      return file.mimetype.includes(type);
-    });
-
-    if (validFileType) {
-      cb(null, true);
-    } else {
-      cb("ERROR: invalid image extension");
-    }
-  }
-}).single("image"));
 app.use("/restfull", restfull);
 app.use("/graphql", graphql);
 app.get("/", function (req, res) {
