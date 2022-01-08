@@ -45,24 +45,4 @@ module.exports = {
 			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
-
-	async addOrderRows(req, res) {
-		const orderRow = req.body;
-		try {
-			const record = await OrderModel.deleteOrders(order);
-			res.status(200).json(record);
-		} catch (error) {
-			res.status(422).json({ status: "error", message: error.message });
-		}
-	},
-
-	async deleteOrderRows(req, res) {
-		const orderRow = req.body;
-		try {
-			const record = await OrderModel.deleteOrders(order);
-			res.status(200).json(record);
-		} catch (error) {
-			res.status(422).json({ status: "error", message: error.message });
-		}
-	},
 };

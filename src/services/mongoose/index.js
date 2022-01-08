@@ -223,7 +223,7 @@ class mongo {
 
 		for await (const row of cart) {
 			let product = await products.find({ code: row.product }, { __v: 0 });
-			rows.push(new OrderRow(product[0], row.quantity, null));
+			rows.push(new OrderRow(rows.length + 1, product[0], row.quantity, null));
 		}
 
 		try {
@@ -231,47 +231,6 @@ class mongo {
 			const newOrder = new orders(myOrder);
 			const document = await newOrder.save();
 			return document;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	async addOrderRows(record) {
-		const product = await products.find(
-			{ code: record.product.code },
-			{ __v: 0 }
-		);
-
-		try {
-			await orders.updateOne(
-				{ _id: record.order },
-				{
-					$push: {
-						products: new OrderRow(product[0], record.product.quantity, null),
-					},
-				}
-			);
-			const data = await orders.find({ _id: record.order }, { __v: 0 }).lean();
-			const last = data[0].products[data[0].products.length - 1];
-			return last;
-		} catch (error) {
-			return error;
-		}
-	}
-
-	async deleteOrderRows(record) {
-		const product = await products.find({ code: record.product }, { __v: 0 });
-		try {
-			await orders.updateOne(
-				{ _id: record.order },
-				{
-					$pull: {
-						products: {
-							product: product,
-						},
-					},
-				}
-			);
 		} catch (error) {
 			return error;
 		}
