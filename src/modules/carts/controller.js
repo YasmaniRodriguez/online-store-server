@@ -8,10 +8,9 @@ module.exports = {
 			email: req.user.email,
 			address: req.user.address,
 		};
-		const ouid = `${req.user._id}-${req.sessionID}`;
 
 		try {
-			const carts = await cartModel.getCarts({ ouid, buyer });
+			const carts = await cartModel.getCarts(buyer);
 			carts
 				? res.status(200).json(carts)
 				: res
@@ -34,10 +33,10 @@ module.exports = {
 
 	async updateCartProducts(req, res) {
 		const product = req.params.id;
-		const fields = req.body;
+		const quantity = req.body.quantity;
 
 		try {
-			const record = await cartModel.updateCartProducts(product, fields);
+			const record = await cartModel.updateCartProducts({ product, quantity });
 			res.status(200).json(record);
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
@@ -46,11 +45,12 @@ module.exports = {
 
 	async deleteCartProducts(req, res) {
 		const product = req.params.id;
+
 		try {
 			const record = await cartModel.deleteCartProducts(product);
 			res.status(200).json({
 				status: "ok",
-				message: `product ${record.name} that was in row ${record.row} was removed from cart`,
+				message: `product ${record.name} was removed from cart`,
 			});
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });

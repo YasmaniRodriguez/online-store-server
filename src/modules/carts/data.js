@@ -5,10 +5,10 @@ const cart = [];
 
 module.exports = {
 	async getCarts(filters) {
-		const { ouid, buyer } = filters;
+		const { buyer } = filters;
 		const preview = [];
 		try {
-			preview.push(new Order(ouid, 0, buyer, cart, null, null));
+			preview.push(new Order(buyer, cart, null, null));
 			return preview;
 		} catch (error) {
 			return error;
@@ -18,8 +18,8 @@ module.exports = {
 	async addCartProducts(filters) {
 		const { product, quantity } = filters;
 		try {
-			const data = dataHandler.getProducts({ code: product });
-			cart.push(new OrderRow(cart.length + 1, data[0], quantity, null));
+			const data = await dataHandler.getProducts({ code: product });
+			cart.push(new OrderRow(data[0], quantity, null));
 			const preview = cart.filter((obj) => obj.product.code === product);
 			return preview[0];
 		} catch (error) {
@@ -40,10 +40,12 @@ module.exports = {
 	},
 
 	async deleteCartProducts(filters) {
-		const { product } = filters;
+		const product = filters;
+
 		try {
 			const data = await cart.find((row) => row.product.code === product);
-			const preview = { name: data.product.name, row: data.row };
+			console.log(data);
+			const preview = { name: data.product.name };
 			if (data === undefined) {
 				return false;
 			} else {
