@@ -60,11 +60,11 @@ class Order {
 		return quantity;
 	}
 
-	setProducts(newProducts) {
-		this.products = newProducts;
-		this.totalQuantity = this.calcTotalQuantity();
-		this.totalAmount = this.calcTotalAmount();
-	}
+	// setProducts(newProducts) {
+	// 	this.products = newProducts;
+	// 	this.totalQuantity = this.calcTotalQuantity();
+	// 	this.totalAmount = this.calcTotalAmount();
+	// }
 
 	setStatus(newStatus) {
 		this.status = newStatus;
