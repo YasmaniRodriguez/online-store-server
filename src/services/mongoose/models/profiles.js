@@ -73,4 +73,18 @@ profiles.methods.emptyCart = async function () {
 	return profile.cart;
 };
 
+cartRow.methods.calcAmount = async function () {
+	const row = this;
+	try {
+		return row.quantity * row.product.price;
+	} catch (error) {
+		return error.message;
+	}
+};
+
+cartRow.pre("save", async function () {
+	const row = this;
+	return (row.amount = await row.calcAmount());
+});
+
 module.exports = mongoose.model("profiles", profiles);

@@ -65,4 +65,15 @@ module.exports = {
 			res.status(422).json({ status: "error", message: error.message });
 		}
 	},
+
+	async deleteProductToCart(req, res) {
+		const product = req.params.id;
+		const buyer = req.user._id.toString();
+		try {
+			const record = await cartModel.deleteProductToCart({ buyer, product });
+			res.status(201).json(record);
+		} catch (error) {
+			res.status(422).json({ status: "error", message: error.message });
+		}
+	},
 };

@@ -395,6 +395,31 @@ class mongo {
 			return error;
 		}
 	}
+
+	async deleteProductToCart(fields) {
+		const { buyer, product } = fields;
+
+		try {
+			const preview = await profiles
+				.findById(buyer, async function (err, result) {
+					if (err) {
+						return err;
+					} else {
+						result.cart.products.id(product).remove();
+						result.markModified("cart.products");
+						await result.save();
+						return result;
+					}
+				})
+				.clone()
+				.catch(function (err) {
+					return err;
+				});
+			return preview;
+		} catch (error) {
+			return error;
+		}
+	}
 }
 
 module.exports = mongo;

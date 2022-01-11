@@ -7,5 +7,6 @@ const controller = require("./controller.js");
 //router.put("/carts/:id", controller.updateCartProducts);
 //router.delete("/carts/:id", controller.deleteCartProducts);
 router.post("/carts", controller.addProductToCart);
+router.delete("/carts/:id", controller.deleteProductToCart);
 
 module.exports = router;

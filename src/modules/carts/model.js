@@ -19,4 +19,9 @@ module.exports = {
 		const data = await dataHandler.addProductToCart(filters);
 		return data;
 	},
+
+	async deleteProductToCart(filters) {
+		const data = await dataHandler.deleteProductToCart(filters);
+		return data;
+	},
 };
