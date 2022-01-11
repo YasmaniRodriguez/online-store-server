@@ -48,6 +48,7 @@ class mongo {
 			const newProfile = new profiles(profile);
 			const document = await newProfile.save().then(async (result) => {
 				await result.newAuthToken();
+				await result.emptyCart();
 				return result;
 			});
 
@@ -360,6 +361,36 @@ class mongo {
 				}
 				return data;
 			}
+		} catch (error) {
+			return error;
+		}
+	}
+	////////////////////////////
+	async addProductToCart(fields) {
+		const { buyer, product, quantity } = fields;
+		const row = await products
+			.findOne(
+				{ code: product },
+				{ __v: 0, _id: 0, createdAt: 0, updatedAt: 0 }
+			)
+			.lean();
+		try {
+			const preview = await profiles
+				.findById(buyer, async function (err, result) {
+					if (err) {
+						return err;
+					} else {
+						result.cart.products.push({ product: row, quantity: quantity });
+						result.markModified("cart.products");
+						await result.save();
+						return result;
+					}
+				})
+				.clone()
+				.catch(function (err) {
+					return err;
+				});
+			return preview;
 		} catch (error) {
 			return error;
 		}

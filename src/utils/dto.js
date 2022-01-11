@@ -18,6 +18,7 @@ module.exports = {
 							email: object.email,
 							address: object.address,
 							tokens: object.tokens,
+							cart: object.cart,
 						});
 					});
 				} else {
@@ -30,6 +31,7 @@ module.exports = {
 						email: payload.email,
 						address: payload.address,
 						tokens: payload.tokens,
+						cart: payload.cart,
 					});
 				}
 				return buildDeliverable(data);
