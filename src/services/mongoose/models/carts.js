@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const child = new Schema({
 	product: {
-		code: { type: String },
+		code: { type: String, unique: true },
 		name: { type: String },
 		description: { type: String },
 		category: { type: String },

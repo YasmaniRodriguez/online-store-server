@@ -396,16 +396,47 @@ class mongo {
 		}
 	}
 
-	async deleteProductToCart(fields) {
-		const { buyer, product } = fields;
-
+	async updateProductToCart(fields) {
+		const { buyer, product, quantity } = fields;
 		try {
 			const preview = await profiles
 				.findById(buyer, async function (err, result) {
 					if (err) {
 						return err;
 					} else {
-						result.cart.products.id(product).remove();
+						const row = result.cart.products.find(
+							(obj) => obj.product.code === product
+						);
+						result.cart.products.id(row._id).quantity = quantity;
+						result.markModified("cart.products");
+						await result.save();
+						return result;
+					}
+				})
+				.clone()
+				.catch(function (err) {
+					return err;
+				});
+			return preview;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async deleteProductToCart(fields) {
+		const { buyer, product } = fields;
+
+		try {
+			const preview = await profiles
+				.findById(buyer, async function (err, result) {
+					const row = result.cart.products.find(
+						(obj) => obj.product.code === product
+					);
+
+					if (err) {
+						return err;
+					} else {
+						result.cart.products.id(row._id).remove();
 						result.markModified("cart.products");
 						await result.save();
 						return result;

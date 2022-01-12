@@ -52,8 +52,8 @@ module.exports = {
 	},
 	///////////////////////////////
 	async addProductToCart(req, res) {
-		const { product, quantity } = req.body;
 		const buyer = req.user._id.toString();
+		const { product, quantity } = req.body;
 		try {
 			const record = await cartModel.addProductToCart({
 				buyer,
@@ -66,9 +66,26 @@ module.exports = {
 		}
 	},
 
-	async deleteProductToCart(req, res) {
-		const product = req.params.id;
+	async updateProductToCart(req, res) {
 		const buyer = req.user._id.toString();
+		const product = req.params.id;
+		const quantity = req.body.quantity;
+
+		try {
+			const record = await cartModel.updateProductToCart({
+				buyer,
+				product,
+				quantity,
+			});
+			res.status(201).json(record);
+		} catch (error) {
+			res.status(422).json({ status: "error", message: error.message });
+		}
+	},
+
+	async deleteProductToCart(req, res) {
+		const buyer = req.user._id.toString();
+		const product = req.params.id;
 		try {
 			const record = await cartModel.deleteProductToCart({ buyer, product });
 			res.status(201).json(record);
