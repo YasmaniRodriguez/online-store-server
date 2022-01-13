@@ -1,4 +1,4 @@
-const profileModel = require("./model");
+const model = require("./model");
 const { buildHash, deleteUploads } = require("../../utils/function");
 const validator = require("validator");
 
@@ -6,7 +6,7 @@ module.exports = {
 	async getProfiles(req, res) {
 		const filters = { _id: req.user._id };
 		try {
-			const profiles = await profileModel.getProfiles(filters);
+			const profiles = await model.getProfiles(filters);
 			profiles.length === 0
 				? res
 						.status(202)
@@ -71,7 +71,7 @@ module.exports = {
 				.json({ status: "error", message: "passwords are not the same" });
 		}
 
-		const exists = await profileModel.getProfiles({ email });
+		const exists = await model.getProfiles({ email });
 
 		if (exists.data.length !== 0) {
 			await deleteUploads(avatar);
@@ -97,7 +97,7 @@ module.exports = {
 		};
 
 		try {
-			const record = await profileModel.addProfiles(profile);
+			const record = await model.addProfiles(profile);
 			res.status(201).json(record);
 		} catch (error) {
 			await deleteUploads(avatar);
@@ -116,7 +116,7 @@ module.exports = {
 		}
 
 		try {
-			const record = await profileModel.updateProfiles(profile, {
+			const record = await model.updateProfiles(profile, {
 				...fields,
 				avatar,
 			});
@@ -131,7 +131,7 @@ module.exports = {
 		const avatar = req.user.avatar.split("/")[2];
 
 		try {
-			const record = await profileModel.deleteProfiles(profile);
+			const record = await model.deleteProfiles(profile);
 			await deleteUploads(avatar);
 			res.status(200).json(record);
 		} catch (error) {

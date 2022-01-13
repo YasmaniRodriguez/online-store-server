@@ -1,9 +1,10 @@
-const { buildDeliverable } = require("./function");
 const config = require("../config");
+const { buildDeliverable } = require("./function");
+const normalize = require("../services/normalizr").getNormalizedData;
 const messages = require("../services/normalizr/schemas/messages");
 
 module.exports = {
-	async deliverableObject(model, payload) {
+	async getDeliverable(model, payload) {
 		const data = [];
 		switch (model) {
 			case "profiles":

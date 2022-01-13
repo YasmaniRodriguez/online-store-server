@@ -1,23 +1,24 @@
-const dataHandler = require("../../utils/function").getDataHandler();
-const { deliverableObject } = require("../../utils/dto");
+const data = require("../../utils/function").getDataHandler();
+const deliverable = require("../../utils/dto").getDeliverable;
 
 module.exports = {
 	async getProducts(filters) {
-		const products = await dataHandler.getProducts(filters);
-		return deliverableObject("products", products);
+		const result = await data.getProducts(filters);
+		return deliverable("products", result);
 	},
 
 	async addProducts(product) {
-		const products = await dataHandler.addProducts(product);
-		return deliverableObject("products", products);
+		const result = await data.addProducts(product);
+		return deliverable("products", result);
 	},
 
 	async updateProducts(product, fields) {
-		const products = await dataHandler.updateProducts(product, fields);
-		return deliverableObject("products", products);
+		const result = await data.updateProducts(product, fields);
+		return deliverable("products", result);
 	},
 
 	async deleteProducts(product) {
-		return dataHandler.deleteProducts(product);
+		const result = await data.deleteProducts(product);
+		return deliverable("products", result);
 	},
 };

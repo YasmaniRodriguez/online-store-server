@@ -2,20 +2,20 @@ const config = require("../../config");
 const service = require("../../services/nodemailer");
 const logger = require("../../services/log4js");
 const email = new service();
-const dataHandler = require("../../utils/function").getDataHandler();
-const { deliverableObject } = require("../../utils/dto");
+const data = require("../../utils/function").getDataHandler();
+const deliverable = require("../../utils/dto").getDeliverable;
 
 module.exports = {
 	async getProfiles(filters) {
-		const profiles = await dataHandler.getProfiles(filters);
-		return deliverableObject("profiles", profiles);
+		const result = await data.getProfiles(filters);
+		return deliverable("profiles", result);
 	},
 
 	async addProfiles(profile) {
 		try {
-			const profiles = await dataHandler.addProfiles(profile);
+			const result = await data.addProfiles(profile);
 
-			if (profiles._id) {
+			if (result._id) {
 				await email.SendMessage(
 					"ethereal",
 					config.ETHEREAL_USER,
@@ -25,19 +25,19 @@ module.exports = {
 				);
 			}
 
-			return deliverableObject("profiles", profiles);
+			return deliverable("profiles", result);
 		} catch (error) {
 			logger.error(error);
 		}
 	},
 
 	async updateProfiles(profile, fields) {
-		const profiles = await dataHandler.updateProfiles(profile, fields);
-		return deliverableObject("profiles", profiles);
+		const result = await data.updateProfiles(profile, fields);
+		return deliverable("profiles", result);
 	},
 
 	async deleteProfiles(profile) {
-		const profiles = await dataHandler.deleteProfiles(profile);
-		return deliverableObject("profiles", profiles);
+		const result = await data.deleteProfiles(profile);
+		return deliverable("profiles", result);
 	},
 };

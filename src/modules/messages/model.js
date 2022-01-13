@@ -1,12 +1,11 @@
-const normalize = require("../../services/normalizr").getNormalizedData;
 const config = require("../../config");
-const dataHandler = require("../../utils/function").getDataHandler();
-const { deliverableObject } = require("../../utils/dto");
+const data = require("../../utils/function").getDataHandler();
+const deliverable = require("../../utils/dto").getDeliverable;
 
 module.exports = {
 	async getMessages(filters) {
-		const data = await dataHandler.getMessages(filters);
-		return data;
+		const result = await data.getMessages(filters);
+		return result;
 	},
 
 	async addMessages(message) {
@@ -21,17 +20,21 @@ module.exports = {
 				config.ADMIN_PHONE_NUMBER,
 				`User ${message.author.email} say: ${message.message}`
 			);
-			return dataHandler.addMessages(message);
+			const result = await data.addMessages(message);
+			return result;
 		} else {
-			return dataHandler.addMessages(message);
+			const result = await data.addMessages(message);
+			return result;
 		}
 	},
 
 	async updateMessages(record, fields) {
-		return dataHandler.updateMessages(record, fields);
+		const result = await data.updateMessages(record, fields);
+		return result;
 	},
 
 	async deleteMessages(message) {
-		return dataHandler.deleteMessages(message);
+		const result = await data.deleteMessages(message);
+		return result;
 	},
 };

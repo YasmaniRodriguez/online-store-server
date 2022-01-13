@@ -1,5 +1,5 @@
 const cartData = require("./data");
-const dataHandler = require("../../utils/function").getDataHandler();
+const data = require("../../utils/function").getDataHandler();
 
 module.exports = {
 	async getCarts(filters) {
@@ -7,17 +7,17 @@ module.exports = {
 	},
 	/////////////////////////////////
 	async addCartProducts(filters) {
-		const data = await dataHandler.addCartProducts(filters);
-		return data;
+		const result = await data.addCartProducts(filters);
+		return result;
 	},
 
 	async updateCartProducts(filters) {
-		const data = await dataHandler.updateCartProducts(filters);
-		return data;
+		const result = await data.updateCartProducts(filters);
+		return result;
 	},
 
 	async deleteCartProducts(filters) {
-		const data = await dataHandler.deleteCartProducts(filters);
-		return data;
+		const result = await data.deleteCartProducts(filters);
+		return result;
 	},
 };

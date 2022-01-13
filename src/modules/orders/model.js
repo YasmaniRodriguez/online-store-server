@@ -1,20 +1,24 @@
-const dataHandler = require("../../utils/function").getDataHandler();
-const { deliverableObject } = require("../../utils/dto");
+const data = require("../../utils/function").getDataHandler();
+const deliverable = require("../../utils/dto").getDeliverable;
 
 module.exports = {
 	async getOrders(filters) {
-		return dataHandler.getOrders(filters);
+		const result = await data.getOrders(filters);
+		return result;
 	},
 
 	async addOrders(order) {
-		return dataHandler.addOrders(order);
+		const result = await data.addOrders(order);
+		return result;
 	},
 
 	async updateOrders(record, fields) {
-		return dataHandler.updateOrders(record, fields);
+		const result = await data.updateOrders(record, fields);
+		return result;
 	},
 
 	async deleteOrders(order) {
-		return dataHandler.deleteOrders(order);
+		const result = await data.deleteOrders(order);
+		return result;
 	},
 };
