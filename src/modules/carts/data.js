@@ -44,7 +44,6 @@ module.exports = {
 
 		try {
 			const data = await cart.find((row) => row.product.code === product);
-			console.log(data);
 			const preview = { name: data.product.name };
 			if (data === undefined) {
 				return false;

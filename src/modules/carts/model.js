@@ -5,28 +5,19 @@ module.exports = {
 	async getCarts(filters) {
 		return cartData.getCarts(filters);
 	},
-	async addCartProducts(filters) {
-		return cartData.addCartProducts(filters);
-	},
-	async updateCartProducts(filters) {
-		return cartData.updateCartProducts(filters);
-	},
-	async deleteCartProducts(filters) {
-		return cartData.deleteCartProducts(filters);
-	},
 	/////////////////////////////////
-	async addProductToCart(filters) {
-		const data = await dataHandler.addProductToCart(filters);
+	async addCartProducts(filters) {
+		const data = await dataHandler.addCartProducts(filters);
 		return data;
 	},
 
-	async updateProductToCart(filters) {
-		const data = await dataHandler.addProductToCart(filters);
+	async updateCartProducts(filters) {
+		const data = await dataHandler.updateCartProducts(filters);
 		return data;
 	},
 
-	async deleteProductToCart(filters) {
-		const data = await dataHandler.deleteProductToCart(filters);
+	async deleteCartProducts(filters) {
+		const data = await dataHandler.deleteCartProducts(filters);
 		return data;
 	},
 };

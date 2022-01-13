@@ -366,7 +366,7 @@ class mongo {
 		}
 	}
 	////////////////////////////
-	async addProductToCart(fields) {
+	async addCartProducts(fields) {
 		const { buyer, product, quantity } = fields;
 		const row = await products
 			.findOne(
@@ -396,7 +396,7 @@ class mongo {
 		}
 	}
 
-	async updateProductToCart(fields) {
+	async updateCartProducts(fields) {
 		const { buyer, product, quantity } = fields;
 		try {
 			const preview = await profiles
@@ -404,7 +404,7 @@ class mongo {
 					if (err) {
 						return err;
 					} else {
-						const row = result.cart.products.find(
+						const row = await result.cart.products.find(
 							(obj) => obj.product.code === product
 						);
 						result.cart.products.id(row._id).quantity = quantity;
@@ -423,13 +423,13 @@ class mongo {
 		}
 	}
 
-	async deleteProductToCart(fields) {
+	async deleteCartProducts(fields) {
 		const { buyer, product } = fields;
 
 		try {
 			const preview = await profiles
 				.findById(buyer, async function (err, result) {
-					const row = result.cart.products.find(
+					const row = await result.cart.products.find(
 						(obj) => obj.product.code === product
 					);
 

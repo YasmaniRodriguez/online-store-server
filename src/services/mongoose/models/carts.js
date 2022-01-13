@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const child = new Schema({
+const cartRow = new Schema({
 	product: {
 		code: { type: String, unique: true },
 		name: { type: String },
@@ -15,7 +15,7 @@ const child = new Schema({
 	amount: { type: Number },
 });
 
-const parent = new Schema(
+const cart = new Schema(
 	{
 		buyer: {
 			name: { type: String },
@@ -24,7 +24,7 @@ const parent = new Schema(
 			phone: { type: String },
 			address: { type: String },
 		},
-		products: [child],
+		products: [cartRow],
 		totalAmount: { type: Number },
 		totalQuantity: { type: Number },
 		status: { type: Number },
@@ -32,19 +32,17 @@ const parent = new Schema(
 	{ timestamps: true }
 );
 
-child.methods.calcAmount = async function () {
-	const row = this;
+cartRow.methods.calcAmount = async function () {
 	try {
-		return row.quantity * row.product.price;
+		return this.quantity * this.product.price;
 	} catch (error) {
 		return error.message;
 	}
 };
 
-parent.methods.calcTotalAmount = async function () {
-	const cart = this;
+cart.methods.calcTotalAmount = async function () {
 	try {
-		const amount = cart.products.reduce((accumulator, currentValue) => {
+		const amount = this.products.reduce((accumulator, currentValue) => {
 			return accumulator + currentValue.amount;
 		}, 0);
 		return amount;
@@ -53,10 +51,9 @@ parent.methods.calcTotalAmount = async function () {
 	}
 };
 
-parent.methods.calcTotalQty = async function () {
-	const cart = this;
+cart.methods.calcTotalQty = async function () {
 	try {
-		const quantity = cart.products.reduce((accumulator, currentValue) => {
+		const quantity = this.products.reduce((accumulator, currentValue) => {
 			return accumulator + currentValue.quantity;
 		}, 0);
 		return quantity;
@@ -65,15 +62,13 @@ parent.methods.calcTotalQty = async function () {
 	}
 };
 
-child.pre("save", async function () {
-	const row = this;
-	row.amount = await row.calcAmount();
+cartRow.pre("save", async function () {
+	this.amount = await this.calcAmount();
 });
 
-parent.pre("save", async function () {
-	const cart = this;
-	cart.totalAmount = await cart.calcTotalAmount();
-	cart.totalQuantity = await cart.calcTotalQty();
+cart.pre("save", async function () {
+	this.totalAmount = await this.calcTotalAmount();
+	this.totalQuantity = await this.calcTotalQty();
 });
 
-module.exports = mongoose.model("carts", parent);
+module.exports = mongoose.model("carts", cart);
