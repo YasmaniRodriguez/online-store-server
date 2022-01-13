@@ -79,10 +79,6 @@ cartRow.methods.calcAmount = async function () {
 	}
 };
 
-cartRow.pre("save", async function () {
-	return (this.amount = await this.calcAmount());
-});
-
 cart.methods.calcTotalAmount = async function () {
 	try {
 		const value = this.products.reduce((accumulator, currentValue) => {
@@ -104,6 +100,10 @@ cart.methods.calcTotalQty = async function () {
 		return error.message;
 	}
 };
+
+cartRow.pre("save", async function () {
+	return (this.amount = await this.calcAmount());
+});
 
 cart.pre("save", async function () {
 	return (this.totalQuantity = await this.calcTotalQty());
