@@ -1,9 +1,8 @@
-const cartData = require("./data");
 const data = require("../../utils/function").getDataHandler();
 
 module.exports = {
 	async getCarts(filters) {
-		return cartData.getCarts(filters);
+		return data.getCarts(filters);
 	},
 	/////////////////////////////////
 	async addCartProducts(filters) {

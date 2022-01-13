@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.set("debug", true);
+//mongoose.set("debug", true);
 const logger = require("../log4js");
 const products = require("./models/products");
 const orders = require("./models/orders");
@@ -369,34 +369,55 @@ class mongo {
 	////////////////////////////
 	async addCartProducts(fields) {
 		const { buyer, product, quantity } = fields;
-		const row = await products
+		const data = await products
 			.findOne(
 				{ code: product },
 				{ __v: 0, _id: 0, createdAt: 0, updatedAt: 0 }
 			)
 			.lean();
+
+		const preventDuplicate = (result) => {
+			return new Promise(function (resolve, reject) {
+				const row = result.cart.products.find(
+					(obj) => obj.product.code === product
+				);
+				if (row === undefined) {
+					result.cart.products.push({ product: data, quantity: quantity });
+					result.markModified("cart.products");
+					resolve(
+						result.save(function (err, res) {
+							if (err) {
+								return err;
+							} else {
+								return res.cart;
+							}
+						})
+					);
+				} else {
+					reject();
+				}
+			});
+		};
+
 		try {
-			const preview = await profiles
+			return await profiles
 				.findById(buyer, async function (err, result) {
 					if (err) {
 						return err;
 					} else {
-						result.cart.products.push({ product: row, quantity: quantity });
-						result.markModified("cart.products");
-						await result.save(function (err, result) {
-							if (err) {
-								return err;
-							} else {
-								return result;
-							}
-						});
+						preventDuplicate(result)
+							.then((data) => {
+								return data;
+							})
+							.catch((error) => {
+								return error;
+							});
 					}
 				})
 				.clone()
 				.catch(function (err) {
 					return err;
 				});
-			return preview;
 		} catch (error) {
 			return error;
 		}
