@@ -40,6 +40,10 @@ cartRow.methods.calcAmount = async function () {
 	}
 };
 
+cartRow.path("product").validate(() => {
+	return false, "this product is already in the cart";
+});
+
 cart.methods.calcTotalAmount = async function () {
 	try {
 		const amount = this.products.reduce((accumulator, currentValue) => {
@@ -61,10 +65,6 @@ cart.methods.calcTotalQty = async function () {
 		return error.message;
 	}
 };
-
-cartRow.pre("save", async function () {
-	this.amount = await this.calcAmount();
-});
 
 cart.pre("save", async function () {
 	this.totalAmount = await this.calcTotalAmount();

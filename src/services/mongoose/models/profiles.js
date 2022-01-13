@@ -47,44 +47,70 @@ const profiles = new Schema(
 );
 
 profiles.methods.newAuthToken = async function () {
-	const profile = this;
 	const token = jwt.sign(
-		{ sub: profile._id, iat: Date.now() },
+		{ sub: this._id, iat: Date.now() },
 		config.JWT_SECRET,
 		{
 			expiresIn: "120m",
 		}
 	);
-	profile.tokens = profile.tokens.concat({ token });
-	await profile.save();
+	this.tokens = this.tokens.concat({ token });
+	await this.save();
 	return token;
 };
 
 profiles.methods.emptyCart = async function () {
-	const profile = this;
 	const empty = {
 		totalAmount: 0,
 		totalQuantity: 0,
 		status: 0,
 		products: [],
 	};
-	profile.cart = empty;
-	await profile.save();
-	return profile.cart;
+	this.cart = empty;
+	await this.save();
+	return this.cart;
 };
 
 cartRow.methods.calcAmount = async function () {
-	const row = this;
 	try {
-		return row.quantity * row.product.price;
+		return this.quantity * this.product.price;
 	} catch (error) {
 		return error.message;
 	}
 };
 
 cartRow.pre("save", async function () {
-	const row = this;
-	return (row.amount = await row.calcAmount());
+	return (this.amount = await this.calcAmount());
+});
+
+cart.methods.calcTotalAmount = async function () {
+	try {
+		const value = this.products.reduce((accumulator, currentValue) => {
+			return accumulator + currentValue.amount;
+		}, 0);
+		return value;
+	} catch (error) {
+		return error.message;
+	}
+};
+
+cart.methods.calcTotalQty = async function () {
+	try {
+		const value = this.products.reduce((accumulator, currentValue) => {
+			return accumulator + currentValue.quantity;
+		}, 0);
+		return value;
+	} catch (error) {
+		return error.message;
+	}
+};
+
+cart.pre("save", async function () {
+	return (this.totalQuantity = await this.calcTotalQty());
+});
+
+cart.pre("save", async function () {
+	return (this.totalAmount = await this.calcTotalAmount());
 });
 
 module.exports = mongoose.model("profiles", profiles);

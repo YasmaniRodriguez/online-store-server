@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+mongoose.set("debug", true);
 const logger = require("../log4js");
 const products = require("./models/products");
 const orders = require("./models/orders");
@@ -382,8 +383,13 @@ class mongo {
 					} else {
 						result.cart.products.push({ product: row, quantity: quantity });
 						result.markModified("cart.products");
-						await result.save();
-						return result;
+						await result.save(function (err, result) {
+							if (err) {
+								return err;
+							} else {
+								return result;
+							}
+						});
 					}
 				})
 				.clone()
@@ -409,8 +415,13 @@ class mongo {
 						);
 						result.cart.products.id(row._id).quantity = quantity;
 						result.markModified("cart.products");
-						await result.save();
-						return result;
+						await result.save(function (err, result) {
+							if (err) {
+								return err;
+							} else {
+								return result;
+							}
+						});
 					}
 				})
 				.clone()
@@ -438,8 +449,13 @@ class mongo {
 					} else {
 						result.cart.products.id(row._id).remove();
 						result.markModified("cart.products");
-						await result.save();
-						return result;
+						await result.save(function (err, result) {
+							if (err) {
+								return err;
+							} else {
+								return result;
+							}
+						});
 					}
 				})
 				.clone()
