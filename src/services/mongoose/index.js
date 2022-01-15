@@ -7,7 +7,6 @@ const messages = require("./models/messages");
 const profiles = require("./models/profiles");
 const config = require("../../config");
 const { Order, OrderRow } = require("../../utils/class");
-const { preventDuplicate } = require("../../utils/function");
 
 const options = {
 	authSource: config.MONGO_LOCAL_AUTH_SOURCE,
@@ -393,7 +392,7 @@ class mongo {
 				(obj) => obj.product.code === product
 			);
 			if (row) {
-				throw new Error("this product is in the cart");
+				throw new Error("product is already in the cart");
 			} else {
 				await profile.cart.products.push({ product: data, quantity: quantity });
 				const cart = await profile
@@ -418,16 +417,20 @@ class mongo {
 			const row = await profile.cart.products.find(
 				(obj) => obj.product.code === product
 			);
-			profile.cart.products.id(row._id).quantity = quantity;
-			const cart = await profile
-				.save()
-				.then((data) => {
-					return data.cart.products;
-				})
-				.catch((error) => {
-					return error;
-				});
-			return cart;
+			if (row) {
+				profile.cart.products.id(row._id).quantity = quantity;
+				const cart = await profile
+					.save()
+					.then((data) => {
+						return data.cart.products;
+					})
+					.catch((error) => {
+						return error;
+					});
+				return cart;
+			} else {
+				throw new Error("product is not in the cart");
+			}
 		} catch (error) {
 			return error;
 		}
@@ -441,16 +444,20 @@ class mongo {
 			const row = await profile.cart.products.find(
 				(obj) => obj.product.code === product
 			);
-			profile.cart.products.id(row._id).remove();
-			const cart = await profile
-				.save()
-				.then((data) => {
-					return data.cart.products;
-				})
-				.catch((error) => {
-					return error;
-				});
-			return cart;
+			if (row) {
+				profile.cart.products.id(row._id).remove();
+				const cart = await profile
+					.save()
+					.then((data) => {
+						return data.cart.products;
+					})
+					.catch((error) => {
+						return error;
+					});
+				return cart;
+			} else {
+				throw new Error("product is not in the cart");
+			}
 		} catch (error) {
 			return error;
 		}

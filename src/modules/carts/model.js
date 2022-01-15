@@ -18,11 +18,19 @@ module.exports = {
 
 	async updateCartProducts(filters) {
 		const result = await data.updateCartProducts(filters);
-		return deliverable("carts", result);
+		if (result.toString().split(": ", 1)[0] === "Error") {
+			return false;
+		} else {
+			return deliverable("carts", result);
+		}
 	},
 
 	async deleteCartProducts(filters) {
 		const result = await data.deleteCartProducts(filters);
-		return deliverable("carts", result);
+		if (result.toString().split(": ", 1)[0] === "Error") {
+			return false;
+		} else {
+			return deliverable("carts", result);
+		}
 	},
 };
