@@ -7,6 +7,7 @@ const messages = require("./models/messages");
 const profiles = require("./models/profiles");
 const config = require("../../config");
 const { Order, OrderRow } = require("../../utils/class");
+const { preventDuplicate } = require("../../utils/function");
 
 const options = {
 	authSource: config.MONGO_LOCAL_AUTH_SOURCE,
@@ -370,18 +371,8 @@ class mongo {
 	async getCarts(filters) {
 		const { buyer } = filters;
 		try {
-			return await profiles
-				.findById(buyer, async function (err, result) {
-					if (err) {
-						return err;
-					} else {
-						return result.cart;
-					}
-				})
-				.clone()
-				.catch(function (err) {
-					return err;
-				});
+			const profile = await profiles.findOne({ _id: buyer }, "cart");
+			return profile.cart;
 		} catch (error) {
 			return error;
 		}
@@ -389,55 +380,32 @@ class mongo {
 
 	async addCartProducts(fields) {
 		const { buyer, product, quantity } = fields;
-		const data = await products
-			.findOne(
-				{ code: product },
-				{ __v: 0, _id: 0, createdAt: 0, updatedAt: 0 }
-			)
-			.lean();
-
-		const preventDuplicate = (result) => {
-			return new Promise(function (resolve, reject) {
-				const row = result.cart.products.find(
-					(obj) => obj.product.code === product
-				);
-				if (row === undefined) {
-					result.cart.products.push({ product: data, quantity: quantity });
-					result.markModified("cart.products");
-					resolve(
-						result.save(function (err, res) {
-							if (err) {
-								return err;
-							} else {
-								return res.cart;
-							}
-						})
-					);
-				} else {
-					reject();
-				}
-			});
-		};
-
 		try {
-			return await profiles
-				.findById(buyer, async function (err, result) {
-					if (err) {
-						return err;
-					} else {
-						preventDuplicate(result)
-							.then((data) => {
-								return data;
-							})
-							.catch((error) => {
-								throw new Error("this product is in the cart");
-							});
-					}
-				})
-				.clone()
-				.catch(function (err) {
-					return err;
-				});
+			const data = await products
+				.findOne(
+					{ code: product },
+					{ __v: 0, _id: 0, createdAt: 0, updatedAt: 0 }
+				)
+				.lean();
+
+			const profile = await profiles.findOne({ _id: buyer }, "cart");
+			const row = await profile.cart.products.find(
+				(obj) => obj.product.code === product
+			);
+			if (row) {
+				throw new Error("this product is in the cart");
+			} else {
+				await profile.cart.products.push({ product: data, quantity: quantity });
+				const cart = await profile
+					.save()
+					.then((data) => {
+						return data.cart.products;
+					})
+					.catch((error) => {
+						return error;
+					});
+				return cart;
+			}
 		} catch (error) {
 			return error;
 		}
@@ -446,30 +414,20 @@ class mongo {
 	async updateCartProducts(fields) {
 		const { buyer, product, quantity } = fields;
 		try {
-			const preview = await profiles
-				.findById(buyer, async function (err, result) {
-					if (err) {
-						return err;
-					} else {
-						const row = await result.cart.products.find(
-							(obj) => obj.product.code === product
-						);
-						result.cart.products.id(row._id).quantity = quantity;
-						result.markModified("cart.products");
-						await result.save(function (err, result) {
-							if (err) {
-								return err;
-							} else {
-								return result;
-							}
-						});
-					}
+			const profile = await profiles.findOne({ _id: buyer }, "cart");
+			const row = await profile.cart.products.find(
+				(obj) => obj.product.code === product
+			);
+			profile.cart.products.id(row._id).quantity = quantity;
+			const cart = await profile
+				.save()
+				.then((data) => {
+					return data.cart.products;
 				})
-				.clone()
-				.catch(function (err) {
-					return err;
+				.catch((error) => {
+					return error;
 				});
-			return preview;
+			return cart;
 		} catch (error) {
 			return error;
 		}
@@ -479,31 +437,20 @@ class mongo {
 		const { buyer, product } = fields;
 
 		try {
-			const preview = await profiles
-				.findById(buyer, async function (err, result) {
-					const row = await result.cart.products.find(
-						(obj) => obj.product.code === product
-					);
-
-					if (err) {
-						return err;
-					} else {
-						result.cart.products.id(row._id).remove();
-						result.markModified("cart.products");
-						await result.save(function (err, result) {
-							if (err) {
-								return err;
-							} else {
-								return result;
-							}
-						});
-					}
+			const profile = await profiles.findOne({ _id: buyer }, "cart");
+			const row = await profile.cart.products.find(
+				(obj) => obj.product.code === product
+			);
+			profile.cart.products.id(row._id).remove();
+			const cart = await profile
+				.save()
+				.then((data) => {
+					return data.cart.products;
 				})
-				.clone()
-				.catch(function (err) {
-					return err;
+				.catch((error) => {
+					return error;
 				});
-			return preview;
+			return cart;
 		} catch (error) {
 			return error;
 		}

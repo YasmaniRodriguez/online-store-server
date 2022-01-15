@@ -67,10 +67,10 @@ module.exports = {
 			case "carts":
 				if (Array.isArray(payload)) {
 					payload.forEach((object) => {
-						data.push(object.cart);
+						data.push(object);
 					});
 				} else {
-					data.push(payload.cart);
+					data.push(payload);
 				}
 				return buildDeliverable(data);
 			case "orders":

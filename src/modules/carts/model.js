@@ -9,7 +9,11 @@ module.exports = {
 
 	async addCartProducts(filters) {
 		const result = await data.addCartProducts(filters);
-		return deliverable("carts", result);
+		if (result.toString().split(": ", 1)[0] === "Error") {
+			return false;
+		} else {
+			return deliverable("carts", result);
+		}
 	},
 
 	async updateCartProducts(filters) {

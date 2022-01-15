@@ -19,12 +19,17 @@ module.exports = {
 		const buyer = req.user._id.toString();
 		const { product, quantity } = req.body;
 		try {
-			const record = await model.addCartProducts({
+			const records = await model.addCartProducts({
 				buyer,
 				product,
 				quantity,
 			});
-			res.status(201).json(record);
+
+			records
+				? res.status(200).json(records)
+				: res
+						.status(202)
+						.json({ status: "error", message: "product is in the cart" });
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}
