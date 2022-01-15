@@ -2,16 +2,11 @@ const model = require("./model");
 
 module.exports = {
 	async getCarts(req, res) {
-		const buyer = {
-			name: req.user.name,
-			phone: req.user.phone,
-			email: req.user.email,
-			address: req.user.address,
-		};
+		const buyer = req.user._id.toString();
 		try {
-			const carts = await model.getCarts(buyer);
-			carts
-				? res.status(200).json(carts)
+			const records = await model.getCarts({ buyer });
+			records
+				? res.status(200).json(records)
 				: res
 						.status(202)
 						.json({ status: "error", message: "something is wrong" });

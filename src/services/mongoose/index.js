@@ -367,6 +367,21 @@ class mongo {
 		}
 	}
 	////////////////////////////
+	async getCarts(filters) {
+		const { buyer } = filters;
+		try {
+			return await profiles.findById(buyer, async function (err, result) {
+				if (err) {
+					return err;
+				} else {
+					return result.cart;
+				}
+			});
+		} catch (error) {
+			return error;
+		}
+	}
+
 	async addCartProducts(fields) {
 		const { buyer, product, quantity } = fields;
 		const data = await products
@@ -410,7 +425,7 @@ class mongo {
 								return data;
 							})
 							.catch((error) => {
-								return error;
+								throw new Error("this product is in the cart");
 							});
 					}
 				})
