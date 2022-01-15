@@ -32,7 +32,7 @@ var io = socketio(server, {
   }
 });
 
-var restfull = require("./restfull");
+var router = require("./router");
 
 var graphql = require("./graphql");
 
@@ -86,8 +86,8 @@ app.use(cors({
 }));
 app.use(express["static"](path.join(__dirname, "public")));
 app.use(morgan("dev"));
-app.use("/restfull", restfull);
-app.use("/graphql", graphql);
+app.use("/api", router);
+app.use("/gql", graphql);
 app.get("/", function (req, res) {
   res.status(200).sendFile("index.html", {
     root: __dirname + "/public"

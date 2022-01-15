@@ -7,7 +7,7 @@ const http = require("http");
 const server = http.createServer(app);
 const socketio = require("socket.io");
 const io = socketio(server, { cors: { origin: "*" } });
-const restfull = require("./restfull");
+const router = require("./router");
 const graphql = require("./graphql");
 const morgan = require("morgan");
 const logger = require("./services/log4js");
@@ -44,8 +44,8 @@ require("./services/passport")(app);
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
-app.use("/restfull", restfull);
-app.use("/graphql", graphql);
+app.use("/api", router);
+app.use("/gql", graphql);
 
 app.get("/", (req, res) => {
 	res.status(200).sendFile("index.html", { root: __dirname + "/public" });
