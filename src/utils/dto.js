@@ -64,6 +64,15 @@ module.exports = {
 					});
 				}
 				return buildDeliverable(data);
+			case "carts":
+				if (Array.isArray(payload)) {
+					payload.forEach((object) => {
+						data.push(object.cart);
+					});
+				} else {
+					data.push(payload.cart);
+				}
+				return buildDeliverable(data);
 			case "orders":
 				break;
 			default:

@@ -370,13 +370,18 @@ class mongo {
 	async getCarts(filters) {
 		const { buyer } = filters;
 		try {
-			return await profiles.findById(buyer, async function (err, result) {
-				if (err) {
+			return await profiles
+				.findById(buyer, async function (err, result) {
+					if (err) {
+						return err;
+					} else {
+						return result.cart;
+					}
+				})
+				.clone()
+				.catch(function (err) {
 					return err;
-				} else {
-					return result.cart;
-				}
-			});
+				});
 		} catch (error) {
 			return error;
 		}
