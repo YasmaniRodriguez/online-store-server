@@ -49,7 +49,7 @@ class mongo {
 			const newProfile = new profiles(profile);
 			const document = await newProfile.save().then(async (result) => {
 				await result.newAuthToken();
-				await result.emptyCart();
+				await result.emptyTheCart();
 				return result;
 			});
 
@@ -218,21 +218,42 @@ class mongo {
 		}
 	}
 
-	async addOrders(order) {
-		const { buyer, cart } = order;
-
-		const rows = [];
-
-		for await (const row of cart) {
-			let product = await products.find({ code: row.product }, { __v: 0 });
-			rows.push(new OrderRow(rows.length + 1, product[0], row.quantity, null));
-		}
-
+	async addOrders(buyer) {
 		try {
-			const myOrder = new Order(buyer, rows, null, null);
-			const newOrder = new orders(myOrder);
-			const document = await newOrder.save();
-			return document;
+			const profile = await profiles.findOne({ _id: buyer.id }, "cart");
+			if (profile.cart.totalAmount > 0) {
+				const newOrder = new orders({
+					buyer: {
+						name: buyer.name,
+						lastname: buyer.lastname,
+						email: buyer.email,
+						phone: buyer.phone,
+						address: buyer.address,
+					},
+					products: profile.cart.products.map((obj) => {
+						return {
+							product: obj.product,
+							quantity: obj.quantity,
+							amount: obj.amount,
+						};
+					}),
+					totalAmount: profile.cart.totalAmount,
+					totalQuantity: profile.cart.totalQuantity,
+					status: profile.cart.status,
+				});
+				const order = await newOrder
+					.save()
+					.then((data) => {
+						profile.emptyTheCart();
+						return data;
+					})
+					.catch((error) => {
+						return error;
+					});
+				return order;
+			} else {
+				throw new Error("cart is empty");
+			}
 		} catch (error) {
 			return error;
 		}

@@ -4,21 +4,33 @@ const deliverable = require("../../utils/dto").getDeliverable;
 module.exports = {
 	async getOrders(filters) {
 		const result = await data.getOrders(filters);
-		return result;
+		return deliverable("orders", result);
 	},
 
-	async addOrders(order) {
-		const result = await data.addOrders(order);
-		return result;
+	async addOrders(fields) {
+		const result = await data.addOrders(fields);
+		if (result.toString().split(": ", 1)[0] === "Error") {
+			return false;
+		} else {
+			return deliverable("orders", result);
+		}
 	},
 
 	async updateOrders(record, fields) {
 		const result = await data.updateOrders(record, fields);
-		return result;
+		if (result.toString().split(": ", 1)[0] === "Error") {
+			return false;
+		} else {
+			return deliverable("orders", result);
+		}
 	},
 
 	async deleteOrders(order) {
 		const result = await data.deleteOrders(order);
-		return result;
+		if (result.toString().split(": ", 1)[0] === "Error") {
+			return false;
+		} else {
+			return deliverable("orders", result);
+		}
 	},
 };

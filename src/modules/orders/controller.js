@@ -16,10 +16,20 @@ module.exports = {
 	},
 
 	async addOrders(req, res) {
-		const order = req.body;
+		const buyer = {
+			id: req.user._id.toString(),
+			name: req.user.name,
+			lastname: req.user.lastname,
+			email: req.user.email,
+			phone: req.user.phone,
+			address: req.user.address,
+		};
+
 		try {
-			const record = await model.addOrders(order);
-			res.status(201).json(record);
+			const records = await model.addOrders(buyer);
+			records
+				? res.status(200).json(records)
+				: res.status(202).json({ status: "error", message: "cart is empty" });
 		} catch (error) {
 			res.status(422).json({ status: "error", message: error.message });
 		}

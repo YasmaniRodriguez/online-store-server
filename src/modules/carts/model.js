@@ -7,8 +7,8 @@ module.exports = {
 		return deliverable("carts", result);
 	},
 
-	async addCartProducts(filters) {
-		const result = await data.addCartProducts(filters);
+	async addCartProducts(fields) {
+		const result = await data.addCartProducts(fields);
 		if (result.toString().split(": ", 1)[0] === "Error") {
 			return false;
 		} else {

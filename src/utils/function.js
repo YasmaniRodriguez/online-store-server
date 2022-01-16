@@ -37,6 +37,7 @@ function buildDeliverable(data) {
 	const deliverable = {
 		timestamp: moment().format(),
 		pid: process.pid,
+		success: "true",
 		data: data,
 	};
 	return deliverable;

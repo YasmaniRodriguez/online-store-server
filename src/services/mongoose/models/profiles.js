@@ -59,7 +59,7 @@ profiles.methods.newAuthToken = async function () {
 	return token;
 };
 
-profiles.methods.emptyCart = async function () {
+profiles.methods.emptyTheCart = async function () {
 	const empty = {
 		totalAmount: 0,
 		totalQuantity: 0,
