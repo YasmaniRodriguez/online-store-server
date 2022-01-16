@@ -1,5 +1,8 @@
 const data = require("../../utils/function").getDataHandler();
 const deliverable = require("../../utils/dto").getDeliverable;
+const config = require("../../config");
+const service = require("../../services/nodemailer");
+const email = new service();
 
 module.exports = {
 	async getOrders(filters) {
@@ -12,6 +15,14 @@ module.exports = {
 		if (result.toString().split(": ", 1)[0] === "Error") {
 			return false;
 		} else {
+			await email.SendMessage(
+				"gmail",
+				config.GMAIL_USER,
+				fields.email,
+				"order",
+				`A new order has occurred`,
+				result
+			);
 			return deliverable("orders", result);
 		}
 	},
