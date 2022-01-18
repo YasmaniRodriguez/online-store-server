@@ -87,17 +87,18 @@ app.use(cors({
 app.use(express["static"](path.join(__dirname, "public")));
 app.use(morgan("dev"));
 app.use("/api", router);
-app.use("/gql", graphql);
+app.use("/gql", graphql); ////////TEMPLATE ENGINE////////
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views/pages"));
 app.get("/", function (req, res) {
-  res.status(200).sendFile("index.html", {
-    root: __dirname + "/public"
-  });
-}); /////////////////////////////////////////////////////////
+  res.render("signin", {});
+}); ////////SOCKET/////////////////
 
 io.on("connection", function (socket) {
   var connection_identifier = socket.id;
   socket.emit("connection", connection_identifier);
-}); /////////////////////////////////////////////////////////
+}); ///////////////////////////////
 
 process.once("SIGUSR2", function () {
   logger.info("restarting nodemon \u21E8 process ".concat(process.pid, " will be closed"));
@@ -126,4 +127,4 @@ server.listen(config.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regenera
   }, _callee);
 }))).on("error", function (error) {
   logger.error("something is preventing us grow: ".concat(error.message));
-}); /////////////////////////////////////////////////////////
+}); /////////////////////////////

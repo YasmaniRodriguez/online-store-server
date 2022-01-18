@@ -49,7 +49,11 @@ app.use("/gql", graphql);
 
 ////////TEMPLATE ENGINE////////
 app.set("view engine", "ejs");
-app.set("views", "./views/screens");
+app.set("views", path.join(__dirname, "views/pages"));
+
+app.get("/", (req, res) => {
+	res.render("signin", {});
+});
 
 ////////SOCKET/////////////////
 io.on("connection", (socket) => {
