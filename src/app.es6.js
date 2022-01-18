@@ -47,18 +47,17 @@ app.use(morgan("dev"));
 app.use("/api", router);
 app.use("/gql", graphql);
 
-app.get("/", (req, res) => {
-	res.status(200).sendFile("index.html", { root: __dirname + "/public" });
-});
+////////TEMPLATE ENGINE////////
+app.set("view engine", "ejs");
+app.set("views", "./views/screens");
 
-/////////////////////////////////////////////////////////
-
+////////SOCKET/////////////////
 io.on("connection", (socket) => {
 	let connection_identifier = socket.id;
 	socket.emit("connection", connection_identifier);
 });
 
-/////////////////////////////////////////////////////////
+///////////////////////////////
 process.once("SIGUSR2", function () {
 	logger.info(`restarting nodemon ⇨ process ${process.pid} will be closed`);
 	process.kill(process.pid, "SIGUSR2");
@@ -79,4 +78,4 @@ server
 	.on("error", (error) => {
 		logger.error(`something is preventing us grow: ${error.message}`);
 	});
-/////////////////////////////////////////////////////////
+/////////////////////////////
