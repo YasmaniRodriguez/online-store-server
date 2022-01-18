@@ -6,18 +6,11 @@ const orders = require("./models/orders");
 const messages = require("./models/messages");
 const profiles = require("./models/profiles");
 const config = require("../../config");
-const { Order, OrderRow } = require("../../utils/class");
-
-const options = {
-	authSource: config.MONGO_LOCAL_AUTH_SOURCE,
-	user: config.MONGO_LOCAL_USER,
-	pass: config.MONGO_LOCAL_PASSWORD,
-};
 
 class mongo {
 	constructor() {
 		try {
-			mongoose.connect(config.MONGO_LOCAL_URI, options);
+			mongoose.connect(config.MONGO_URI);
 			logger.info("we are connected to mongo");
 		} catch (error) {
 			logger.error(

@@ -1,7 +1,7 @@
 const config = require("../config");
 const { buildDeliverable } = require("./function");
 const normalize = require("../services/normalizr").getNormalizedData;
-const messages = require("../services/normalizr/schemas/messages");
+const messagesNormalizrSchema = require("../services/normalizr/schemas/messages");
 
 module.exports = {
 	async getDeliverable(model, payload) {
@@ -37,7 +37,7 @@ module.exports = {
 				}
 				return buildDeliverable(data);
 			case "messages":
-				//config.NORMALIZATION ? normalize(data, messages) : data;
+				//config.NORMALIZATION ? normalize(data, messagesNormalizrSchema) : data;
 				break;
 			case "products":
 				if (Array.isArray(payload)) {
