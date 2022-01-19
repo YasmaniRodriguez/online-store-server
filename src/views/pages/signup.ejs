@@ -1,7 +1,29 @@
 <%- include("../partials/header")-%>
-    <section class="page singup-page">
-        <div>
-            
+    <section class="page signup-page">
+        <div class="wrapper">
+            <div class="container">
+                <span class="material-icons" style="font-size:84px;color:#408282">
+                    account_circle
+                </span>
+                <h3>Sign Up</h3>
+                <form action="">
+                    <input id="name" name="" type="text" placeholder="Name">
+                    <input id="lastname" name="" type="text" placeholder="Lastname">
+                    <input id="birthday" name="" type="date" placeholder="Birthday">
+                    <input id="avatar" name="" type="file" placeholder="Profile Picture">
+                    <input id="phone" name="" type="tel" placeholder="Phone">
+                    <input id="email" name="" type="email" placeholder="Email">
+                    <input id="address" name="" type="text" placeholder="Address">
+                    <input id="password" name="" type="password" placeholder="Password">
+                    <input id="confirm" name="" type="password" placeholder="Confirm Password">
+                    <button type="submit" id="login-button">Create account</button>
+                    <p>By clicking Sign up, you agree to our Terms and Conditions and Privacy Statement.” </p>
+                </form>
+                <div class="links">
+                    <a href="#">Already have an account?</a>
+                </div>
+            </div>
         </div>
+        <div id="snackbar">Some text some message..</div>
     </section>
 <%- include("../partials/footer")-%>
