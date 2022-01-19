@@ -92,7 +92,7 @@ app.use("/gql", graphql); ////////TEMPLATE ENGINE////////
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/pages"));
 app.get("/", function (req, res) {
-  res.render("signin", {});
+  res.render("signup", {});
 }); ////////SOCKET/////////////////
 
 io.on("connection", function (socket) {

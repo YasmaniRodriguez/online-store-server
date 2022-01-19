@@ -1,7 +1,7 @@
-function myFunction() {
+function showSnackBar() {
 	// Get the snackbar DIV
 	var x = document.getElementById("snackbar");
-
+	console.log(x);
 	// Add the "show" class to DIV
 	x.className = "show";
 

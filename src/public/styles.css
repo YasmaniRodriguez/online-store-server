@@ -13,40 +13,58 @@ section {
 	min-height: 100vh;
 }
 
-.signin-page {
+.gateway {
 	display: flex;
 	align-items: center;
 }
 
-.signin-page > .wrapper {
+.gateway > .wrapper {
 	background: #50a3a2;
 	background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
 	background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
 	position: absolute;
 	width: 100%;
-	height: 80vh;
+	height: 90vh;
 	overflow: hidden;
 	align-items: center;
 	justify-content: center;
 	display: flex;
 }
 
-.signin-page > .wrapper > .container {
+.gateway > .wrapper > .container {
 	border: 1px solid rgba(255, 255, 255, 0.37);
 	border-radius: 10px;
-	width: 25vw;
-	height: 50vh;
 	margin: 0 auto;
 	padding: 80px 0;
 	text-align: center;
 }
 
-.signin-page > .wrapper > .container form {
+.signin {
+	width: 25vw;
+	height: 50vh;
+}
+
+.signup {
+	height: 50vh;
+	width: 40vw;
+	overflow-y: scroll;
+}
+
+.signup > form > p {
+	padding: 10px 15px;
+	width: 25vw;
+	margin: 0 auto 10px auto;
+	display: block;
+	text-align: center;
+	font-size: 1.1rem;
+}
+
+.gateway > .wrapper > .container form {
 	padding: 20px 0;
 	position: relative;
 	z-index: 2;
 }
-.signin-page > .wrapper > .container form input {
+.gateway > .wrapper > .container form input {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -65,16 +83,16 @@ section {
 	transition-duration: 0.25s;
 	font-weight: 300;
 }
-.signin-page > .wrapper > .container form input:hover {
+.gateway > .wrapper > .container form input:hover {
 	background-color: rgba(255, 255, 255, 0.4);
 }
 
-.signin-page > .wrapper > .container form input:focus {
+.gateway > .wrapper > .container form input:focus {
 	background-color: white;
 	width: 85%;
 	color: #53e3a6;
 }
-.signin-page > .wrapper > .container form button {
+.gateway > .wrapper > .container form button {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -92,11 +110,11 @@ section {
 	transition-duration: 0.25s;
 	display: block;
 }
-.signin-page > .wrapper > .container form button:hover {
+.gateway > .wrapper > .container form button:hover {
 	color: white;
 }
 
-.signin-page > .wrapper > .container > .links {
+.gateway > .wrapper > .container > .links {
 	display: flex;
 	flex-direction: column;
 }
@@ -105,6 +123,7 @@ section {
 	font-weight: bold;
 	text-decoration: none;
 	padding: 10px;
+	font-size: 1.4rem;
 }
 
 #snackbar {
@@ -117,7 +136,7 @@ section {
 	border-radius: 2px;
 	padding: 16px;
 	position: fixed;
-	z-index: 1;
+	z-index: 3;
 	left: 50%;
 	bottom: 30px;
 }

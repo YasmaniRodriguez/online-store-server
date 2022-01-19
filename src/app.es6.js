@@ -52,7 +52,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/pages"));
 
 app.get("/", (req, res) => {
-	res.render("signin", {});
+	res.render("signup", {});
 });
 
 ////////SOCKET/////////////////
