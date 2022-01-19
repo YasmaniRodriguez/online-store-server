@@ -32,9 +32,11 @@ var io = socketio(server, {
   }
 });
 
-var router = require("./router");
+var restfull = require("./routers/restfull");
 
-var graphql = require("./graphql");
+var graphql = require("./routers/graphql");
+
+var views = require("./routers/views");
 
 var morgan = require("morgan");
 
@@ -86,19 +88,17 @@ app.use(cors({
 }));
 app.use(express["static"](path.join(__dirname, "public")));
 app.use(morgan("dev"));
-app.use("/api", router);
-app.use("/gql", graphql); ////////TEMPLATE ENGINE////////
+app.use("/api", restfull);
+app.use("/gql", graphql);
+app.use(views); ////////TEMPLATE ENGINE////////
 
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views/pages"));
-app.get("/", function (req, res) {
-  res.render("signup", {});
-}); ////////SOCKET/////////////////
+app.set("views", path.join(__dirname, "views/pages")); ////////SOCKET/////////////////
 
 io.on("connection", function (socket) {
   var connection_identifier = socket.id;
   socket.emit("connection", connection_identifier);
-}); ///////////////////////////////
+}); ////////PROCESS////////////////
 
 process.once("SIGUSR2", function () {
   logger.info("restarting nodemon \u21E8 process ".concat(process.pid, " will be closed"));
@@ -107,7 +107,8 @@ process.once("SIGUSR2", function () {
 process.on("SIGINT", function () {
   logger.info("shutting down the server ⇨ all node process will be closed");
   process.exit(0);
-});
+}); ////////SERVER////////////////
+
 server.listen(config.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
@@ -127,4 +128,4 @@ server.listen(config.PORT, /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regenera
   }, _callee);
 }))).on("error", function (error) {
   logger.error("something is preventing us grow: ".concat(error.message));
-}); /////////////////////////////
+});

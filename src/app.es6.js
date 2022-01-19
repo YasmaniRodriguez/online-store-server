@@ -7,8 +7,9 @@ const http = require("http");
 const server = http.createServer(app);
 const socketio = require("socket.io");
 const io = socketio(server, { cors: { origin: "*" } });
-const router = require("./router");
-const graphql = require("./graphql");
+const restfull = require("./routers/restfull");
+const graphql = require("./routers/graphql");
+const views = require("./routers/views");
 const morgan = require("morgan");
 const logger = require("./services/log4js");
 const cors = require("cors");
@@ -44,24 +45,19 @@ require("./services/passport")(app);
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(morgan("dev"));
-app.use("/api", router);
+app.use("/api", restfull);
 app.use("/gql", graphql);
+app.use(views);
 
 ////////TEMPLATE ENGINE////////
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/pages"));
-
-app.get("/", (req, res) => {
-	res.render("signup", {});
-});
-
 ////////SOCKET/////////////////
 io.on("connection", (socket) => {
 	let connection_identifier = socket.id;
 	socket.emit("connection", connection_identifier);
 });
-
-///////////////////////////////
+////////PROCESS////////////////
 process.once("SIGUSR2", function () {
 	logger.info(`restarting nodemon ⇨ process ${process.pid} will be closed`);
 	process.kill(process.pid, "SIGUSR2");
@@ -71,7 +67,7 @@ process.on("SIGINT", function () {
 	logger.info("shutting down the server ⇨ all node process will be closed");
 	process.exit(0);
 });
-
+////////SERVER////////////////
 server
 	.listen(config.PORT, async () => {
 		await dataHandler.Builder();
@@ -82,4 +78,3 @@ server
 	.on("error", (error) => {
 		logger.error(`something is preventing us grow: ${error.message}`);
 	});
-/////////////////////////////
