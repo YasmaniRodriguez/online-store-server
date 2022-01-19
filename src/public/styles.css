@@ -151,9 +151,9 @@ section {
 	border-radius: 2px;
 	padding: 16px;
 	position: fixed;
-	z-index: 3;
-	left: 50%;
-	bottom: 30px;
+	z-index: 100;
+	left: 5vw;
+	bottom: 40vh;
 }
 
 #snackbar.show {

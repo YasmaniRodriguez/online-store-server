@@ -10,7 +10,7 @@ router.get("/home", (req, res) => {
 });
 
 router.get("/signin", (req, res) => {
-	res.render("signin", {});
+	res.render("signin");
 });
 
 router.get("/signup", (req, res) => {

@@ -1,12 +1,16 @@
-function showSnackBar() {
-	// Get the snackbar DIV
-	var x = document.getElementById("snackbar");
-	console.log(x);
-	// Add the "show" class to DIV
-	x.className = "show";
+const snackbar = $("#snackbar");
+const snackbarText = $("#snackbar > p");
+const signinBtn = $("#signin-submit-button");
+const signupBtn = $("#signup-submit-button");
 
-	// After 3 seconds, remove the show class from DIV
+signinBtn.click(function (e) {
+	console.log(e);
+});
+
+function showSnackBar(message) {
+	snackbarText[0].innerHTML = message;
+	snackbar.addClass("show");
 	setTimeout(function () {
-		x.className = x.className.replace("show", "");
-	}, 3000);
+		snackbar.className = snackbar.className.replace("show", "");
+	}, 30000);
 }
