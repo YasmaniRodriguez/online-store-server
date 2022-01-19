@@ -4,13 +4,15 @@ const signinBtn = $("#signin-submit-button");
 const signupBtn = $("#signup-submit-button");
 
 signinBtn.click(function (e) {
-	console.log(e);
+	e.preventDefault();
+	showSnackBar("esto se va a descrontrolaaaaaaaaar");
 });
 
 function showSnackBar(message) {
-	snackbarText[0].innerHTML = message;
+	snackbarText.empty();
+	snackbarText.append(message);
 	snackbar.addClass("show");
 	setTimeout(function () {
-		snackbar.className = snackbar.className.replace("show", "");
-	}, 30000);
+		snackbar.removeClass("show");
+	}, 3000);
 }
