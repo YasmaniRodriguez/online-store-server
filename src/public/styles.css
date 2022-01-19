@@ -18,82 +18,103 @@ section {
 	align-items: center;
 }
 
-.signin-page > .container {
-	background-color: aquamarine;
-	height: 80vh;
+.signin-page > .wrapper {
+	background: #50a3a2;
+	background: -webkit-linear-gradient(top left, #50a3a2 0%, #53e3a6 100%);
+	background: linear-gradient(to bottom right, #50a3a2 0%, #53e3a6 100%);
+	position: absolute;
 	width: 100%;
-	display: flex;
+	height: 80vh;
+	overflow: hidden;
 	align-items: center;
 	justify-content: center;
+	display: flex;
 }
 
-.login-form {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	border: 1px solid white;
+.signin-page > .wrapper > .container {
+	border: 1px solid rgba(255, 255, 255, 0.37);
 	border-radius: 10px;
 	width: 20vw;
-	height: 60vh;
+	height: 40vh;
+	margin: 0 auto;
+	padding: 80px 0;
+	text-align: center;
 }
 
-.login-form > .lrow {
-	width: 100%;
-	margin: 5px;
+form {
+	padding: 20px 0;
+	position: relative;
+	z-index: 2;
+}
+form input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: 0;
+	border: 1px solid rgba(255, 255, 255, 0.4);
+	background-color: rgba(255, 255, 255, 0.2);
+	width: 80%;
+	border-radius: 3px;
+	padding: 10px 15px;
+	margin: 0 auto 10px auto;
+	display: block;
+	text-align: center;
+	font-size: 18px;
+	color: white;
+	-webkit-transition-duration: 0.25s;
+	transition-duration: 0.25s;
+	font-weight: 300;
+}
+form input:hover {
+	background-color: rgba(255, 255, 255, 0.4);
 }
 
-.login-form > .title {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+form input:focus {
+	background-color: white;
+	width: 85%;
+	color: #53e3a6;
 }
-
-.login-form > .lrowtf {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
-.login-form > .lrowtf > input {
-	margin: 5px 10px;
-	padding: 20px 10px;
-	min-width: 90%;
-	overflow: hidden;
-}
-
-.login-form > .submit > input {
+form button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	outline: 0;
+	background-color: white;
+	border: 0;
+	padding: 10px 15px;
+	color: #53e3a6;
+	border-radius: 3px;
+	width: 91%;
 	cursor: pointer;
-	min-width: 98%;
+	font-size: 18px;
+	-webkit-transition-duration: 0.25s;
+	transition-duration: 0.25s;
+}
+form button:hover {
+	background-color: #f5f7f9;
 }
 
 #snackbar {
-	visibility: hidden; /* Hidden by default. Visible on click */
-	min-width: 250px; /* Set a default minimum width */
-	margin-left: -125px; /* Divide value of min-width by 2 */
-	background-color: #333; /* Black background color */
-	color: #fff; /* White text color */
-	text-align: center; /* Centered text */
-	border-radius: 2px; /* Rounded borders */
-	padding: 16px; /* Padding */
-	position: fixed; /* Sit on top of the screen */
-	z-index: 1; /* Add a z-index if needed */
-	left: 50%; /* Center the snackbar */
-	bottom: 30px; /* 30px from the bottom */
+	visibility: hidden;
+	min-width: 250px;
+	margin-left: -125px;
+	background-color: #333;
+	color: #fff;
+	text-align: center;
+	border-radius: 2px;
+	padding: 16px;
+	position: fixed;
+	z-index: 1;
+	left: 50%;
+	bottom: 30px;
 }
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
-	visibility: visible; /* Show the snackbar */
-	/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-	However, delay the fade out process for 2.5 seconds */
+	visibility: visible;
 	-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
 	animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
-/* Animations to fade the snackbar in and out */
 @-webkit-keyframes fadein {
 	from {
 		bottom: 0;

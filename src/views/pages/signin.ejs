@@ -1,22 +1,15 @@
 <%- include("../partials/header")-%>
     <section class="page signin-page">
-        <div class="container">
-            <div class="login-form">
-                <div class="lrow title">
-                    <span class="material-icons-outlined" style="font-size:48px;">
-                        lock
-                        </span>
-                    <h1>Welcome</h1>
-                </div>
-                <div class="lrow lrowtf username">
+        <div class="wrapper">
+            <div class="container">
+                <span class="material-icons" style="font-size:84px;">
+                    account_circle
+                </span>
+                <form action="">
                     <input id="username" name="" type="text" placeholder="Username">
-                </div>
-                <div class="lrow lrowtf password">
-                    <input id="password" name="" type="text" placeholder="Password">
-                </div>
-                <div class="lrow lrowtf submit">
-                    <input onclick="myFunction()" type="submit" value="Login">
-                </div>
+                    <input id="password" name="" type="password" placeholder="Password">
+                    <button type="submit" id="login-button">Login</button>
+                </form>
             </div>
         </div>
         <div id="snackbar">Some text some message..</div>
