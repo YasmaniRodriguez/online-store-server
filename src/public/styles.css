@@ -34,26 +34,26 @@ section {
 .signin-page > .wrapper > .container {
 	border: 1px solid rgba(255, 255, 255, 0.37);
 	border-radius: 10px;
-	width: 20vw;
-	height: 40vh;
+	width: 25vw;
+	height: 50vh;
 	margin: 0 auto;
 	padding: 80px 0;
 	text-align: center;
 }
 
-form {
+.signin-page > .wrapper > .container form {
 	padding: 20px 0;
 	position: relative;
 	z-index: 2;
 }
-form input {
+.signin-page > .wrapper > .container form input {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	outline: 0;
 	border: 1px solid rgba(255, 255, 255, 0.4);
 	background-color: rgba(255, 255, 255, 0.2);
-	width: 80%;
+	width: 20vw;
 	border-radius: 3px;
 	padding: 10px 15px;
 	margin: 0 auto 10px auto;
@@ -65,33 +65,46 @@ form input {
 	transition-duration: 0.25s;
 	font-weight: 300;
 }
-form input:hover {
+.signin-page > .wrapper > .container form input:hover {
 	background-color: rgba(255, 255, 255, 0.4);
 }
 
-form input:focus {
+.signin-page > .wrapper > .container form input:focus {
 	background-color: white;
 	width: 85%;
 	color: #53e3a6;
 }
-form button {
+.signin-page > .wrapper > .container form button {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	outline: 0;
 	background-color: #408282;
 	border: 0;
+	margin: 0 auto 10px auto;
 	padding: 10px 15px;
 	color: #53e3a6;
 	border-radius: 3px;
-	width: 91%;
+	width: 22vw;
 	cursor: pointer;
 	font-size: 18px;
 	-webkit-transition-duration: 0.25s;
 	transition-duration: 0.25s;
+	display: block;
 }
-form button:hover {
+.signin-page > .wrapper > .container form button:hover {
 	color: white;
+}
+
+.signin-page > .wrapper > .container > .links {
+	display: flex;
+	flex-direction: column;
+}
+
+.links a {
+	font-weight: bold;
+	text-decoration: none;
+	padding: 10px;
 }
 
 #snackbar {
