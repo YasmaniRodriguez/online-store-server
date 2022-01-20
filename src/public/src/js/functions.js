@@ -1,4 +1,13 @@
-import { snackbar, overlay, goBackButton } from "./elements.js";
+import { snackbar, overlay, goBackButton, popup } from "./elements.js";
+
+const accountMenuHtml = `
+<div id="account-pop-up-menu">
+	<h3>WHAT DO YOU WANT TO DO</h3>
+	<div id="option-logout">
+		<p>Logout</p>
+	</div>
+</div>
+`;
 
 function showSnackBar(message) {
 	snackbar.children("p").empty();
@@ -10,9 +19,21 @@ function showSnackBar(message) {
 }
 
 function openOverlay(e) {
-	let callToAction = e.target.classList;
+	let callToAction = e.target.id;
 
-	console.log(callToAction);
+	switch (callToAction) {
+		case "show-account-action":
+			popup.append(accountMenuHtml);
+			break;
+		case "add-product-action":
+			break;
+		case "show-cart-action":
+			break;
+		case "show-messenger-action":
+			break;
+		default:
+			break;
+	}
 
 	overlay.fadeIn().css("display", "flex");
 	goBackButton.show();
