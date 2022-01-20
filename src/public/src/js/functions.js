@@ -1,4 +1,4 @@
-import { snackbar } from "./elements.js";
+import { snackbar, overlay, goBackButton } from "./elements.js";
 
 function showSnackBar(message) {
 	snackbar.children("p").empty();
@@ -9,4 +9,14 @@ function showSnackBar(message) {
 	}, 3000);
 }
 
-export { showSnackBar };
+function openOverlay(e) {
+	overlay.fadeIn().css("display", "flex");
+	goBackButton.show().css("display", "flex");
+}
+
+function closeOverlay(e) {
+	overlay.fadeOut();
+	goBackButton.hide();
+}
+
+export { showSnackBar, openOverlay, closeOverlay };

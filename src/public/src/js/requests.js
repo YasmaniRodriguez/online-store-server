@@ -6,7 +6,7 @@ function login(e) {
 	let email = usernameTextField.val();
 	let password = passwordTextField.val();
 
-	const request = $.ajax({
+	let request = $.ajax({
 		method: "POST",
 		url: "http://localhost:8080/api/login",
 		data: { email: email, password: password },
@@ -23,4 +23,26 @@ function login(e) {
 	});
 }
 
-export { login };
+function logout(e) {
+	e.preventDefault();
+	let token = sessionStorage.getItem("token");
+
+	let request = $.ajax({
+		method: "GET",
+		headers: {
+			authorization: token,
+		},
+		url: "http://localhost:8080/api/logout",
+	});
+
+	request.done(function (response) {
+		console.log(response);
+	});
+
+	request.fail(function (jqXHR, textStatus) {
+		console.log(jqXHR);
+		console.log(textStatus);
+	});
+}
+
+export { login, logout };
