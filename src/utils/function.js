@@ -60,7 +60,7 @@ function buildJwt(user) {
 
 async function deleteUploads(file) {
 	try {
-		await fs.unlink(path.join(__dirname, `../public/uploads/${file}`));
+		await fs.unlink(path.join(__dirname, `../public/src/uploads/${file}`));
 		logger.info("file was removed");
 	} catch (error) {
 		logger.error(error);

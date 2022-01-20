@@ -49,7 +49,7 @@ async function authentication(req, res, next) {
 async function authorities(req, res, next) {}
 
 const storage = multer.diskStorage({
-	destination: path.join(__dirname, "../public/uploads"),
+	destination: path.join(__dirname, "../public/src/uploads"),
 	filename: (req, file, cb) => {
 		const myself = req.sessionID;
 		const uniqueSuffix = `${myself}-${Date.now()}`;

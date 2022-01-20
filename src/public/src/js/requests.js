@@ -1,12 +1,7 @@
-//elements:
-const snackbar = $("#snackbar");
-const snackbarText = $("#snackbar > p");
-const signinButton = $("#signin-submit-button");
-const signupButton = $("#signup-submit-button");
-const usernameTextField = $("#username");
-const passwordTextField = $("#password");
-//
-signinButton.click(function (e) {
+import { showSnackBar } from "./functions.js";
+import { usernameTextField, passwordTextField } from "./elements.js";
+
+function login(e) {
 	e.preventDefault();
 	let email = usernameTextField.val();
 	let password = passwordTextField.val();
@@ -26,14 +21,6 @@ signinButton.click(function (e) {
 	request.fail(function (jqXHR, textStatus) {
 		showSnackBar(jqXHR.responseJSON.message);
 	});
-});
-
-//snackbar:
-function showSnackBar(message) {
-	snackbarText.empty();
-	snackbarText.append(message);
-	snackbar.addClass("show");
-	setTimeout(function () {
-		snackbar.removeClass("show");
-	}, 3000);
 }
+
+export { login };
