@@ -200,8 +200,6 @@ section {
 }
 
 #overlay {
-	width: 100vw;
-	height: 100vh;
 	display: none;
 	flex-direction: column;
 	justify-content: center;
@@ -230,6 +228,17 @@ section {
 	font-size: 40px;
 	transition: 0.3s ease all;
 	color: #fffcf7;
+}
+
+.pop-up {
+	height: 18vh;
+	width: 60vw;
+	background-color: white;
+	overflow-y: scroll;
+}
+
+.pop-up::-webkit-scrollbar {
+	display: none;
 }
 
 @-webkit-keyframes fadein {
