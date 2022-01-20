@@ -1,6 +1,7 @@
 //elements:
 const snackbar = $("#snackbar");
 const overlay = $("#overlay");
+const popup = $("#pop-up");
 //buttons:
 const actions = $(".actions");
 const goBackButton = $("#go-back-btn");
@@ -13,6 +14,7 @@ const passwordTextField = $("#password");
 export {
 	snackbar,
 	overlay,
+	popup,
 	actions,
 	goBackButton,
 	signinButton,

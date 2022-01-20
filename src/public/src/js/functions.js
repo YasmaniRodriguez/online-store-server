@@ -10,8 +10,12 @@ function showSnackBar(message) {
 }
 
 function openOverlay(e) {
+	let callToAction = e.target.classList;
+
+	console.log(callToAction);
+
 	overlay.fadeIn().css("display", "flex");
-	goBackButton.show().css("display", "flex");
+	goBackButton.show();
 }
 
 function closeOverlay(e) {
