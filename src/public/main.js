@@ -20,6 +20,7 @@ signinButton.click(function (e) {
 	request.done(function (response) {
 		let token = response.user.token;
 		sessionStorage.setItem("token", JSON.stringify(token));
+		$(location).attr("href", "/home");
 	});
 
 	request.fail(function (jqXHR, textStatus) {
