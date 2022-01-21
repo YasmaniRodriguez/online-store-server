@@ -49,13 +49,14 @@ function logout(e) {
 
 	request.done(function (response) {
 		sessionStorage.removeItem("token");
-		$(location).attr("href", "/signin");
 		showSnackBar(response.message);
+		setTimeout(function () {
+			$(location).attr("href", "/signin");
+		}, 4000);
 	});
 
 	request.fail(function (jqXHR, textStatus) {
-		console.log(jqXHR);
-		console.log(textStatus);
+		showSnackBar(jqXHR.responseJSON.error);
 	});
 }
 
