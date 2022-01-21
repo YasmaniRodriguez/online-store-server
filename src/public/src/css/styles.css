@@ -273,24 +273,21 @@ section {
 
 #account-pop-up-menu > #signout-submit-button {
 	background-color: #408282;
-	padding: 0px 50px;
+	padding: 10px 50px;
 	border-radius: 3px;
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
+	font-size: 18px;
+	color: #53e3a6;
 }
 
 #account-pop-up-menu > #signout-submit-button:hover {
-	background-color: #3e8e41;
+	color: white;
 }
 
 #account-pop-up-menu > #signout-submit-button:active {
 	transform: translateY(4px);
-}
-
-#account-pop-up-menu > #signout-submit-button > p {
-	font-size: 18px;
-	color: #53e3a6;
 }
 
 @-webkit-keyframes fadein {
