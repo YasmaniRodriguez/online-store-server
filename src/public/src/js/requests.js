@@ -26,7 +26,7 @@ function login(e) {
 
 	request.done(function (response) {
 		let token = response.user.token;
-		sessionStorage.setItem("token", JSON.stringify(token));
+		sessionStorage.setItem("token", token);
 		$(location).attr("href", "/home");
 	});
 
@@ -36,20 +36,20 @@ function login(e) {
 }
 
 function logout(e) {
-	console.log(e.tarjet.id);
 	e.preventDefault();
 	let token = sessionStorage.getItem("token");
 
 	let request = $.ajax({
 		method: "GET",
 		headers: {
-			authorization: token,
+			authorization: "Bearer " + token,
 		},
 		url: "http://localhost:8080/api/logout",
 	});
 
 	request.done(function (response) {
-		console.log(response);
+		sessionStorage.removeItem("token");
+		$(location).attr("href", "/signin");
 	});
 
 	request.fail(function (jqXHR, textStatus) {

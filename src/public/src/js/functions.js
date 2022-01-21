@@ -1,5 +1,6 @@
 import { snackbar, overlay, goBackButton, popup } from "./elements.js";
 import { buildHtmlAccountMenu } from "./builders.js";
+import { logout } from "./requests.js";
 
 function showSnackBar(message) {
 	snackbar.children("p").empty();
@@ -16,7 +17,7 @@ async function openOverlay(e) {
 	switch (callToAction) {
 		case "show-account-action":
 			await popup.append(buildHtmlAccountMenu());
-			$("#signout-submit-button").click((e) => console.log("holaaa"));
+			$("#signout-submit-button").click((e) => logout(e));
 			break;
 		case "add-product-action":
 			break;
