@@ -271,7 +271,7 @@ section {
 	align-items: center;
 }
 
-#account-pop-up-menu > #option-logout {
+#account-pop-up-menu > #signout-submit-button {
 	background-color: #408282;
 	padding: 0px 50px;
 	border-radius: 3px;
@@ -280,7 +280,7 @@ section {
 	justify-content: center;
 }
 
-#account-pop-up-menu > #option-logout > p {
+#account-pop-up-menu > #signout-submit-button > p {
 	font-size: 18px;
 	color: #53e3a6;
 }

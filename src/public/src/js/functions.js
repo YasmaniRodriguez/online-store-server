@@ -1,13 +1,5 @@
 import { snackbar, overlay, goBackButton, popup } from "./elements.js";
-
-const accountMenuHtml = `
-<div id="account-pop-up-menu">
-	<h3>WHAT DO YOU WANT TO DO</h3>
-	<div id="option-logout">
-		<p>Logout</p>
-	</div>
-</div>
-`;
+import { buildHtmlAccountMenu } from "./builders.js";
 
 function showSnackBar(message) {
 	snackbar.children("p").empty();
@@ -18,12 +10,13 @@ function showSnackBar(message) {
 	}, 3000);
 }
 
-function openOverlay(e) {
+async function openOverlay(e) {
 	let callToAction = e.target.id;
 
 	switch (callToAction) {
 		case "show-account-action":
-			popup.append(accountMenuHtml);
+			await popup.append(buildHtmlAccountMenu());
+			$("#signout-submit-button").click((e) => console.log("holaaa"));
 			break;
 		case "add-product-action":
 			break;
@@ -42,6 +35,7 @@ function openOverlay(e) {
 function closeOverlay(e) {
 	overlay.fadeOut();
 	goBackButton.hide();
+	popup.empty();
 }
 
 export { showSnackBar, openOverlay, closeOverlay };
