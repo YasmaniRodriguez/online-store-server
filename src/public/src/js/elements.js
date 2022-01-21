@@ -7,7 +7,6 @@ const actions = $(".actions");
 const goBackButton = $("#go-back-btn");
 const signinButton = $("#signin-submit-button");
 const signupButton = $("#signup-submit-button");
-const signoutButton = $("#signout-submit-button");
 //fields:
 const usernameField = $("#username");
 const passwordLoginField = $("#login-password");
@@ -29,7 +28,6 @@ export {
 	goBackButton,
 	signinButton,
 	signupButton,
-	signoutButton,
 	usernameField,
 	passwordLoginField,
 	nameField,
