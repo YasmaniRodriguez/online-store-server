@@ -2,19 +2,19 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-	res.redirect("home");
+	req.isAuthenticated() ? res.redirect("home") : res.redirect("signin");
 });
 
 router.get("/home", (req, res) => {
-	res.render("home", {});
+	req.isAuthenticated() ? res.render("home", {}) : res.redirect("signin");
 });
 
 router.get("/signin", (req, res) => {
-	res.render("signin");
+	req.isAuthenticated() ? res.render("home", {}) : res.render("signin");
 });
 
 router.get("/signup", (req, res) => {
-	res.render("signup", {});
+	req.isAuthenticated() ? res.render("home", {}) : res.render("signup", {});
 });
 
 module.exports = router;
