@@ -50,6 +50,7 @@ function logout(e) {
 	request.done(function (response) {
 		sessionStorage.removeItem("token");
 		$(location).attr("href", "/signin");
+		showSnackBar(response.message);
 	});
 
 	request.fail(function (jqXHR, textStatus) {

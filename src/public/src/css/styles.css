@@ -280,6 +280,14 @@ section {
 	justify-content: center;
 }
 
+#account-pop-up-menu > #signout-submit-button:hover {
+	background-color: #3e8e41;
+}
+
+#account-pop-up-menu > #signout-submit-button:active {
+	transform: translateY(4px);
+}
+
 #account-pop-up-menu > #signout-submit-button > p {
 	font-size: 18px;
 	color: #53e3a6;
