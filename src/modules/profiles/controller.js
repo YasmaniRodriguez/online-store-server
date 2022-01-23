@@ -28,7 +28,6 @@ module.exports = {
 			password,
 			confirm,
 			role,
-			tyc,
 		} = req.body;
 
 		const avatar = req.file.filename;
@@ -93,7 +92,7 @@ module.exports = {
 			address: address,
 			password: encryptedPassword,
 			role: role,
-			tyc: tyc,
+			tyc: true,
 		};
 
 		try {

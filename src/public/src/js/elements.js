@@ -19,6 +19,9 @@ const emailField = $("#email");
 const addressField = $("#address");
 const passwordRegistrationField = $("#registration-password");
 const confirmPasswordField = $("#confirm-passwword");
+//forms
+const signinForm = $("#signin");
+const signupForm = $("#signup");
 
 export {
 	snackbar,
@@ -39,4 +42,6 @@ export {
 	addressField,
 	passwordRegistrationField,
 	confirmPasswordField,
+	signinForm,
+	signupForm,
 };

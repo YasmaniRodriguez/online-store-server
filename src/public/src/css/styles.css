@@ -66,6 +66,11 @@ section {
 .signin {
 	width: 25vw;
 	height: 50vh;
+	overflow-y: scroll;
+}
+
+.signin::-webkit-scrollbar {
+	display: none;
 }
 
 .signup {

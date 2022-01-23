@@ -45,7 +45,6 @@ class mongo {
 				await result.emptyTheCart();
 				return result;
 			});
-
 			return document;
 		} catch (error) {
 			return error;

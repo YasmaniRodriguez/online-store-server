@@ -71,6 +71,6 @@ const uploads = multer({
 			cb("ERROR: invalid image extension");
 		}
 	},
-}).single("image");
+}).single("avatar");
 
 module.exports = { authentication, authorities, uploads };
