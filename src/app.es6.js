@@ -50,22 +50,19 @@ app.use("/gql", graphql);
 app.use(views);
 
 ////////TEMPLATE ENGINE////////
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/pages"));
+
 ////////SOCKET/////////////////
-// io.on("connection", (socket) => {
-// 	let connection_identifier = socket.id;
-// 	socket.emit("connection", connection_identifier);
-// });
 
 io.on("connection", (socket) => {
 	let connection_identifier = socket.id;
 
 	socket.emit("connection", connection_identifier);
 
-	const data = dataHandler.getMessages({});
-	console.log(data);
-	data
+	dataHandler
+		.getMessages({})
 		.then((rows) => io.emit("messages", rows))
 		.catch((err) => {
 			throw new Error(err);
@@ -82,7 +79,9 @@ io.on("connection", (socket) => {
 			});
 	});
 });
+
 ////////PROCESS////////////////
+
 process.once("SIGUSR2", function () {
 	logger.info(`restarting nodemon ⇨ process ${process.pid} will be closed`);
 	process.kill(process.pid, "SIGUSR2");
@@ -92,7 +91,9 @@ process.on("SIGINT", function () {
 	logger.info("shutting down the server ⇨ all node process will be closed");
 	process.exit(0);
 });
+
 ////////SERVER////////////////
+
 server
 	.listen(config.PORT, async () => {
 		await dataHandler.Builder();
