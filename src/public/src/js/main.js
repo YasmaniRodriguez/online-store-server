@@ -16,14 +16,15 @@ $(document).ready(async function () {
 			method: "POST",
 			url: "/api/profiles",
 			data: formData,
-			success: function (response) {
-				let token = response.user.token;
-				sessionStorage.setItem("token", JSON.stringify(token));
-				$(location).attr("href", "/home");
+			success: async function (response) {
+				showSnackBar("successfully created account, now you can login");
+				setTimeout(function () {
+					$(location).attr("href", "/signin");
+				}, 3000);
 			},
-			error: function (jqXHR, exception) {
-				console.log(jqXHR);
-				showSnackBar(jqXHR.responseJSON.message);
+			error: async function (jqXHR, exception) {
+				message = await jqXHR.responseJSON.message;
+				showSnackBar(message);
 			},
 			cache: false,
 			contentType: false,
