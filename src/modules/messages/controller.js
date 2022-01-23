@@ -3,6 +3,7 @@ const model = require("./model");
 module.exports = {
 	async getMessages(req, res) {
 		const filters = req.query;
+		console.log(filters);
 		try {
 			const messages = await model.getMessages(filters);
 			messages.length === 0

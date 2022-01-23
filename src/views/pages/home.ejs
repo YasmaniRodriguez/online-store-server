@@ -25,5 +25,13 @@
                 <span class="material-icons">question_answer</span>
              </div>
         </div>
+        <script>
+            const User = {name: "", lastname: "", avatar: "", email: "", role: ""};
+            User.name = "<%= name%>";
+            User.lastname = "<%= lastname%>";
+            User.avatar = "<%= avatar%>";
+            User.email = "<%= email%>";
+            User.role = "<%= role%>";
+        </script>
     </section>
 <%- include("../partials/footer")-%>

@@ -8,9 +8,11 @@ const goBackButton = $("#go-back-btn");
 const signinButton = $("#signin-submit-button");
 const signupButton = $("#signup-submit-button");
 const signoutButton = $("#signout-submit-button");
+const sendMessageButton = $("#messenger-submit-button");
 //fields:
 const usernameField = $("#username");
-const passwordLoginField = $("#password");
+const passwordField = $("#password");
+const messageField = $("#message");
 //forms
 const signinForm = $("#signin");
 const signupForm = $("#signup");
@@ -26,8 +28,10 @@ export {
 	signupButton,
 	signoutButton,
 	usernameField,
-	passwordLoginField,
+	passwordField,
+	messageField,
 	signinForm,
 	signupForm,
 	messengerForm,
+	sendMessageButton,
 };

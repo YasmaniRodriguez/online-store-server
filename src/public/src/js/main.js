@@ -4,10 +4,18 @@ import {
 	signoutButton,
 	goBackButton,
 } from "./elements.js";
-import { showSnackBar, openOverlay, closeOverlay } from "./functions.js";
-import { login, logout } from "./requests.js";
+import {
+	showSnackBar,
+	openOverlay,
+	closeOverlay,
+	login,
+	logout,
+	renderMessage,
+} from "./functions.js";
 
 $(document).ready(async function () {
+	const socket = io();
+
 	signinButton.click((e) => login(e));
 	signoutButton.click((e) => logout(e));
 	actions.click((e) => openOverlay(e));
@@ -37,5 +45,9 @@ $(document).ready(async function () {
 			processData: false,
 		});
 		return false;
+	});
+
+	socket.on("messages", (data) => {
+		renderMessage(data);
 	});
 });

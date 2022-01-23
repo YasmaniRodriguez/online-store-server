@@ -94,10 +94,29 @@ app.use(views); ////////TEMPLATE ENGINE////////
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views/pages")); ////////SOCKET/////////////////
+// io.on("connection", (socket) => {
+// 	let connection_identifier = socket.id;
+// 	socket.emit("connection", connection_identifier);
+// });
 
 io.on("connection", function (socket) {
   var connection_identifier = socket.id;
   socket.emit("connection", connection_identifier);
+  var data = dataHandler.getMessages({});
+  console.log(data);
+  data.then(function (rows) {
+    return io.emit("messages", rows);
+  })["catch"](function (err) {
+    throw new Error(err);
+  });
+  socket.on("addMessage", function (message) {
+    dataHandler.addMessage(message);
+    dataHandler.getMessages({}).then(function (rows) {
+      return io.emit("messages", rows);
+    })["catch"](function (err) {
+      throw new Error(err);
+    });
+  });
 }); ////////PROCESS////////////////
 
 process.once("SIGUSR2", function () {
