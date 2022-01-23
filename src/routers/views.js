@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
 				name: req.user.name,
 				lastname: req.user.lastname,
 				avatar: req.user.avatar,
+				email: req.user.email,
 				role: req.user.role,
 		  })
 		: res.redirect("signin");
@@ -18,6 +19,7 @@ router.get("/home", (req, res) => {
 				name: req.user.name,
 				lastname: req.user.lastname,
 				avatar: req.user.avatar,
+				email: req.user.email,
 				role: req.user.role,
 		  })
 		: res.redirect("signin");
@@ -29,6 +31,7 @@ router.get("/signin", (req, res) => {
 				name: req.user.name,
 				lastname: req.user.lastname,
 				avatar: req.user.avatar,
+				email: req.user.email,
 				role: req.user.role,
 		  })
 		: res.render("signin");
@@ -40,6 +43,7 @@ router.get("/signup", (req, res) => {
 				name: req.user.name,
 				lastname: req.user.lastname,
 				avatar: req.user.avatar,
+				email: req.user.email,
 				role: req.user.role,
 		  })
 		: res.render("signup", {});
