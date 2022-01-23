@@ -1,6 +1,5 @@
-import { snackbar, overlay, goBackButton, popup } from "./elements.js";
+import { snackbar, overlay, goBackButton } from "./elements.js";
 import { buildHtmlAccountMenu } from "./builders.js";
-import { logout } from "./requests.js";
 
 function showSnackBar(message) {
 	snackbar.children("p").empty();
@@ -16,14 +15,16 @@ async function openOverlay(e) {
 
 	switch (callToAction) {
 		case "show-account-action":
-			await popup.append(buildHtmlAccountMenu());
-			$("#signout-submit-button").click((e) => logout(e));
+			$("#account-container").addClass("show");
 			break;
-		case "add-product-action":
+		case "show-stock-action":
+			$("#stock-container").addClass("show");
 			break;
 		case "show-cart-action":
+			$("#cart-container").addClass("show");
 			break;
 		case "show-messenger-action":
+			$("#messenger-container").addClass("show");
 			break;
 		default:
 			break;
@@ -36,7 +37,10 @@ async function openOverlay(e) {
 function closeOverlay(e) {
 	overlay.fadeOut();
 	goBackButton.hide();
-	popup.empty();
+	$("#account-container").removeClass("show");
+	$("#stock-container").removeClass("show");
+	$("#cart-container").removeClass("show");
+	$("#messenger-container").removeClass("show");
 }
 
 export { showSnackBar, openOverlay, closeOverlay };

@@ -3,19 +3,22 @@ import { usernameField, passwordLoginField } from "./elements.js";
 
 function login(e) {
 	e.preventDefault();
-	let email = usernameField.val();
+	let username = usernameField.val();
 	let password = passwordLoginField.val();
 
 	let request = $.ajax({
 		method: "POST",
 		url: "/api/login",
-		data: { email: email, password: password },
+		data: { username: username, password: password },
 	});
 
 	request.done(function (response) {
-		let token = response.user.token;
-		sessionStorage.setItem("token", token);
-		$(location).attr("href", "/home");
+		showSnackBar("session logged on successfully");
+		setTimeout(function () {
+			let token = response.user.token;
+			sessionStorage.setItem("token", token);
+			$(location).attr("href", "/home");
+		}, 3000);
 	});
 
 	request.fail(function (jqXHR, exception) {
@@ -32,7 +35,7 @@ function logout(e) {
 		headers: {
 			authorization: "Bearer " + token,
 		},
-		url: "http://localhost:8080/api/logout",
+		url: "/api/logout",
 	});
 
 	request.done(function (response) {

@@ -265,6 +265,8 @@ section {
 }
 
 #pop-up {
+	display: block;
+	align-items: center;
 	height: 85vh;
 	width: 60vw;
 	background-color: white;
@@ -275,16 +277,20 @@ section {
 	display: none;
 }
 
-#account-pop-up-menu {
+#account-container {
+	display: none;
 	width: 100%;
 	height: 100%;
-	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 }
 
-#account-pop-up-menu > #signout-submit-button {
+#account-container.show {
+	display: flex;
+}
+
+#account-container > #signout-submit-button {
 	background-color: #408282;
 	padding: 10px 50px;
 	border-radius: 3px;
@@ -295,12 +301,53 @@ section {
 	color: #53e3a6;
 }
 
-#account-pop-up-menu > #signout-submit-button:hover {
+#account-container > #signout-submit-button:hover {
 	color: white;
 }
 
-#account-pop-up-menu > #signout-submit-button:active {
+#account-container > #signout-submit-button:active {
 	transform: translateY(4px);
+}
+
+#stock-container {
+	display: none;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#stock-container.show {
+	display: flex;
+}
+
+#cart-container {
+	display: none;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#cart-container.show {
+	display: flex;
+}
+
+#messenger-container {
+	display: none;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#messenger-container.show {
+	display: flex;
 }
 
 @-webkit-keyframes fadein {

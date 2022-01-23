@@ -1,9 +1,15 @@
-import { actions, signinButton, goBackButton } from "./elements.js";
+import {
+	actions,
+	signinButton,
+	signoutButton,
+	goBackButton,
+} from "./elements.js";
 import { showSnackBar, openOverlay, closeOverlay } from "./functions.js";
-import { login } from "./requests.js";
+import { login, logout } from "./requests.js";
 
 $(document).ready(async function () {
 	signinButton.click((e) => login(e));
+	signoutButton.click((e) => logout(e));
 	actions.click((e) => openOverlay(e));
 	goBackButton.click((e) => closeOverlay(e));
 

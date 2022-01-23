@@ -7,9 +7,10 @@ const actions = $(".actions");
 const goBackButton = $("#go-back-btn");
 const signinButton = $("#signin-submit-button");
 const signupButton = $("#signup-submit-button");
+const signoutButton = $("#signout-submit-button");
 //fields:
 const usernameField = $("#username");
-const passwordLoginField = $("#login-password");
+const passwordLoginField = $("#password");
 const nameField = $("#name");
 const lastnameField = $("#lastname");
 const birthdayField = $("#birthday");
@@ -22,6 +23,7 @@ const confirmPasswordField = $("#confirm-passwword");
 //forms
 const signinForm = $("#signin");
 const signupForm = $("#signup");
+const messengerForm = $("#messenger");
 
 export {
 	snackbar,
@@ -31,6 +33,7 @@ export {
 	goBackButton,
 	signinButton,
 	signupButton,
+	signoutButton,
 	usernameField,
 	passwordLoginField,
 	nameField,
@@ -44,4 +47,5 @@ export {
 	confirmPasswordField,
 	signinForm,
 	signupForm,
+	messengerForm,
 };

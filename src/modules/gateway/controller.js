@@ -6,12 +6,12 @@ const { checkHash, buildJwt } = require("../../utils/function");
 module.exports = {
 	async login(req, res, next) {
 		try {
-			const { email, password } = req.body;
+			const { username, password } = req.body;
 
-			const user = await dataHandler.getProfiles({ email });
+			const user = await dataHandler.getProfiles({ email: username });
 
 			const isValid = user.find((u) => {
-				return u.email === email && checkHash(password, u.password);
+				return u.email === username && checkHash(password, u.password);
 			});
 
 			if (isValid) {
