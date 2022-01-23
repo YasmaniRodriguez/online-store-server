@@ -11,15 +11,6 @@ const signoutButton = $("#signout-submit-button");
 //fields:
 const usernameField = $("#username");
 const passwordLoginField = $("#password");
-const nameField = $("#name");
-const lastnameField = $("#lastname");
-const birthdayField = $("#birthday");
-const avatarField = $("#avatar");
-const phoneField = $("#phone");
-const emailField = $("#email");
-const addressField = $("#address");
-const passwordRegistrationField = $("#registration-password");
-const confirmPasswordField = $("#confirm-passwword");
 //forms
 const signinForm = $("#signin");
 const signupForm = $("#signup");
@@ -36,15 +27,6 @@ export {
 	signoutButton,
 	usernameField,
 	passwordLoginField,
-	nameField,
-	lastnameField,
-	birthdayField,
-	avatarField,
-	phoneField,
-	emailField,
-	addressField,
-	passwordRegistrationField,
-	confirmPasswordField,
 	signinForm,
 	signupForm,
 	messengerForm,
