@@ -429,14 +429,32 @@ section {
 	border-radius: 10px 10px 0px 0px;
 }
 
-.message-item > div > img {
+.message-item > div > div {
+	padding: 10px;
+	display: flex;
+}
+
+.message-item > div > div > img {
 	width: 50px;
 	height: 50px;
 	border-radius: 50%;
 }
 
-.message-item > div > p {
+.message-item > div > div > p {
 	padding: 0px 10px;
+}
+
+.message-item > div > div {
+	width: 90%;
+}
+
+.message-item > div > span {
+	width: 10%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	cursor: pointer;
 }
 
 .message-item > p {
