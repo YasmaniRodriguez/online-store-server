@@ -104,7 +104,7 @@ io.on("connection", function (socket) {
     throw new Error(err);
   });
   socket.on("addMessage", function (message) {
-    dataHandler.addMessage(message);
+    dataHandler.addMessages(message);
     dataHandler.getMessages({}).then(function (rows) {
       return io.emit("messages", rows);
     })["catch"](function (err) {

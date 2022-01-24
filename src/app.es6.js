@@ -69,7 +69,7 @@ io.on("connection", (socket) => {
 		});
 
 	socket.on("addMessage", (message) => {
-		dataHandler.addMessage(message);
+		dataHandler.addMessages(message);
 
 		dataHandler
 			.getMessages({})

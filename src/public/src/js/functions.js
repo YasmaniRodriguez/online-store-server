@@ -7,6 +7,7 @@ import {
 	messageField,
 } from "./elements.js";
 import { buildHtmlMessages } from "./builders.js";
+const socket = io();
 
 function showSnackBar(message) {
 	snackbar.children("p").empty();
@@ -41,7 +42,7 @@ async function openOverlay(e) {
 	goBackButton.show();
 }
 
-function closeOverlay(e) {
+async function closeOverlay(e) {
 	overlay.fadeOut();
 	goBackButton.hide();
 	$("#account-container").removeClass("show");
@@ -50,7 +51,7 @@ function closeOverlay(e) {
 	$("#messenger-container").removeClass("show");
 }
 
-function login(e) {
+async function login(e) {
 	e.preventDefault();
 	let username = usernameField.val();
 	let password = passwordField.val();
@@ -75,7 +76,7 @@ function login(e) {
 	});
 }
 
-function logout(e) {
+async function logout(e) {
 	e.preventDefault();
 	let token = sessionStorage.getItem("token");
 
@@ -100,17 +101,23 @@ function logout(e) {
 	});
 }
 
-function renderMessage(data) {
-	let html = data.map((message) => buildHtmlMessages(message)).join(" ");
+async function renderMessage(data) {
+	await $("#messages").empty();
+	let html = await data.map((message) => buildHtmlMessages(message)).join(" ");
 	$("#messages").append(html);
 }
 
-function sendMessage() {
+async function sendMessage(e) {
+	e.preventDefault();
+
 	let message = {
-		autor: User,
-		message: messageField.val(),
+		author: await User,
+		message: await messageField.val(),
 	};
-	socket.emit("addMessage", message);
+
+	await socket.emit("addMessage", message);
+
+	$("#message").val("");
 }
 
 export {

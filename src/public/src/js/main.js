@@ -3,6 +3,7 @@ import {
 	signinButton,
 	signoutButton,
 	goBackButton,
+	sendMessageButton,
 } from "./elements.js";
 import {
 	showSnackBar,
@@ -11,15 +12,16 @@ import {
 	login,
 	logout,
 	renderMessage,
+	sendMessage,
 } from "./functions.js";
+const socket = io();
 
 $(document).ready(async function () {
-	const socket = io();
-
 	signinButton.click((e) => login(e));
 	signoutButton.click((e) => logout(e));
 	actions.click((e) => openOverlay(e));
 	goBackButton.click((e) => closeOverlay(e));
+	sendMessageButton.click((e) => sendMessage(e));
 
 	$("form#signup").submit(function (e) {
 		e.preventDefault();

@@ -1,15 +1,15 @@
 function buildHtmlMessages(message) {
 	return `
-    <li class="">
+    <li class="message-item">
         <div>
             <img 
-                src=""
+                src="http://localhost:8080/src/${message.author.avatar}"
                 alt=""
             />
-            <p></p>
-            <p></p>
+            <p>${message.author.email}</p>
+            <p>${message.updatedAt}</p>
         </div>
-        <p></p>
+        <p>${message.message}</p>
     </li>
     `;
 }

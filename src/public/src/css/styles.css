@@ -411,6 +411,41 @@ section {
 	display: block;
 }
 
+.message-item {
+	display: flex;
+	flex-direction: column;
+	width: 70%;
+	list-style: none;
+	background-color: #ededed;
+	padding: 10px 10px;
+	border-radius: 10px;
+	margin: 10px;
+}
+
+.message-item > div {
+	padding: 10px;
+	display: flex;
+	background-color: #ebe1e1;
+	border-radius: 10px 10px 0px 0px;
+}
+
+.message-item > div > img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+}
+
+.message-item > div > p {
+	padding: 0px 10px;
+}
+
+.message-item > p {
+	background-color: white;
+	padding: 10px 10px;
+	border-radius: 0px 0px 10px 10px;
+	margin: 0;
+}
+
 @-webkit-keyframes fadein {
 	from {
 		bottom: 0;
