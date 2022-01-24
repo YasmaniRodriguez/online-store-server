@@ -366,6 +366,16 @@ section {
 	width: 100%;
 	background-color: #408282;
 	opacity: 0.5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#messenger-header > h2 {
+	text-transform: uppercase;
+	font-size: 18px;
+	padding: 10px 10px;
 }
 
 #messenger-box {
