@@ -416,10 +416,17 @@ section {
 	flex-direction: column;
 	width: 70%;
 	list-style: none;
-	background-color: #ededed;
 	padding: 10px 10px;
 	border-radius: 10px;
 	margin: 10px;
+}
+
+.message-item.left {
+	background-color: #ededed;
+}
+
+.message-item.right {
+	background-color: #8697bb;
 }
 
 .message-item > div {

@@ -1,6 +1,6 @@
-function buildHtmlMessages(message) {
+function buildHtmlMessages(message, align) {
 	return `
-    <li class="message-item">
+    <li class="message-item ${align}">
         <div>
             <div>
                 <img 

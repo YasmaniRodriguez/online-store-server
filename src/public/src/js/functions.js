@@ -103,7 +103,13 @@ async function logout(e) {
 
 async function renderMessage(data) {
 	await $("#messages").empty();
-	let html = await data.map((message) => buildHtmlMessages(message)).join(" ");
+	let html = await data
+		.map((message) => {
+			return User.email === message.author.email
+				? buildHtmlMessages(message, "right")
+				: buildHtmlMessages(message, "left");
+		})
+		.join(" ");
 	$("#messages").append(html);
 }
 
