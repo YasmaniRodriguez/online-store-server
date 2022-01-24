@@ -4,7 +4,7 @@ function buildHtmlMessages(message, align) {
         <div>
             <div>
                 <img 
-                    src="http://localhost:8080/src/${message.author.avatar}"
+                    src="src${message.author.avatar}"
                     alt=""
                 />
                 <p>${message.author.email}</p>
