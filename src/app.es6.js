@@ -24,7 +24,7 @@ const session_options = {
 	cookie: { maxAge: 600000 },
 };
 const dataHandler = require("./utils/function").getDataHandler();
-const regeneratorRuntime = require("regenerator-runtime");
+import "@babel/polyfill";
 
 app.set("socketio", io);
 
