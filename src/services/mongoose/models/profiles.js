@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../../../config");
 
 const tokens = new Schema({
-	token: { type: String, required: true },
+	token: { type: String, required: true, expires: "5m" },
 });
 
 const cartRow = new Schema({
