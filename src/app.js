@@ -62,6 +62,8 @@ var session_options = {
 
 var dataHandler = require("./utils/function").getDataHandler();
 
+var regeneratorRuntime = require("regenerator-runtime");
+
 app.set("socketio", io);
 app.use(compression());
 app.use(express.json());
