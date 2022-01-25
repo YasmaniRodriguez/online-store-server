@@ -25,10 +25,14 @@ async function authentication(req, res, next) {
 					const user = await dataHandler.getProfiles({ _id: verified._id });
 
 					if (user[0]) {
-						const tokens = user[0].tokens;
-						const exist = await tokens.some(
+						const accessKeys = await dataHandler.getTokens({
+							profile: user[0]._id,
+						});
+
+						const exist = await accessKeys.some(
 							(t) => t.token === bearer.split(" ")[1]
 						);
+
 						exist
 							? ((req.user = user[0]), next())
 							: res.status(400).json({ error: "expired token" });

@@ -49,13 +49,9 @@ function buildJwt(user) {
 		iat: Date.now(),
 	};
 
-	const expiration = "120m";
+	const token = jwt.sign(payload, config.JWT_SECRET);
 
-	const token = jwt.sign(payload, config.JWT_SECRET, {
-		expiresIn: expiration,
-	});
-
-	return { token: token, expires: expiration };
+	return token;
 }
 
 async function deleteUploads(file) {

@@ -15,12 +15,12 @@ module.exports = {
 			});
 
 			if (isValid) {
-				const accessToken = buildJwt(user[0]);
+				const accessKey = buildJwt(user[0]);
 
-				const token = await dataHandler.addProfileToken(
-					{ _id: user[0]._id.toString() },
-					accessToken
-				);
+				const token = await dataHandler.addTokens({
+					profile: user[0]._id.toString(),
+					token: accessKey,
+				});
 
 				req.logIn(user[0], async (error) => {
 					if (error) {
@@ -59,10 +59,7 @@ module.exports = {
 		const token = req.headers.authorization.split(" ")[1];
 		try {
 			if (user) {
-				await dataHandler.deleteProfileToken(
-					{ _id: user._id.toString() },
-					token
-				);
+				await dataHandler.deleteTokens({ token });
 				req.logOut(); //req.session.destroy();
 				await gatewayModel.logout({
 					id: req.sessionID,

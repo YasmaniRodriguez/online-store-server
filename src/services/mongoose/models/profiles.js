@@ -1,11 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const jwt = require("jsonwebtoken");
-const config = require("../../../config");
-
-const tokens = new Schema({
-	token: { type: String, required: true, expires: "5m" },
-});
 
 const cartRow = new Schema({
 	product: {
@@ -40,24 +34,10 @@ const profiles = new Schema(
 		password: { type: String },
 		role: { type: String, enum: ["customer", "owner"], default: "customer" },
 		tyc: { type: Boolean },
-		tokens: [tokens],
 		cart: cart,
 	},
 	{ timestamps: true }
 );
-
-profiles.methods.newAuthToken = async function () {
-	const token = jwt.sign(
-		{ sub: this._id, iat: Date.now() },
-		config.JWT_SECRET,
-		{
-			expiresIn: "120m",
-		}
-	);
-	this.tokens = this.tokens.concat({ token });
-	await this.save();
-	return token;
-};
 
 profiles.methods.emptyTheCart = async function () {
 	const empty = {

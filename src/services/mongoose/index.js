@@ -5,6 +5,7 @@ const products = require("./models/products");
 const orders = require("./models/orders");
 const messages = require("./models/messages");
 const profiles = require("./models/profiles");
+const tokens = require("./models/tokens");
 const config = require("../../config");
 
 class mongo {
@@ -40,8 +41,8 @@ class mongo {
 	async addProfiles(profile) {
 		try {
 			const newProfile = new profiles(profile);
+
 			const document = await newProfile.save().then(async (result) => {
-				await result.newAuthToken();
 				await result.emptyTheCart();
 				return result;
 			});
@@ -51,28 +52,32 @@ class mongo {
 		}
 	}
 
-	async addProfileToken(filters, token) {
+	async addTokens(filters) {
+		console.log(filters);
 		try {
-			await profiles.updateOne(filters, {
-				$push: { tokens: token },
-			});
-			const data = await profiles.find(filters, { __v: 0 }).lean();
-			const last = data[0].tokens[data[0].tokens.length - 1];
-			return last;
+			const newToken = new tokens(filters);
+			const document = await newToken.save();
+			return document;
 		} catch (error) {
 			return error;
 		}
 	}
 
-	async deleteProfileToken(filters, token) {
+	async getTokens(filters) {
 		try {
-			await profiles.updateOne(filters, {
-				$pull: {
-					tokens: {
-						token: token,
-					},
-				},
-			});
+			const data = await tokens.find(filters, { __v: 0 }).lean();
+			return data;
+		} catch (error) {
+			return error;
+		}
+	}
+
+	async deleteTokens(token = null) {
+		console.log(token);
+		try {
+			return !token
+				? await tokens.deleteMany({})
+				: tokens.findOneAndDelete(token, {});
 		} catch (error) {
 			return error;
 		}
