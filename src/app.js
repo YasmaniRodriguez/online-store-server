@@ -105,10 +105,23 @@ io.on("connection", function (socket) {
   })["catch"](function (err) {
     throw new Error(err);
   });
-  socket.on("addMessage", function (message) {
+  dataHandler.getProducts({}).then(function (rows) {
+    return io.emit("products", rows);
+  })["catch"](function (err) {
+    throw new Error(err);
+  });
+  socket.on("add-message", function (message) {
     dataHandler.addMessages(message);
     dataHandler.getMessages({}).then(function (rows) {
       return io.emit("messages", rows);
+    })["catch"](function (err) {
+      throw new Error(err);
+    });
+  });
+  socket.on("add-product", function (product) {
+    dataHandler.addProducts(product);
+    dataHandler.getProducts({}).then(function (rows) {
+      return io.emit("products", rows);
     })["catch"](function (err) {
       throw new Error(err);
     });

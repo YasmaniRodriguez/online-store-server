@@ -6,7 +6,7 @@ import {
 	passwordField,
 	messageField,
 } from "./elements.js";
-import { buildHtmlMessages } from "./builders.js";
+import { buildHtmlMessages, buildHtmlProducts } from "./builders.js";
 const socket = io();
 
 function showSnackBar(message) {
@@ -113,6 +113,16 @@ async function renderMessage(data) {
 	$("#messages").append(html);
 }
 
+async function renderProduct(data) {
+	await $("#products-container").empty();
+	let html = await data
+		.map((product) => {
+			return buildHtmlProducts(product);
+		})
+		.join(" ");
+	$("#products-container").append(html);
+}
+
 async function sendMessage(e) {
 	e.preventDefault();
 
@@ -121,9 +131,26 @@ async function sendMessage(e) {
 		message: await messageField.val(),
 	};
 
-	await socket.emit("addMessage", message);
+	await socket.emit("add-message", message);
 
 	$("#message").val("");
+}
+
+async function sendProduct(e) {
+	e.preventDefault();
+
+	let product = {
+		code: "",
+		name: "",
+		description: "",
+		category: "",
+		price: "",
+		stock: "",
+	};
+
+	await socket.emit("add-product", product);
+
+	$("#stock").val("");
 }
 
 export {
@@ -134,4 +161,6 @@ export {
 	logout,
 	renderMessage,
 	sendMessage,
+	renderProduct,
+	sendProduct,
 };

@@ -17,4 +17,22 @@ function buildHtmlMessages(message, align) {
     `;
 }
 
-export { buildHtmlMessages };
+function buildHtmlProducts(product) {
+	return `
+    <div class="product-card-container">
+        <div class="product-gallery">
+            <img src="${product.image}" alt="">
+        </div>
+        <div class="product-info">
+            <p class="product-name">${product.name}</p>
+            <p class="product-description">${product.description}</p>
+            <p class="product-price">${product.price}</p>
+        </div>
+        <div class="add-to-cart-btn">
+            <p>add to cart</p>
+        </div>
+    </div>
+    `;
+}
+
+export { buildHtmlMessages, buildHtmlProducts };

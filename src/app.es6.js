@@ -69,12 +69,30 @@ io.on("connection", (socket) => {
 			throw new Error(err);
 		});
 
-	socket.on("addMessage", (message) => {
+	dataHandler
+		.getProducts({})
+		.then((rows) => io.emit("products", rows))
+		.catch((err) => {
+			throw new Error(err);
+		});
+
+	socket.on("add-message", (message) => {
 		dataHandler.addMessages(message);
 
 		dataHandler
 			.getMessages({})
 			.then((rows) => io.emit("messages", rows))
+			.catch((err) => {
+				throw new Error(err);
+			});
+	});
+
+	socket.on("add-product", (product) => {
+		dataHandler.addProducts(product);
+
+		dataHandler
+			.getProducts({})
+			.then((rows) => io.emit("products", rows))
 			.catch((err) => {
 				throw new Error(err);
 			});

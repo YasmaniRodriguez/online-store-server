@@ -13,6 +13,7 @@ import {
 	logout,
 	renderMessage,
 	sendMessage,
+	renderProduct,
 } from "./functions.js";
 const socket = io();
 
@@ -51,5 +52,9 @@ $(document).ready(async function () {
 
 	socket.on("messages", (data) => {
 		renderMessage(data);
+	});
+
+	socket.on("products", (data) => {
+		renderProduct(data);
 	});
 });
