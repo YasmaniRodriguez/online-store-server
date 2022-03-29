@@ -276,11 +276,11 @@ p {
 	-moz-appearance: none;
 	appearance: none;
 	outline: 0;
-	background-color: #408282;
+	background-color: #d0c6b3;
 	border: 0;
 	margin: 0 auto 10px auto;
 	padding: 10px 15px;
-	color: #53e3a6;
+	color: white;
 	border-radius: 3px;
 	width: 22vw;
 	cursor: pointer;
@@ -290,7 +290,7 @@ p {
 	display: block;
 }
 .gateway > .wrapper > .container form button:hover {
-	color: white;
+	color: whitesmoke;
 }
 
 .gateway > .wrapper > .container > .links {
